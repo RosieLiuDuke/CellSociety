@@ -4,7 +4,8 @@
 In this program, our group seeks to create a functional cell society simulator that can handle a variety of animations and has the flexibility to handle more being added to the program. Our group seeks to use inheritance for all of the animations, making sure they are all children of the animation parent class and that more animation child classes can be added to handle different animations. Our CellSociety main class will have instances of the other classes, meaning that instances of CellSociety have the ability to access other classes, but they do not have access to each other. The use of this master class will allow for flexibility without the corruption of information between classes. We think that intelligent uses of inheritance and private variables will lead to a well-designed, expandable, and fully functional program. 
 
 ## Overview
-Here's a look at the design:
+
+**Here's a look at the design:**
 ![alt text](Overview.jpg "Overview of Design")
 
 The three main classes are Cell Society, Page (Super class), and Cell (Super class). The Cell Society class contains all of the pages of our program. In addition, it will refer to the Animation Super class, which handles the individual calculations used to update the display results graphically. The Animation super class will include a timer/timeline and will make use of inheritance to handle different animations. The Page subclasses will extend the Page Superclass to allow for future extension of code. This increases the flexibility of the code, allowing us to declare a welcome page, level pages, etc without a lot of duplicate code. The pages all contain cell instances. 
@@ -14,10 +15,10 @@ For our user interface, the user is first given a splash screen with a selection
 
 The only foreseeable error happens when an XML file is not properly input in a way which the program can read. Using a try-catch, we will not allow the animation to launch if there is an error in the way that the XML file is read in.
 
-Here's a look at the menu:
+**Here's a look at the menu:**
 ![alt text](Menu_UI.jpg "Menu UI") 
 
-Here's a look at a level UI:
+**Here's a look at a level UI:**
 ![alt text](Level_UI.jpg "Level UI") 
 
 ## Design Details 
@@ -125,8 +126,11 @@ Use Cases Analysis
 
 ## Team Responsibilities
 
+> All group members will help out with the `Animation` superclass and subclasses (rules for making sure we get the right patterns). First checkpoint (responsibilities below) is just to write out the skeleton (variable names, imports, etc) of each class.
+
 Yilin Gao: implement the `Page` superclass and its subclasses. Connect classes together.
-Harry Liu: implement `Main` and `Cells` superclass and its subclasses. Connect classes together
+
+Harry Liu: implement `Main` and `Cells` superclass and its subclasses. Connect classes together.
+
 Josh Kopen: implement `Cell Society` and `Animation` superclass and its subclasses. Connect classes together.
 
-> All group members will help out with the `Animation` superclass and subclasses (rules for making sure we get the right patterns). First checkpoint (responsibilities above) is just to write out the skeleton (variable names, imports, etc) of each class.
