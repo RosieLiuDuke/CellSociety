@@ -72,29 +72,48 @@ To extend the program, we have come up with several possible new requirements an
 Use Cases Analysis
 
  1. Apply rules to a middle cell 
+ 
 	Method  `calculateMove()` in the `Animation subclass` for Game of Life is responsible for defining the rules, doing the calculation and applying changes by calling other methods.
-	Methods `updateCells()` in `Page subclass`, and `changeStatus(int newStatus)` in `Cell` class will be consecutively called to apply the changes to the cell.
+	
+    Methods `updateCells()` in `Page subclass`, and `changeStatus(int newStatus)` in `Cell` class will be consecutively called to apply the changes to the cell.
  2. Apply rules to an edge cell
+
 	Because we use border cells around normal cells, all valid cells in the animation will be regarded as middle cells, eliminating special treatment for edge cells. It is safe to apply the rules of Game of Life. But we need to pay attention to specific cases in other animations.
+ 
  3. Move to the next generation
+
 	Method `actionsPerFrame()` in the `CellSociety` class (and methods called by it in `Animation subclass`) is responsible for updates. We regard each frame as one step, and in each step, rules will be applied and cells status will be updated.
+ 
  4. Set a simulation parameter 
+
 	Currently all simulation parameters are read in from XML files. If a user want to set the parameter, he or she has to modify the XML file and restart the game. Refer to game extensions 2 for details on how to allow the user to adjust parameters.
+ 
  5. Switch simulation
+ 
 	During one simulation, if the user wants to switch to another one, he or she has to click the “back to main menu” button on the simulation page back to the splash screen, and choose a new type from its drop down menu.
 
 ## Design Considerations 
 
  1. Border cells
+ 
 	To reduce implementation complexity, we add a layer of invisible border cells around normal cells, so that all valid cells will be considered as middle cells. However, we will be careful on how to count neighbors for each simulation rule.
+
  2. Dependencies among classes
+ 
 	A lot of dependencies among classes are in the program design.
+
  3. `Animation` is where all the individual rules are executed
+ 
 	We extract out a separate class to handle simulation updates in each step, instead of wrapping everything in the `CellSociety` class.
+
  4. Parameters can only be modified in XML files
+ 
 	Currently for simplicity, parameters can only be read from XML files and there is no interaction between the user and the simulation. If a user wants to change parameters, the only method is to modify XML files. After initial implementation, this shortcoming will be improved.
+
  5. Report errors on parameters to the user
+ 
 	When errors regarding formats on input files and parameters occur, error messages instead of loaded cells will be displayed on the screen. 
 
 ## Team Responsibilities
+
 Yilin Gao: implement the `Page` superclass and its subclasses. Connect classes together.
