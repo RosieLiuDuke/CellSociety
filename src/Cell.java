@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 * @author Harry Liu, Josh Kopen, and Yilin Gao
 **/
 
-public abstract class Cell {
+public class Cell {
 	
 	private double xPosition;
 	private double yPosition;
@@ -46,7 +46,9 @@ public abstract class Cell {
 	
 	/**
 	* Update the status of the cell
+	* @param newStatus
 	**/
-	public abstract void changeStatus();
-	
+	public void changeStatus(int newStatus) {
+		this.status = newStatus;
+	}
 }
