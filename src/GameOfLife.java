@@ -57,19 +57,19 @@ public class GameOfLife extends Animation {
 			surroundingArray[surroundingArray.length - 1][i] = OFFVALUE;
 		}
 		
-		for (i = 0; i < squares.length; i++) {
-			for (j = 0; j < squares.length; j++) {
+		for (i = 1; i < surroundingArray.length - 1; i++) {
+			for (j = 1; j < surroundingArray.length -1; j++) {
 				
 				for (k = i -1; k < i+2; k++) {
 					for (l = j -1; l < j+2; l++) {
-						total += squares[k][l];
+						total += surroundingArray[k][l];
 					}
 				}
 				
-				total -= squares[i][j];
+				total -= surroundingArray[i][j];
 				
 				
-				shouldChange[i][j] = (((squares[i][j] == ONVALUE) && ((total <2) || (total > 3))) ||
+				shouldChange[i-1][j-1] = (((squares[i][j] == ONVALUE) && ((total <2) || (total > 3))) ||
 							((squares[i][j] == OFFVALUE) && ((total == 2) || (total == 3))));
 				
 				
