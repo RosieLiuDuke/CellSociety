@@ -1,3 +1,4 @@
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -7,11 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Cell {
 	
-	private double xPosition;
-	private double yPosition;
-	private double size;
-	private int status;
-	
+	private int status;	
 	private Rectangle rectangle;
 	
 	/**
@@ -22,18 +19,21 @@ public class Cell {
 	* @param status
 	**/
 	public Cell (double xPosition, double yPosition, double size, int status){
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		this.status = status;	
-		this.size = size;
+		this.status = status;
+		rectangle = new Rectangle(xPosition, yPosition, size, size);
+		// only for game of life
+		rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
 	}
 	
+	private void handleMouseRelease(MouseEvent e) {
+		status *= -1;
+	}
+
 	/**
 	* Create and return the rectangle variable for the cell to be added to scene in class Page
 	* @return rectangle
 	**/
 	public Rectangle getCell(){
-		rectangle = new Rectangle(xPosition, yPosition, size, size);
 		return rectangle;
 	}
 	
