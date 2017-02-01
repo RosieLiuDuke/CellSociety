@@ -28,11 +28,9 @@ public class PageGameOfLife extends Page {
 	private ChoiceBox<String> layoutChoice;
 
 	public PageGameOfLife() {
-		// TODO Auto-generated constructor stub
 		super();
 		// TODO without input from XML, hard-coded first
 		// assume now the initial pattern is hard-coded
-		// TODO mouse click to set status
 		rowNum = 12;
 		colNum = 12;
 		size = 1;
