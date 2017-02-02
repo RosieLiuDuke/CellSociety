@@ -8,5 +8,5 @@ public abstract class Animation {
 		cellSociety = c;
 	}
 	
-	public abstract void calculateMove();
+	public abstract void calculateMove(Cell [][] cellArray);
 }
