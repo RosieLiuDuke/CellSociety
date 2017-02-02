@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * The subclass Page to hold the Scene for the Game of Life simulation.
@@ -27,8 +28,8 @@ public class PageGameOfLife extends Page {
 	private Button step;
 	private ChoiceBox<String> layoutChoice;
 
-	public PageGameOfLife() {
-		super();
+	public PageGameOfLife(Stage theStage) {
+		super(theStage);
 		// TODO without input from XML, hard-coded first
 		// assume now the initial pattern is hard-coded
 		rowNum = 12;
@@ -117,6 +118,12 @@ public class PageGameOfLife extends Page {
 
 	private void handleMouseInputBack(MouseEvent e) {
 		// TODO click the "Back" button to return to main menu
+		
+	}
+
+	@Override
+	public void initializePage() {
+		// TODO Auto-generated method stub
 		
 	}
 
