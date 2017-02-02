@@ -11,10 +11,6 @@ public class AnimationGameOfLife extends Animation {
 	
 	private int [][] squares;
 	
-	public void setUp () {
-		
-	}
-	
 	public void calculateMove(Cell [][] cellArray) {
 		boolean [][] shouldChange;
 		
@@ -29,7 +25,7 @@ public class AnimationGameOfLife extends Animation {
 		setCells(cellArray);
 	}
 	
-	public int [][] convertArray(Cell [][] cellArray) {
+	private int [][] convertArray(Cell [][] cellArray) {
 		int i, j;
 		int [][] intArray = new int[cellArray.length][cellArray[0].length];
 		
@@ -42,14 +38,14 @@ public class AnimationGameOfLife extends Animation {
 		return intArray;
 	}
 	
-	public void checkSurrounding(boolean [][] shouldChange) {
+	private void checkSurrounding(boolean [][] shouldChange) {
 		int i, j, k, l, total = 0;
 		
 		int [][] surroundingArray = new int[squares.length +2][squares[0].length+2];
 		
 		for (i = 1; i < squares.length+1; i++) {
 			for (j = 1; j < squares[0].length+1; j++) {
-				surroundingArray[i][j] = squares[i][j];
+				surroundingArray[i][j] = squares[i-1][j-1];
 			}
 		}
 		for (i = 0; i < surroundingArray.length; i++) {
@@ -82,7 +78,7 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	public void changeSquares(boolean [][] shouldChange) {
+	private void changeSquares(boolean [][] shouldChange) {
 		int i, j;
 		
 		for (i = 0; i < squares.length; i++) {
@@ -99,7 +95,7 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	public void setCells (Cell [][] cellArray) {
+	private void setCells (Cell [][] cellArray) {
 		int i, j;
 		for (i = 0; i < cellArray.length; i++) {
 			for (j = 0; j < cellArray[0].length; j++) {
