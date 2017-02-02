@@ -1,21 +1,32 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * The superclass for all Page subclasses.
  * @author Yilin Gao
  *
  */
-public class Page {
+public abstract class Page {
 	
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 600;
+	public static final String TITLE = "CellSociety";
+	private Stage stage;
 	private Group root;
 	private Scene scene;
 	
-	public Page (){
+	public Page (Stage theStage){
+		stage = theStage;	
+		stage.setTitle(TITLE);
 		root = new Group();
 		scene = new Scene(root, WIDTH, HEIGHT);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	public Stage getStage(){
+		return stage;
 	}
 	
 	public Group getRoot(){
@@ -25,6 +36,8 @@ public class Page {
 	public Scene getScene(){
 		return scene;
 	}
+	
+	public abstract void initializePage();
 	
 	protected void readXMLInput(String path){
 		
