@@ -21,13 +21,12 @@ public class Cell {
 	public Cell (double xPosition, double yPosition, double size, int status){
 		this.status = status;
 		rectangle = new Rectangle(xPosition, yPosition, size, size);
-		// only for game of life
-		rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
+		//rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
 	}
 	
-	private void handleMouseRelease(MouseEvent e) {
-		status *= -1;
-	}
+//	private void handleMouseRelease(MouseEvent e) {
+//		status *= -1;
+//	}
 
 	/**
 	* Create and return the rectangle variable for the cell to be added to scene in class Page

@@ -8,8 +8,8 @@ import javafx.scene.Scene;
  */
 public class Page {
 	
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 600;
+	public final int WIDTH = 500;
+	public final int HEIGHT = 600;
 	private Group root;
 	private Scene scene;
 	
