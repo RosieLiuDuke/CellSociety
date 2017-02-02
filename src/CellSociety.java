@@ -1,11 +1,11 @@
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javafx.stage.Stage;
 
 public class CellSociety {
 	private Stage stage;
-	private ArrayList<Page> pages = new ArrayList<>();
-	private ArrayList<Animation> animations = new ArrayList<>();
+	private Hashtable<String, Page> pages = new Hashtable<>();
+	private Hashtable<String, Animation> animations = new Hashtable<>();
 	
 
 	public CellSociety(Stage theStage) {
@@ -17,12 +17,12 @@ public class CellSociety {
 		
 	}
 	
-	public void initializeSimulationPage(int type){
-		if (type == 0){
+	public void initializeSimulationPage(String type){
+		if (type.equals("Game of Life")){
 			Page newGameOfLifePage = new PageGameOfLife(stage);
-			pages.add(newGameOfLifePage);
+			pages.put(type, newGameOfLifePage);
 			Animation newGameOfLifeAnimation = new GameOfLife(this);
-			animations.add(newGameOfLifeAnimation);
+			animations.put(type, newGameOfLifeAnimation);
 		}
 	}
 	

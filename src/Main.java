@@ -16,7 +16,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage theStage){
 		cellSociety = new CellSociety(theStage);
-		cellSociety.initializeSimulationPage(0);
+		cellSociety.initializeSimulationPage("Game of Life");
 	}
 	
 	public static void main(String[] args) {
