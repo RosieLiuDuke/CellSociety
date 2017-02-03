@@ -1,7 +1,6 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 /**
  * The superclass for all Page subclasses.
  * @author Yilin Gao
