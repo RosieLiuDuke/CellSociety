@@ -36,6 +36,7 @@ public class WelcomePage extends Page {
 		typeOfCellSociety = new ChoiceBox<String>(FXCollections.observableArrayList("Game of Life"));
 		typeOfCellSociety.setLayoutX(WIDTH / 2 - typeOfCellSociety.getBoundsInParent().getWidth() / 2);
 		typeOfCellSociety.setLayoutY(HEIGHT/2);
+		typeOfCellSociety.getSelectionModel().selectFirst();
 		typeOfCellSociety.valueProperty().addListener((obs, oVal, nVal) -> handleTypeChoice(nVal));
 		this.getRoot().getChildren().add(typeOfCellSociety);
 		
