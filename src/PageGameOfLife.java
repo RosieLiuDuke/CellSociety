@@ -101,6 +101,7 @@ public class PageGameOfLife extends Page {
 	}
 
 	private void handleMouseReleaseBack(MouseEvent e) {
+		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().loadPage("Welcome");
 	}
 
