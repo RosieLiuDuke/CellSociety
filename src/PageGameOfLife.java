@@ -4,7 +4,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 /**
  * The subclass Page to hold the Scene for the Game of Life simulation.
@@ -51,8 +50,8 @@ public class PageGameOfLife extends Page {
 		return cells[i+1][j+1];
 	}
 
-	public PageGameOfLife(Stage theStage) {
-		super(theStage);
+	public PageGameOfLife(CellSociety cs) {
+		super(cs);
 		// TODO without input from XML, hard-coded first
 		// assume now the initial pattern is hard-coded
 		rowNum = 32;
@@ -75,13 +74,13 @@ public class PageGameOfLife extends Page {
 		back = new Button("Back");
 		back.setLayoutX(0);
 		back.setLayoutY(100);
-		back.setOnMouseReleased(e -> handleMouseInputBack(e));
+		back.setOnMouseReleased(e -> handleMouseReleaseBack(e));
 		this.getRoot().getChildren().add(back);
 		
 		start = new Button("Start");
 		start.setLayoutX(0);
 		start.setLayoutY(250);
-		start.setOnMouseReleased(e -> handleMouseInputStart(e));
+		start.setOnMouseReleased(e -> handleMouseReleasedStart(e));
 		this.getRoot().getChildren().add(start);
 		
 		step = new Button("Step");
@@ -95,20 +94,27 @@ public class PageGameOfLife extends Page {
 		layoutChoice.setLayoutY(200);
 		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setoutLayout(nVal));
 		this.getRoot().getChildren().add(layoutChoice);
+		
+		this.getCellSociety().setIsStep(true);
+		this.getCellSociety().setDelay(speed);
+		this.getCellSociety().setupGameLoop();
+	}
+
+	private void handleMouseReleaseBack(MouseEvent e) {
+		this.getCellSociety().stopGameLoop();
+		this.getCellSociety().loadPage("Welcome");
 	}
 
 	private void handleMouseReleasedStep(MouseEvent e) {
-		// TODO click the "step" button to run the simulation step by step
-		
+		this.getCellSociety().setIsStep(true);
 	}
 
-	private void handleMouseInputStart(MouseEvent e) {
-		// TODO click the "start" button to run the simulation consecutively
-		
+	private void handleMouseReleasedStart(MouseEvent e) {
+		this.getCellSociety().setIsStep(false);
 	}
 
 	private void setoutLayout(String newValue) {
-		// assume now the grid of cells starting from (0, 300)
+		// TODO assume now the grid of cells starting from (0, 300)
 		if (newValue.equals("default")){
 			int rowMid = (rowNum - 2) / 2;
 			int colMid = (colNum - 2) / 2;
@@ -132,17 +138,8 @@ public class PageGameOfLife extends Page {
 				}
 			}
 		}
+		this.getCellSociety().beginGameLoop();
 	}
 
-	private void handleMouseInputBack(MouseEvent e) {
-		// TODO click the "Back" button to return to main menu
-		
-	}
-
-	@Override
-	public void initializePage() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

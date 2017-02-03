@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 public class CellSociety {
 	private Stage stage;
 	private Hashtable<String, Page> pages = new Hashtable<>();
@@ -43,10 +44,10 @@ public class CellSociety {
 			pages.put(type, newWelcomePage);			
 		}
 		else if (type.equals("Game of Life")){
-//			Page newGameOfLifePage = new PageGameOfLife(this);
-//			pages.put(type, newGameOfLifePage);
-//			Animation newGameOfLifeAnimation = new AnimationGameOfLife(this);
-//			animations.put(type, newGameOfLifeAnimation);
+			Page newGameOfLifePage = new PageGameOfLife(this);
+			pages.put(type, newGameOfLifePage);
+			Animation newGameOfLifeAnimation = new AnimationGameOfLife(this);
+			animations.put(type, newGameOfLifeAnimation);
 		}
 	}
 	
@@ -59,6 +60,7 @@ public class CellSociety {
 	public void setupGameLoop(){
 		Duration oneFrameDuration = Duration.millis(millisecondDelay);
 		KeyFrame oneFrame = new KeyFrame(oneFrameDuration, new EventHandler<ActionEvent>(){
+
 			@Override
 			public void handle(ActionEvent event) {
 				actionsPerFrame(secondDelay);
@@ -77,6 +79,7 @@ public class CellSociety {
 	public void stopGameLoop(){
 		timeline.stop();
 	}
+
 	private void actionsPerFrame(double elapsedTime) {
 		// TODO Auto-generated method stub
 		// if the current mode is consecutive simulation

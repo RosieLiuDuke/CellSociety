@@ -1,10 +1,9 @@
 import java.util.ArrayList;
 
-public class GameOfLife extends Animation {
+public class AnimationGameOfLife extends Animation {
 	
-	public GameOfLife(CellSociety c) {
+	public AnimationGameOfLife(CellSociety c) {
 		super(c);
-		// TODO Auto-generated constructor stub
 	}
 
 	private static final int ONVALUE = 1;
