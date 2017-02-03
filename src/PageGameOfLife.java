@@ -4,7 +4,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 /**
  * The subclass Page to hold the Scene for the Game of Life simulation.
@@ -51,8 +50,8 @@ public class PageGameOfLife extends Page {
 		return cells[i+1][j+1];
 	}
 
-	public PageGameOfLife(Stage theStage) {
-		super(theStage);
+	public PageGameOfLife(CellSociety cs) {
+		super(cs);
 		// TODO without input from XML, hard-coded first
 		// assume now the initial pattern is hard-coded
 		rowNum = 32;
@@ -139,10 +138,5 @@ public class PageGameOfLife extends Page {
 		
 	}
 
-	@Override
-	public void initializePage() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
