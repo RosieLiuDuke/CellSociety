@@ -25,7 +25,7 @@ public class Cell {
 		rectangle.setFill(Color.TRANSPARENT);
 		rectangle.setStroke(Color.BLACK);
 		// only for game of life
-		rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
+		//rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
 	}
 
 //	private void handleMouseRelease(MouseEvent e) {

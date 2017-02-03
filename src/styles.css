@@ -12,10 +12,10 @@
     -fx-stroke-width: 1;
 }
 
-.button {
+
+.choice-box {
 	-fx-font-size:20px;
     -fx-text-fill:white;
-    -fx-font-family:"Arial Narrow";
-    -fx-font-weight:bold;
-    -fx-background-color:linear-gradient(#FFFFFF,#0000A0);
+    -fx-font-family:"Arial";
+    -fx-background-color: #FFD700;
 }
