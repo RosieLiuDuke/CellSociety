@@ -1,0 +1,22 @@
+
+/**
+ * This is the CSS file which contains styling rules for text and buttons for all levels. 
+ * 
+ *@author Harry Liu
+ **/
+
+#title {
+    -fx-font: 50px Avenir;
+    -fx-fill: white;
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+}
+
+
+.choice-box {
+	-fx-font-size:20px;
+    -fx-text-fill:black;
+    -fx-font-family:"Arial";
+    -fx-background-color: #FFD700;
+    -fx-pref-width: 200;
+}
