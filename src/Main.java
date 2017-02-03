@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -9,24 +7,16 @@ import javafx.stage.Stage;
 **/
 
 public class Main extends Application {
-	
-	private Stage myStage;
-	private static final String TITLE = "CellSociety";
-	
-	
+
+	private CellSociety cellSociety;
+
+
 	@Override
 	public void start(Stage theStage){
-		myStage = theStage;
-		theStage.setTitle( TITLE );
-		
-		welcomePage welcomePage = new welcomePage();
-		
-		theStage.setResizable(false); 
-		theStage.setScene( welcomePage.getScene() );
-		theStage.show();
-		
+		cellSociety = new CellSociety(theStage);
+		cellSociety.initializeSimulationPage("Game of Life");
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
