@@ -22,7 +22,7 @@ public class WelcomePage extends Page {
 	}
 
 	private void handleTypeChoice(String nVal) {
-		this.getCellSociety().initializeSimulationPage(nVal);
+		this.getCellSociety().initializePage(nVal);
 	}
 
 
