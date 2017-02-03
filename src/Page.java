@@ -9,8 +9,8 @@ import javafx.stage.Stage;
  */
 public abstract class Page {
 	
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 1000;
+	public static final int HEIGHT = 1000;
 	public static final String TITLE = "CellSociety";
 	private Stage stage;
 	private Group root;

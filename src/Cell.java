@@ -1,4 +1,5 @@
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -21,6 +22,8 @@ public class Cell {
 	public Cell (double xPosition, double yPosition, double size, int status){
 		this.status = status;
 		rectangle = new Rectangle(xPosition, yPosition, size, size);
+		rectangle.setFill(Color.TRANSPARENT);
+		rectangle.setStroke(Color.BLACK);
 		// only for game of life
 		rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
 	}
