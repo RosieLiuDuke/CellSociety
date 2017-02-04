@@ -1,29 +1,22 @@
-import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 
 /**
  * The WelcomePage that contains the menu for selecting simulation
- * @author Yilin Gao, Harry Liu
+ * @author Harry Liu, Yilin Gao
  *
  */
 public class WelcomePage extends Page {	
 	
-	private Text title;
+	private Text TITLE;
 	private String BACKGROUND = "splash_bg.jpg";
 	private int SPACING = 10;
 	
@@ -34,23 +27,23 @@ public class WelcomePage extends Page {
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BACKGROUND));	
-		BackgroundImage bgimg = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+		BackgroundImage bgimg = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 		Background bg = new Background (bgimg);
 		
-		title = new Text("Cell Society");
-		title.setId("title");
+		TITLE = new Text("Cell Society");
+		TITLE.setId("title");
 		
 		Button UPLOAD = createButton("SELECT FILE", event -> handleTypeChoice("filler text"));
 		Button START = createButton("START", event -> handleTypeChoice("filler text"));
 		
-		VBox center = new VBox(SPACING);
-		center.getChildren().addAll(title, UPLOAD, START);
-		center.setAlignment(Pos.CENTER);
+		VBox buttonBox = new VBox(SPACING);
+		buttonBox.getChildren().addAll(TITLE, UPLOAD, START);
+		buttonBox.setAlignment(Pos.CENTER);
 		
-		this.getRoot().setCenter(center);
 		this.getRoot().setBackground(bg);
-		
+		this.getRoot().setCenter(buttonBox);
 	}
+	
 	private void handleTypeChoice(String nVal) {
 		this.getCellSociety().initializePage(nVal);
 	}
