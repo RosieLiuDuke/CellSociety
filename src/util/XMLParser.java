@@ -13,11 +13,16 @@ public class XMLParser extends DefaultHandler{
 	boolean bSimulation = false;
 	boolean bName = false;
 	boolean bGrid = false;
-	boolean bNRow = false;
 	boolean bNCol = false;
+	boolean bNRow = false;
 	boolean bSize = false;
+	boolean bAlive = false;
+	boolean bCol = false;
+	boolean bRow = false;
 	boolean bSpeed = false;
 	String type = "";
+	int row = 0;
+	int col = 0;
 	
 	public XMLParser(WelcomePage p){
 		page = p;
@@ -30,15 +35,29 @@ public class XMLParser extends DefaultHandler{
 			type = attributes.getValue("name");
 			page.getCellSociety().setNextType(type);
 			page.getCellSociety().initializePage(type);
-		} else if (qName.equals("grid")) {
+		} 
+		else if (qName.equals("grid")) {
 			bGrid = true;
-		} else if (qName.equals("nRow")) {
-			bNRow = true;
-		} else if (qName.equals("nCol")) {
+		}  
+		else if (qName.equals("nCol")) {
 			bNCol = true;
-		} else if (qName.equals("size")) {
+		} 
+		else if (qName.equals("nRow")) {
+			bNRow = true;
+		}
+		else if (qName.equals("size")) {
 			bSize = true;
-		} else if (qName.equals("speed")){
+		} 
+		else if (qName.equals("alive")){
+			bAlive = true;
+		}
+		else if (qName.equals("column")){
+			bCol = true;
+		}
+		else if (qName.equals("row")){
+			bRow = true;
+		}
+		else if (qName.equals("speed")){
 			bSpeed = true;
 		}
 	}
@@ -47,34 +66,56 @@ public class XMLParser extends DefaultHandler{
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equals("Simulation")) {
 			bSimulation = false;
-		} else if (qName.equals("grid")) {
+		} 
+		else if (qName.equals("grid")) {
 			bGrid = false;
-		} else if (qName.equals("nRow")) {
-			bNRow = false;
-		} else if (qName.equals("nCol")) {
+		}  
+		else if (qName.equals("nCol")) {
 			bNCol = false;
-		} else if (qName.equals("size")) {
+		} 
+		else if (qName.equals("nRow")) {
+			bNRow = false;
+		}
+		else if (qName.equals("size")) {
 			bSize = false;
-		} else if (qName.equals("speed")){
+		} 
+		else if (qName.equals("alive")){
+			GamePage thePage = (GamePage) page.getCellSociety().getPage(type);
+			thePage.setAliveCell(col, row);
+			row = col = 0;
+			bAlive = false;
+		}
+		else if (qName.equals("column")){
+			bCol = false;
+		}
+		else if (qName.equals("row")){
+			bRow = false;
+		}
+		else if (qName.equals("speed")){
 			bSpeed = false;
 		}
 	}
 
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
-		GamePage thePage = (GamePage) page.getCellSociety().getPage(type);
-		if (bNRow) {
-			thePage.setRowNum(Integer.parseInt(new String(ch, start, length)));
-			bNRow = false;
-		} else if (bNCol) {
+		GamePage thePage = (GamePage) page.getCellSociety().getPage(type); 
+		if (bNCol) {
 			thePage.setColNum(Integer.parseInt(new String(ch, start, length)));
-			bNCol = false;
-		} else if (bSize) {
+		} 
+		else if (bNRow) {
+			thePage.setRowNum(Integer.parseInt(new String(ch, start, length)));
+		}
+		else if (bSize) {
 			thePage.setSize(Integer.parseInt(new String(ch, start, length)));
-			bSize = false;
-		} else if (bSpeed) {
+		} 
+		else if (bSpeed) {
 			thePage.setSpeed(Integer.parseInt(new String(ch, start, length)));
-			bSpeed = false;
+		}
+		else if (bCol){
+			col = Integer.parseInt(new String(ch, start, length));
+		}
+		else if (bRow){
+			row = Integer.parseInt(new String(ch, start, length));
 		}
 	}	
 

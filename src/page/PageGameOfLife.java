@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
  */
 
 public class PageGameOfLife extends GamePage {
-
+	
 	private Text parameters;
 	private ChoiceBox<String> layoutChoice;
 
@@ -25,11 +25,10 @@ public class PageGameOfLife extends GamePage {
 		this.getColorMap().put(1, Color.BLACK);
 	}
 
-	public void setupComponents() {
+	public void setupComponents() {		
 		HBox parametersBox = new HBox(15);
-		
 		parameters = new Text();
-		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("default", "3 in line"));
+		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("input", "3 in line"));
 		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
 		parametersBox.getChildren().addAll(parameters, layoutChoice);
 		parametersBox.setAlignment(Pos.CENTER);
@@ -51,7 +50,8 @@ public class PageGameOfLife extends GamePage {
 	}
 
 	public void updateTextInfo() {
-		String text = "Number of rows: " + getRow() + " | " 
+		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
+				+ "\nNumber of rows: " + getRow() + " | " 
 				+ "Number of columns: " + getCol() + " | "  
 				+ "Cell size: " + getSize() + " | "
 				+ "Step speed: " + getSpeed() + " | " 
@@ -59,56 +59,54 @@ public class PageGameOfLife extends GamePage {
 		parameters.setText(text);
 	}
 
+	/**
+	 * The method to set up initial states of all cells.
+	 * 2 kinds of choices: from input file or from hard-coded rules.
+	 */
 	protected void setupGrid(String newValue) {
 		// TODO how to deal with multiple layouts
 		this.getCellSociety().stopGameLoop();
-		this.setCells(this.getRow(), this.getCol());
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
 		
-		if (newValue.equals("default")){
-			int rowMid = getRow() / 2;
-			int colMid = getCol() / 2;
- 			for (int i = 0; i < getRow(); i++){
-				for (int j = 0; j < getCol(); j++){
-					double xPosition = 0 + i * getSize();
-					double yPosition = 300 + j * getSize();
-					if (i == rowMid && j == colMid){
-						setCell(i,j, new Cell(xPosition, yPosition, getSize(), 1)); // 1 stands for alive
-					}
-					else if (i == rowMid + 1 && j == colMid + 1){
-						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 1));
+		if (newValue.equals("input")){
+			for (int col = 0; col < getCol(); col ++){  // x position - col
+				for (int row = 0; row < getRow(); row++){  // y position - row
+					double xPosition = 0 + col * getSize();
+					double yPosition = 300 + row * getSize();
+					if (isAliveCell(col, row)){
+						setCell(col,row, new Cell(xPosition, yPosition, getSize(), 1));
 					}
 					else{
-						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 0)); // 0 stands for dead
+						setCell(col,row, new Cell(xPosition, yPosition, getSize(), 0));
 					}
-					getCell(i,j).changeColor(this.getColorMap().get(getCell(i,j).getStatus()));
-					this.getGrid().getChildren().add(getCell(i,j).getRectangle());
+					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
+					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
 				}
 			}
 		}
 		else if (newValue.equals("3 in line")){
 			int rowMid = getRow() / 2;
 			int colMid = getCol() / 2;
- 			for (int i = 0; i < getRow(); i++){
-				for (int j = 0; j < getCol(); j++){
-					double xPosition = 0 + i * getSize();
-					double yPosition = 300 + j * getSize();
-					if (i == rowMid && j == colMid){
-						setCell(i,j, new Cell(xPosition, yPosition, getSize(), 1));
+ 			for (int col = 0; col < getCol(); col++){
+				for (int row = 0; row < getRow(); row++){
+					double xPosition = 0 + col * getSize();
+					double yPosition = 300 + row * getSize();
+					if (col == colMid && row == rowMid){
+						setCell(col,row, new Cell(xPosition, yPosition, getSize(), 1));
 					}
-					else if (i == rowMid && j == colMid + 1){
-						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 1));
+					else if (col == colMid && row == rowMid + 1){
+						setCell(col, row, new Cell(xPosition, yPosition, getSize(), 1));
 					}
-					else if (i == rowMid && j == colMid - 1){
-						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 1));
+					else if (col == colMid && row == rowMid - 1){
+						setCell(col, row, new Cell(xPosition, yPosition, getSize(), 1));
 					}
 					else{
-						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 0));
+						setCell(col, row, new Cell(xPosition, yPosition, getSize(), 0));
 					}
-					getCell(i,j).changeColor(this.getColorMap().get(getCell(i,j).getStatus()));
-					this.getGrid().getChildren().add(getCell(i,j).getRectangle());
+					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
+					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
 				}
 			}
 		}

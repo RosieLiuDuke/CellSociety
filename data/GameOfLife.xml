@@ -1,8 +1,16 @@
 <Simulation name="Game of Life">
 	<grid>
-		<nRow>30</nRow>
 		<nCol>30</nCol>
+		<nRow>30</nRow>
 		<size>10</size>
+		<alive>
+			<column>15</column>
+			<row>15</row>
+		</alive>
+		<alive>
+			<column>16</column>
+			<row>16</row>
+		</alive>
 	</grid>
 	<speed>1</speed>
 </Simulation>
