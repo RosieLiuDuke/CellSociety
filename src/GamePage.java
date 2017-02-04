@@ -1,3 +1,4 @@
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
@@ -43,16 +44,16 @@ public abstract class GamePage extends Page {
 	
 	protected abstract void setoutLayout(String newValue);
 	
-	protected void handleMouseReleaseBack(MouseEvent e) {
+	protected void handleMouseReleasedBack(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().loadPage("Welcome");
 	}
 
-	protected void handleMouseReleasedStep(MouseEvent e) {
+	protected void handleMouseReleasedStep(ActionEvent event) {
 		this.getCellSociety().setIsStep(true);
 	}
 
-	protected void handleMouseReleasedStart(MouseEvent e) {
+	protected void handleMouseReleasedStart(ActionEvent event) {
 		this.getCellSociety().setIsStep(false);
 	}
 	
