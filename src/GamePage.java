@@ -19,6 +19,9 @@ public abstract class GamePage extends Page {
 		super(c);
 	}
 	
+	public void initializeCells(){
+		cells = new Cell[rowNum][colNum];
+	}
 	
 	public int getRow(){
 		return rowNum - 2;

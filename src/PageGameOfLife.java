@@ -81,6 +81,7 @@ public class PageGameOfLife extends GamePage {
 	protected void setoutLayout(String newValue) {
 		// TODO assume now the grid of cells starting from (0, 300)
 		if (newValue.equals("default")){
+			this.initializeCells();
 			int rowMid = (getRow() - 2) / 2;
 			int colMid = (getCol() - 2) / 2;
  			for (int i = 0; i < getRow(); i++){
