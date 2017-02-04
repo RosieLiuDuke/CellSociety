@@ -1,3 +1,6 @@
+package animation;
+import cellSociety.CellSociety;
+import page.PageSpreadingOfFire;
 
 public class AnimationSpreadingOfFire extends Animation {
 	private final static int BURNINGVALUE = 2;

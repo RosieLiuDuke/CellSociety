@@ -1,4 +1,7 @@
+package util;
 import java.io.File;
+
+import cellSociety.CellSociety;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;

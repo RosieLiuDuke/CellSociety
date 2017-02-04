@@ -1,3 +1,4 @@
+import cellSociety.CellSociety;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

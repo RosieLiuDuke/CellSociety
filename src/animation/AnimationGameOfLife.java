@@ -1,4 +1,8 @@
+package animation;
 import java.util.ArrayList;
+
+import cellSociety.CellSociety;
+import page.PageGameOfLife;
 
 public class AnimationGameOfLife extends Animation {
 	

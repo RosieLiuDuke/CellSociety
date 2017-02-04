@@ -1,8 +1,12 @@
+package page;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import cellSociety.CellSociety;
 import javafx.event.Event;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -11,10 +15,12 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.*;
+import javafx.scene.text.Text;
+import util.XMLParser;
 
 /**
- * The WelcomePage that contains the menu for selecting simulation
+ * The WelcomePage class for splash screen.
+ * Parallel to the GamePage class.
  * @author Harry Liu, Yilin Gao
  *
  */
@@ -25,7 +31,6 @@ public class WelcomePage extends Page {
 	private int SPACING = 10;
 	
 	public WelcomePage(CellSociety cs) {
-		
 		super(cs);
 		
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
@@ -48,23 +53,43 @@ public class WelcomePage extends Page {
 		this.getRoot().setCenter(buttonBox);
 	}
 	
+	/**
+	 * The handler of the "UPLOAD" button.
+	 * When the button is pressed, a window to choose file will pop out.
+	 * When a file is chosen, it will be parsed by XMLParser and the program will wait for further actions.
+	 * When no file is chosen, the program will exit.
+	 * @param event
+	 */
 	private void handleMouseReleasedUpload(Event event){
 		this.getXMLReader().chooseFile();
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			XMLParser userhandler = new XMLParser(this);
-			saxParser.parse(this.getCellSociety().getFile(), userhandler);     
+			if (this.getCellSociety().getFile() != null){
+				saxParser.parse(this.getCellSociety().getFile(), userhandler);  
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * The handler of the "START" button.
+	 * If the XML file is loaded, it will setup buttons, texts and grid of the simulation scene, and change the scene of the stage to the scene of the corresponding simulation.
+	 * Otherwise an alert dialog will pop out to advise the user to choose input file.
+	 * @param event
+	 */
 	private void handleMouseReleasedStart(Event event) {
 		String type = this.getCellSociety().getNextType();
-		this.getCellSociety().setCurrrentType(type);
 		GamePage thePage = (GamePage) this.getCellSociety().getPage(type);
-		thePage.setoutComponents();
-		thePage.showPage();
+		if (thePage != null){
+			thePage.setupComponents();
+			thePage.showPage();
+		}
+		else{
+			Alert alert = new Alert(AlertType.ERROR, "Please choose an input file!");
+			alert.showAndWait();
+		}
 	}
 }
