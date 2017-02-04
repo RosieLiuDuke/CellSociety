@@ -20,7 +20,8 @@ public class CellSociety {
 	private double secondDelay;	
 	
 	// if the simulation is step by step or consecutive. Default is step by step.
-	private Boolean isStep = true;   
+	private Boolean isStep = false; 
+	private Boolean nextStep = false;
 		
 	public Stage getStage(){
 		return stage;
@@ -53,6 +54,10 @@ public class CellSociety {
 	
 	public void setIsStep(Boolean value){
 		isStep = value;
+	}
+	
+	public void setNextStep(Boolean value){
+		nextStep = value;
 	}
 	
 	public void setCurrrentType(String s){
@@ -115,6 +120,14 @@ public class CellSociety {
 		// if the current mode is consecutive simulation
 		if (!isStep){
 			animations.get(currentType).calculateMove();
+			((PageGameOfLife) pages.get(currentType)).updateColor();
+		}
+		else {
+			if (nextStep){
+				animations.get(currentType).calculateMove();
+				((PageGameOfLife) pages.get(currentType)).updateColor();
+				nextStep = false;
+			}
 		}
 	}
 }
