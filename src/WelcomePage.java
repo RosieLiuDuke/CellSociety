@@ -1,3 +1,6 @@
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -45,13 +48,23 @@ public class WelcomePage extends Page {
 		this.getRoot().setCenter(buttonBox);
 	}
 	
-	private void handleMouseReleasedUpload(Event e){
+	private void handleMouseReleasedUpload(Event event){
 		this.getXMLReader().chooseFile();
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
+			XMLParser userhandler = new XMLParser(this);
+			saxParser.parse(this.getCellSociety().getFile(), userhandler);     
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void handleMouseReleasedStart(Event e) {
-		System.out.println("in WelcomePage: " + this.getCellSociety().getNextType());
-//		this.getCellSociety().initializePage(this.getCellSociety().getNextType());
-		this.getCellSociety().initializePage("Game of Life");
+	private void handleMouseReleasedStart(Event event) {
+		String type = this.getCellSociety().getNextType();
+		this.getCellSociety().setCurrrentType(type);
+		GamePage thePage = (GamePage) this.getCellSociety().getPage(type);
+		thePage.setoutComponents();
+		thePage.showPage();
 	}
 }
