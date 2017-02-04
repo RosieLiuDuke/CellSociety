@@ -18,9 +18,13 @@ public class CellSociety {
 	
 	// if the simulation is step by step or consecutive. Default is step by step.
 	private Boolean isStep = true;   
-	
+		
 	public Stage getStage(){
 		return stage;
+	}
+	
+	public Page getPage(String type){
+		return pages.get(type);
 	}
 	
 	public void setDelay(double step){
