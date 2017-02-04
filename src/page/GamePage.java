@@ -1,5 +1,7 @@
 package page;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cell.Cell;
@@ -17,12 +19,13 @@ import javafx.scene.paint.Color;
 public abstract class GamePage extends Page {
 
 	private Group grid;
-	private Cell[][] cells;
-	private int rowNum;
+	private Map<Indices, Cell> cells;
+	private List<Indices> aliveCells;
 	private int colNum;
+	private int rowNum;
 	private double size;
 	private double speed;	
-	private int currentStep;	// TODO where it is used
+	private int currentStep;
 	private Button back;
 	private Button start;
 	private Button stop;
@@ -32,6 +35,8 @@ public abstract class GamePage extends Page {
 	public GamePage (CellSociety cs) {
 		super(cs);
 		grid = new Group();
+		cells = new HashMap<Indices, Cell>();
+		aliveCells = new ArrayList<Indices>();
 		back = createButton("BACK", event-> handleMouseReleasedBack(event));
 		start = createButton("START", event-> handleMouseReleasedStart(event));
 		stop = createButton("STOP", event-> handleMouseReleasedStop(event));
@@ -42,17 +47,21 @@ public abstract class GamePage extends Page {
 	public Group getGrid(){
 		return grid;
 	}
+
+	public int getCol(){
+		return colNum;
+	}
 	
 	public int getRow(){
 		return rowNum;
 	}
 	
-	public int getCol(){
-		return colNum;
+	public Cell getCell(int col, int row){
+		return cells.get(new Indices(col, row));
 	}
 	
-	public Cell getCell(int i, int j){
-		return cells[i][j];
+	protected boolean isAliveCell(int col, int row){
+		return (aliveCells.contains(new Indices(col, row)));
 	}
 	
 	protected double getSize () {
@@ -86,13 +95,13 @@ public abstract class GamePage extends Page {
 	public Map<Integer, Color> getColorMap(){
 		return colorMap;
 	}
+
+	public void setColNum (int c) {
+		colNum = c;
+	}
 	
 	public void setRowNum (int r) {
 		rowNum = r;
-	}
-	
-	public void setColNum (int c) {
-		colNum = c;
 	}
 	
 	public void setSize (double s) {
@@ -103,13 +112,14 @@ public abstract class GamePage extends Page {
 		speed = s;
 	}
 	
-	// TODO where it is used?
-	protected void setCells(int i, int j) {
-		cells = new Cell[i][j];
+	protected void setCell(int col, int row, Cell c) {
+		Indices newKey = new Indices(col, row);
+		cells.put(newKey, c);
 	}
 	
-	protected void setCell(int i, int j, Cell c) {
-		cells[i][j] = c;
+	public void setAliveCell(int col, int row){
+		Indices newKey = new Indices(col, row);
+		aliveCells.add(newKey);
 	}
 	
 	public void setCurrentStep(int cs) {
