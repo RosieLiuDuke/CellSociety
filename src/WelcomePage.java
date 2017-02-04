@@ -1,7 +1,19 @@
 import javafx.collections.FXCollections;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 
 /**
@@ -12,32 +24,32 @@ import javafx.scene.text.*;
 public class WelcomePage extends Page {	
 	
 	private Text title;
-	private ChoiceBox<String> typeOfCellSociety;
 	private String BACKGROUND = "splash_bg.jpg";
+	private int SPACING = 10;
 	
 	public WelcomePage(CellSociety cs) {
 		
 		super(cs);
 		
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BACKGROUND));
-		ImageView iV = new ImageView();
-		iV.setImage(image);
-		iV.setFitWidth(WIDTH);
-		iV.setFitHeight(HEIGHT);
-		this.getRoot().getChildren().add(iV);
+		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
+		
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BACKGROUND));	
+		BackgroundImage bgimg = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+		Background bg = new Background (bgimg);
 		
 		title = new Text("Cell Society");
-		title.setX(WIDTH / 2 - title.getBoundsInParent().getWidth() / 2);
-		title.setY(HEIGHT/3);
 		title.setId("title");
-		this.getRoot().getChildren().add(title);
 		
-		typeOfCellSociety = new ChoiceBox<String>(FXCollections.observableArrayList("Game of Life"));
-		typeOfCellSociety.setLayoutY(HEIGHT/2);
-		typeOfCellSociety.valueProperty().addListener((obs, oVal, nVal) -> handleTypeChoice(nVal));
-		this.getRoot().getChildren().add(typeOfCellSociety);
+		Button UPLOAD = createButton("SELECT FILE", event -> handleTypeChoice("filler text"));
+		Button START = createButton("START", event -> handleTypeChoice("filler text"));
 		
-		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
+		VBox center = new VBox(SPACING);
+		center.getChildren().addAll(title, UPLOAD, START);
+		center.setAlignment(Pos.CENTER);
+		
+		this.getRoot().setCenter(center);
+		this.getRoot().setBackground(bg);
+		
 	}
 	private void handleTypeChoice(String nVal) {
 		this.getCellSociety().initializePage(nVal);
