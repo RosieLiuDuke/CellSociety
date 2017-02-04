@@ -1,4 +1,4 @@
-<Simulation name = "Game of Life">
+<Simulation name="Game of Life">
 	<grid>
 		<nRow>30</nRow>
 		<nCol>30</nCol>

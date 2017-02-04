@@ -1,8 +1,4 @@
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 
 public abstract class GamePage extends Page {
 
@@ -27,10 +23,6 @@ public abstract class GamePage extends Page {
 		return rowNum;
 	}
 	
-	public String getFakeString() {
-		return "This works";
-	}
-	
 	public int getCol(){
 		return colNum;
 	}
@@ -49,7 +41,9 @@ public abstract class GamePage extends Page {
 		return currentStep;
 	}
 	
-	protected abstract void setoutLayout(String newValue);
+	protected abstract void setoutComponents();
+	
+	protected abstract void setoutGrid(String newValue);
 	
 	protected void handleMouseReleasedBack(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();

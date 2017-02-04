@@ -4,7 +4,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class XMLParser extends DefaultHandler{
 	
-	PageGameOfLife page;
+	WelcomePage page;
 	
 	boolean bSimulation = false;
 	boolean bName = false;
@@ -13,8 +13,9 @@ public class XMLParser extends DefaultHandler{
 	boolean bNCol = false;
 	boolean bSize = false;
 	boolean bSpeed = false;
+	String type = "";
 	
-	public XMLParser(PageGameOfLife p){
+	public XMLParser(WelcomePage p){
 		page = p;
 	}
 
@@ -22,7 +23,9 @@ public class XMLParser extends DefaultHandler{
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if (qName.equals("Simulation")) {
 			bSimulation = true;
-			page.getCellSociety().setNextType(attributes.getValue("name"));
+			type = attributes.getValue("name");
+			page.getCellSociety().setNextType(type);
+			page.getCellSociety().initializePage(type);
 		} else if (qName.equals("grid")) {
 			bGrid = true;
 		} else if (qName.equals("nRow")) {
@@ -55,17 +58,18 @@ public class XMLParser extends DefaultHandler{
 
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
+		GamePage thePage = (GamePage) page.getCellSociety().getPage(type);
 		if (bNRow) {
-			page.setRowNum(Integer.parseInt(new String(ch, start, length)));
+			thePage.setRowNum(Integer.parseInt(new String(ch, start, length)));
 			bNRow = false;
 		} else if (bNCol) {
-			page.setColNum(Integer.parseInt(new String(ch, start, length)));
+			thePage.setColNum(Integer.parseInt(new String(ch, start, length)));
 			bNCol = false;
 		} else if (bSize) {
-			page.setSize(Integer.parseInt(new String(ch, start, length)));
+			thePage.setSize(Integer.parseInt(new String(ch, start, length)));
 			bSize = false;
 		} else if (bSpeed) {
-			page.setSpeed(Integer.parseInt(new String(ch, start, length)));
+			thePage.setSpeed(Integer.parseInt(new String(ch, start, length)));
 			bSpeed = false;
 		}
 	}	

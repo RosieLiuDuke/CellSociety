@@ -5,7 +5,13 @@ public class PageSpreadingOfFire extends GamePage {
 		super(cs);
 	}
 	
-	protected void setoutLayout(String newValue) {
+	protected void setoutGrid(String newValue) {
+		
+	}
+
+	@Override
+	protected void setoutComponents() {
+		// TODO Auto-generated method stub
 		
 	}
 }

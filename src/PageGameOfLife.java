@@ -1,17 +1,13 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 /**
@@ -47,15 +43,9 @@ public class PageGameOfLife extends GamePage {
 		colorMap = new HashMap<Integer, Color>();
 		colorMap.put(0, Color.WHITE);
 		colorMap.put(1, Color.BLACK);
-		try {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser saxParser = factory.newSAXParser();
-			XMLParser userhandler = new XMLParser(this);
-			saxParser.parse(this.getCellSociety().getFile(), userhandler);     
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	}
 
+	public void setoutComponents() {
 		HBox parametersBox = new HBox(15);
 		
 		String text = "Number of rows: " + getRow() + " | " 
@@ -66,7 +56,7 @@ public class PageGameOfLife extends GamePage {
 		
 		parameters = new Text(text);	
 		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("default"));
-		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setoutLayout(nVal));	
+		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setoutGrid(nVal));	
 		parametersBox.getChildren().addAll(parameters, layoutChoice);
 		parametersBox.setAlignment(Pos.CENTER);
 
@@ -90,7 +80,7 @@ public class PageGameOfLife extends GamePage {
 	}
 
 
-	protected void setoutLayout(String newValue) {
+	protected void setoutGrid(String newValue) {
 		// TODO assume now the grid of cells starting from (0, 300)
 		if (newValue.equals("default")){
 			this.initializeCells();

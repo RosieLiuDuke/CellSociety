@@ -27,6 +27,9 @@ public class Page {
 		root = new BorderPane();
 		scene = new Scene(root, WIDTH, HEIGHT);
 		xmlReader = new XMLReader(theCellSociety);
+	}
+	
+	public void showPage(){
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -49,10 +52,6 @@ public class Page {
 	
 	public XMLReader getXMLReader(){
 		return xmlReader;
-	}
-	
-	protected void readXMLInput(String path){
-		
 	}
 	
 	public Button createButton (String name, EventHandler<ActionEvent> handler ) {

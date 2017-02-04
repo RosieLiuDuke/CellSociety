@@ -73,10 +73,10 @@ public class CellSociety {
 	}
 	
 	public void initializePage(String type){
-		currentType = type;
 		if (type.equals("Welcome")){
 			Page newWelcomePage = new WelcomePage(this);
-			pages.put(type, newWelcomePage);			
+			pages.put(type, newWelcomePage);
+			newWelcomePage.showPage();
 		}
 		else if (type.equals("Game of Life")){
 			Page newGameOfLifePage = new PageGameOfLife(this);
