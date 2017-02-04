@@ -32,7 +32,7 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	public int [][] getArray() {
 		int i, j;
-		PageSpreadingOfFire p = (PageSpreadingOfFire) getCellSociety().getPage("Game Of Life");
+		PageSpreadingOfFire p = (PageSpreadingOfFire) getCellSociety().getPage("Spreading of Fire");
 		int [][] intArray = new int[ p.getRow()][p.getCol()];
 		
 		for (i = 0; i < intArray.length; i++) {
@@ -51,7 +51,7 @@ public class AnimationSpreadingOfFire extends Animation {
 		
 		for (i = 1; i < squares.length+1; i++) {
 			for (j = 1; j < squares[0].length+1; j++) {
-				surroundingArray[i][j] = squares[i][j];
+				surroundingArray[i][j] = squares[i-1][j-1];
 			}
 		}
 		for (i = 0; i < surroundingArray.length; i++) {
@@ -103,7 +103,7 @@ public class AnimationSpreadingOfFire extends Animation {
 
 	private void setCells (int [][] squares) {
 		int i, j;
-		PageSpreadingOfFire p = (PageSpreadingOfFire) getCellSociety().getPage("Spreading Of Fire");
+		PageSpreadingOfFire p = (PageSpreadingOfFire) getCellSociety().getPage("Spreading of Fire");
 		for (i = 0; i < squares.length; i++) {
 			for (j = 0; j < squares[0].length; j++) {
 				p.getCell(i, j).changeStatus(squares[i][j]);
