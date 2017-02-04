@@ -1,12 +1,17 @@
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 /**
@@ -23,6 +28,7 @@ public class PageGameOfLife extends GamePage {
 	private Button start;
 	private Button step;
 	private ChoiceBox<String> layoutChoice;
+	private Map <Integer, Color> colorMap;
 	
 	public Button getStart(){
 		return start;
@@ -38,6 +44,9 @@ public class PageGameOfLife extends GamePage {
 
 	public PageGameOfLife(CellSociety cs) {
 		super(cs);
+		colorMap = new HashMap<Integer, Color>();
+		colorMap.put(0, Color.WHITE);
+		colorMap.put(1, Color.BLACK);
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
@@ -95,7 +104,11 @@ public class PageGameOfLife extends GamePage {
 						setCell(i,j, new Cell(xPosition, yPosition, getSize(), 1)); // 1 stands for alive
 						getCell(i, j).getCell().setFill(Color.BLACK);
 					}
-					else if (i == rowMid + 1 && j == colMid + 1){
+					else if (i == rowMid && j == colMid + 1){
+						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 1));
+						getCell(i,j).getCell().setFill(Color.BLACK);
+					}
+					else if (i == rowMid && j == colMid - 1){
 						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 1));
 						getCell(i,j).getCell().setFill(Color.BLACK);
 					}
@@ -107,6 +120,15 @@ public class PageGameOfLife extends GamePage {
 			}
 		}
 		this.getCellSociety().beginGameLoop();
+	}
+	
+	public void updateColor () {
+		int i, j;
+		for (i = 0; i < getRow(); i++) {
+			for (j = 0; j < getCol(); j++) {
+				getCell(i,j).changeColor(colorMap.get(getCell(i,j).getStatus()));
+			}
+		}
 	}
 
 }
