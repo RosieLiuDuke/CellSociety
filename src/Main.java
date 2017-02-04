@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -9,28 +7,16 @@ import javafx.stage.Stage;
 **/
 
 public class Main extends Application {
-	
-	private Stage myStage;
-	private Pane root = new Pane();
-	private static final String TITLE = "CellSociety";
-	
-	
+
+	private CellSociety cellSociety;
+
+
 	@Override
 	public void start(Stage theStage){
-		myStage = theStage;
-		theStage.setTitle( TITLE );
-		
-		//CellSociety cellSociety = new CellSociety();
-		//Needed to set up Stage
-		
-		Scene theScene = new Scene (root, 700, 700);
-		
-		theStage.setResizable(false); 
-		theStage.setScene( theScene );
-		theStage.show();
-		
+		cellSociety = new CellSociety(theStage);
+		cellSociety.initializePage("Welcome");
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}

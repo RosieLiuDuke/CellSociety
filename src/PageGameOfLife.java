@@ -1,9 +1,8 @@
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -26,14 +25,38 @@ public class PageGameOfLife extends Page {
 	private Button start;
 	private Button step;
 	private ChoiceBox<String> layoutChoice;
+	
+	public Button getStart(){
+		return start;
+	}
+	
+	public Button getStep(){
+		return step;
+	}
+	
+	public Button getBack(){
+		return back;
+	}
+	
+	public int getRow(){
+		return rowNum - 2;
+	}
+	
+	public int getCol(){
+		return colNum - 2;
+	}
+	
+	public Cell getCell(int i, int j){
+		return cells[i+1][j+1];
+	}
 
-	public PageGameOfLife() {
-		super();
+	public PageGameOfLife(CellSociety cs) {
+		super(cs);
 		// TODO without input from XML, hard-coded first
 		// assume now the initial pattern is hard-coded
-		rowNum = 12;
-		colNum = 12;
-		size = 1;
+		rowNum = 32;
+		colNum = 32;
+		size = 10;
 		cells = new Cell[rowNum][colNum];
 		speed = 1;
 		currentStep = 0;
@@ -45,79 +68,78 @@ public class PageGameOfLife extends Page {
 				+ "\nStep: " + currentStep;
 		parameters = new Text(text);
 		parameters.setLayoutX(0);
-		parameters.setLayoutY(0);
+		parameters.setLayoutY(20);
 		this.getRoot().getChildren().add(parameters);
 		
 		back = new Button("Back");
 		back.setLayoutX(0);
 		back.setLayoutY(100);
-		back.setOnMouseReleased(e -> handleMouseInputBack(e));
+		back.setOnMouseReleased(e -> handleMouseReleaseBack(e));
 		this.getRoot().getChildren().add(back);
 		
 		start = new Button("Start");
 		start.setLayoutX(0);
 		start.setLayoutY(250);
-		start.setOnMouseReleased(e -> handleMouseInputStart(e));
+		start.setOnMouseReleased(e -> handleMouseReleasedStart(e));
 		this.getRoot().getChildren().add(start);
 		
 		step = new Button("Step");
 		step.setLayoutX(200);
 		step.setLayoutY(250);
 		step.setOnMouseReleased(e -> handleMouseReleasedStep(e));
+		this.getRoot().getChildren().add(step);
 		
 		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("default"));
 		layoutChoice.setLayoutX(0);
 		layoutChoice.setLayoutY(200);
-		layoutChoice.getSelectionModel().selectFirst();
-		layoutChoice.getSelectionModel().selectedItemProperty()
-			.addListener(new ChangeListener<String>(){
-
-				@Override
-				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-					setoutLayout(newValue);
-					
-				}
-				
-			});
+		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setoutLayout(nVal));
 		this.getRoot().getChildren().add(layoutChoice);
+		
+		this.getCellSociety().setIsStep(true);
+		this.getCellSociety().setDelay(speed);
+		this.getCellSociety().setupGameLoop();
+	}
+
+	private void handleMouseReleaseBack(MouseEvent e) {
+		this.getCellSociety().stopGameLoop();
+		this.getCellSociety().loadPage("Welcome");
 	}
 
 	private void handleMouseReleasedStep(MouseEvent e) {
-		// TODO click the "step" button to run the simulation step by step
-		
+		this.getCellSociety().setIsStep(true);
 	}
 
-	private void handleMouseInputStart(MouseEvent e) {
-		// TODO click the "start" button to run the simulation consecutively
-		
+	private void handleMouseReleasedStart(MouseEvent e) {
+		this.getCellSociety().setIsStep(false);
 	}
 
 	private void setoutLayout(String newValue) {
-		// assume now the grid of cells starting from (0, 300)
-		if ( newValue.equals("default")){
-			this.getRoot().getChildren().clear();
-			for (int i = 0; i < rowNum; i++){
+		// TODO assume now the grid of cells starting from (0, 300)
+		if (newValue.equals("default")){
+			int rowMid = (rowNum - 2) / 2;
+			int colMid = (colNum - 2) / 2;
+ 			for (int i = 0; i < rowNum; i++){
 				for (int j = 0; j < colNum; j++){
 					double xPosition = 0 + i * size;
 					double yPosition = 300 + j * size;
-					if (i == 6 && i == 6){
+					if (i == rowMid && j == colMid){
 						cells[i][j] = new Cell(xPosition, yPosition, size, 1); // 1 stands for alive
+						cells[i][j].getCell().setFill(Color.BLACK);
 					}
-					else if (i == 7 && j == 7){
+					else if (i == rowMid + 1 && j == colMid + 1){
 						cells[i][j] = new Cell(xPosition, yPosition, size, 1);
+						cells[i][j].getCell().setFill(Color.BLACK);
 					}
 					else{
 						cells[i][j] = new Cell(xPosition, yPosition, size, -1); // -1 stands for dead
 					}
-					this.getRoot().getChildren().add(cells[i][j].getCell());
+					if (i != 0 && i != rowNum - 1 && j != 0 && j != colNum - 1)
+						this.getRoot().getChildren().add(cells[i][j].getCell());
 				}
 			}
 		}
+		this.getCellSociety().beginGameLoop();
 	}
 
-	private void handleMouseInputBack(MouseEvent e) {
-		// TODO click the "Back" button to return to main menu
-		
-	}
 
 }

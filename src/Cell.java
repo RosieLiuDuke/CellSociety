@@ -1,4 +1,5 @@
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -7,10 +8,10 @@ import javafx.scene.shape.Rectangle;
 **/
 
 public class Cell {
-	
-	private int status;	
+
+	private int status;
 	private Rectangle rectangle;
-	
+
 	/**
 	* Create a cell with xPosition, yPosition, and a status, which would be used to indicate color.
 	* @param xPosition
@@ -21,13 +22,15 @@ public class Cell {
 	public Cell (double xPosition, double yPosition, double size, int status){
 		this.status = status;
 		rectangle = new Rectangle(xPosition, yPosition, size, size);
+		rectangle.setFill(Color.TRANSPARENT);
+		rectangle.setStroke(Color.BLACK);
 		// only for game of life
-		rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
+		//rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
 	}
-	
-	private void handleMouseRelease(MouseEvent e) {
-		status *= -1;
-	}
+
+//	private void handleMouseRelease(MouseEvent e) {
+//		status *= -1;
+//	}
 
 	/**
 	* Create and return the rectangle variable for the cell to be added to scene in class Page
@@ -36,14 +39,14 @@ public class Cell {
 	public Rectangle getCell(){
 		return rectangle;
 	}
-	
+
 	/**
 	* Get status of the cell
 	**/
 	public int getStatus(){
 		return this.status;
 	}
-	
+
 	/**
 	* Update the status of the cell
 	* @param newStatus

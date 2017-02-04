@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 
-public class GameOfLife extends Animation {
+public class AnimationGameOfLife extends Animation {
 	
+	public AnimationGameOfLife(CellSociety c) {
+		super(c);
+	}
+
 	private static final int ONVALUE = 1;
 	private static final int OFFVALUE = 0;
 	
@@ -98,5 +102,11 @@ public class GameOfLife extends Animation {
 				cellArray[i][j].changeStatus(squares[i][j]);
 			}
 		}
+	}
+
+	@Override
+	public void calculateMove() {
+		// TODO Auto-generated method stub
+		
 	}
 }
