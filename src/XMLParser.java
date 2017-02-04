@@ -18,8 +18,7 @@ public class XMLParser extends DefaultHandler{
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String qName, Attributes attributes)
-			throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if (qName.equals("GameOfLife")) {
 			bGameOfLife = true;
 		} else if (qName.equals("grid")) {
@@ -37,16 +36,24 @@ public class XMLParser extends DefaultHandler{
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		
+		if (qName.equals("GameOfLife")) {
+			bGameOfLife = false;
+		} else if (qName.equals("grid")) {
+			bGrid = false;
+		} else if (qName.equals("nRow")) {
+			bNRow = false;
+		} else if (qName.equals("nCol")) {
+			bNCol = false;
+		} else if (qName.equals("size")) {
+			bSize = false;
+		} else if (qName.equals("speed")){
+			bSpeed = false;
+		}
 	}
 
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
-		if (bGameOfLife) {
-			
-		} else if (bGrid) {
-			
-		} else if (bNRow) {
+		if (bNRow) {
 			page.setRowNum(Integer.parseInt(new String(ch, start, length)));
 		} else if (bNCol) {
 			page.setColNum(Integer.parseInt(new String(ch, start, length)));

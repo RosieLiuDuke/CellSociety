@@ -33,6 +33,10 @@ public class CellSociety {
 		return pages.get(type);
 	}
 	
+	public String getCurrentType(){
+		return currentType;
+	}
+	
 	public void setFile(File file){
 		inputFile = file;
 	}
@@ -47,7 +51,6 @@ public class CellSociety {
 	}
 	
 	public CellSociety(Stage theStage) {
-		// TODO Auto-generated constructor stub
 		stage = theStage;
 	}
 	

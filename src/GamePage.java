@@ -58,10 +58,10 @@ public abstract class GamePage extends Page {
 	}
 	
 	protected void setRowNum (int r) {
-		rowNum = r;
+		rowNum = r + 2;
 	}
 	protected void setColNum (int c) {
-		colNum = c;
+		colNum = c + 2;
 	}
 	protected void setSize (double s) {
 		size = s;
