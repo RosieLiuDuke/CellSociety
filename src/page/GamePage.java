@@ -63,7 +63,7 @@ public abstract class GamePage extends Page {
 		return speed;
 	}
 	
-	protected int getCurrentStep () {
+	public int getCurrentStep () {
 		return currentStep;
 	}
 	
@@ -112,7 +112,7 @@ public abstract class GamePage extends Page {
 		cells[i][j] = c;
 	}
 	
-	protected void setCurrentStep(int cs) {
+	public void setCurrentStep(int cs) {
 		currentStep = cs;
 	}
 	
