@@ -24,15 +24,15 @@ public abstract class GamePage extends Page {
 	}
 	
 	public int getRow(){
-		return rowNum - 2;
+		return rowNum;
 	}
 	
 	public int getCol(){
-		return colNum - 2;
+		return colNum;
 	}
 	
 	public Cell getCell(int i, int j){
-		return cells[i+1][j+1];
+		return cells[i][j];
 	}
 	
 	protected double getSize () {
@@ -61,10 +61,10 @@ public abstract class GamePage extends Page {
 	}
 	
 	protected void setRowNum (int r) {
-		rowNum = r + 2;
+		rowNum = r;
 	}
 	protected void setColNum (int c) {
-		colNum = c + 2;
+		colNum = c;
 	}
 	protected void setSize (double s) {
 		size = s;

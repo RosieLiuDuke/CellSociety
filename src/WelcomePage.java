@@ -50,6 +50,8 @@ public class WelcomePage extends Page {
 	}
 	
 	private void handleMouseReleasedStart(Event e) {
+		System.out.println("in WelcomePage: " + this.getCellSociety().getNextType());
+//		this.getCellSociety().initializePage(this.getCellSociety().getNextType());
 		this.getCellSociety().initializePage("Game of Life");
 	}
 }
