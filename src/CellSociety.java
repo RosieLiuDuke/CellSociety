@@ -13,6 +13,7 @@ public class CellSociety {
 	private Hashtable<String, Page> pages = new Hashtable<>();
 	private Hashtable<String, Animation> animations = new Hashtable<>();
 	private String currentType = "";
+	private String nextType = "";
 	
 	private Timeline timeline; 
 	private double millisecondDelay;
@@ -37,6 +38,10 @@ public class CellSociety {
 		return currentType;
 	}
 	
+	public String getNextType(){
+		return nextType;
+	}
+	
 	public void setFile(File file){
 		inputFile = file;
 	}
@@ -48,6 +53,14 @@ public class CellSociety {
 	
 	public void setIsStep(Boolean value){
 		isStep = value;
+	}
+	
+	public void setCurrrentType(String s){
+		currentType = s;
+	}
+	
+	public void setNextType(String s){
+		nextType = s;
 	}
 	
 	public CellSociety(Stage theStage) {

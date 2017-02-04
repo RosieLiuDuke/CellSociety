@@ -2,6 +2,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
@@ -15,7 +16,8 @@ import javafx.scene.text.Text;
  */
 
 public class PageGameOfLife extends GamePage {
-	
+
+	private Group grid = new Group();
 	private Text parameters;
 	private Button back;
 	private Button start;
@@ -69,6 +71,7 @@ public class PageGameOfLife extends GamePage {
 		
 		this.getRoot().setBottom(buttonBox);
 		this.getRoot().setTop(parametersBox);
+		this.getRoot().setCenter(grid);
 		
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
@@ -82,8 +85,8 @@ public class PageGameOfLife extends GamePage {
 		// TODO assume now the grid of cells starting from (0, 300)
 		if (newValue.equals("default")){
 			this.initializeCells();
-			int rowMid = (getRow() - 2) / 2;
-			int colMid = (getCol() - 2) / 2;
+			int rowMid = getRow() / 2;
+			int colMid = getCol() / 2;
  			for (int i = 0; i < getRow(); i++){
 				for (int j = 0; j < getCol(); j++){
 					double xPosition = 0 + i * getSize();
@@ -97,10 +100,9 @@ public class PageGameOfLife extends GamePage {
 						getCell(i,j).getCell().setFill(Color.BLACK);
 					}
 					else{
-						setCell(i, j, new Cell(xPosition, yPosition, getSize(), -1)); // -1 stands for dead
+						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 0)); // -1 stands for dead
 					}
-					if (i != 0 && i != getRow() - 1 && j != 0 && j != getCol() - 1)
-						this.getRoot().setCenter(getCell(i,j).getCell());
+					grid.getChildren().add(getCell(i,j).getCell());
 				}
 			}
 		}

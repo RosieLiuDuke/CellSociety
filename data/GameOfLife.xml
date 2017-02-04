@@ -1,8 +1,8 @@
-<GameOfLife>
+<Simulation name = "Game of Life">
 	<grid>
 		<nRow>30</nRow>
 		<nCol>30</nCol>
-		<size>1</size>
+		<size>10</size>
 	</grid>
 	<speed>1</speed>
-</GameOfLife>
+</Simulation>
