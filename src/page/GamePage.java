@@ -140,6 +140,19 @@ public abstract class GamePage extends Page {
 	protected abstract void setupGrid(String newValue);
 	
 	/**
+	 * The method to update the color on each step.
+	 * Abstract.
+	 */
+	public void updateColor () {
+		int i, j;
+		for (i = 0; i < getRow(); i++) {
+			for (j = 0; j < getCol(); j++) {
+				getCell(i,j).changeColor(this.getColorMap().get(getCell(i,j).getStatus()));
+			}
+		}
+	}
+	
+	/**
 	 * The handler of the "BACK" button.
 	 * When the button is pressed, the game will return to the splash screen.
 	 * @param event

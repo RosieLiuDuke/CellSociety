@@ -112,13 +112,5 @@ public class PageGameOfLife extends GamePage {
 		}
 	}
 	
-	public void updateColor () {
-		int i, j;
-		for (i = 0; i < getRow(); i++) {
-			for (j = 0; j < getCol(); j++) {
-				getCell(i,j).changeColor(this.getColorMap().get(getCell(i,j).getStatus()));
-			}
-		}
-	}
 
 }
