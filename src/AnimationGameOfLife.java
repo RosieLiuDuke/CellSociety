@@ -12,16 +12,16 @@ public class AnimationGameOfLife extends Animation {
 	
 	public void calculateMove() {
 		boolean [][] shouldChange;
-		int [][] squares;
+		int [][] grid;
 		
-		squares = getArray();
-		shouldChange = new boolean[squares.length][squares[0].length];
+		grid = getArray();
+		shouldChange = new boolean[grid.length][grid[0].length];
 		
-		checkSurrounding(shouldChange, squares);
+		checkSurrounding(shouldChange, grid);
 		
-		changeSquares(shouldChange, squares);
+		changegrid(shouldChange, grid);
 		
-		setCells(squares);
+		setCells(grid);
 	}
 	
 	public int [][] getArray() {
@@ -38,39 +38,39 @@ public class AnimationGameOfLife extends Animation {
 		return intArray;
 	}
 	
-	public void checkSurrounding(boolean [][] shouldChange, int [][] squares) {
+	public void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
 		int i, j, k, l, total = 0;
 		
-		int [][] surroundingArray = new int[squares.length +2][squares[0].length+2];
+		int [][] borderArray = new int[grid.length +2][grid[0].length+2];
 		
-		for (i = 1; i < squares.length+1; i++) {
-			for (j = 1; j < squares[0].length+1; j++) {
-				surroundingArray[i][j] = squares[i][j];
+		for (i = 1; i < grid.length+1; i++) {
+			for (j = 1; j < grid[0].length+1; j++) {
+				borderArray[i][j] = grid[i][j];
 			}
 		}
-		for (i = 0; i < surroundingArray.length; i++) {
-			surroundingArray[i][0] = OFFVALUE;
-			surroundingArray[i][surroundingArray[0].length -1] = OFFVALUE;
+		for (i = 0; i < borderArray.length; i++) {
+			borderArray[i][0] = OFFVALUE;
+			borderArray[i][borderArray[0].length -1] = OFFVALUE;
 		}
-		for (i = 0; i < surroundingArray[0].length; i++) {
-			surroundingArray[0][i] = OFFVALUE;
-			surroundingArray[surroundingArray.length - 1][i] = OFFVALUE;
+		for (i = 0; i < borderArray[0].length; i++) {
+			borderArray[0][i] = OFFVALUE;
+			borderArray[borderArray.length - 1][i] = OFFVALUE;
 		}
 		
-		for (i = 1; i < surroundingArray.length - 1; i++) {
-			for (j = 1; j < surroundingArray.length -1; j++) {
+		for (i = 1; i < borderArray.length - 1; i++) {
+			for (j = 1; j < borderArray.length -1; j++) {
 				
 				for (k = i -1; k < i+2; k++) {
 					for (l = j -1; l < j+2; l++) {
-						total += surroundingArray[k][l];
+						total += borderArray[k][l];
 					}
 				}
 				
-				total -= surroundingArray[i][j];
+				total -= borderArray[i][j];
 				
 				
-				shouldChange[i-1][j-1] = (((squares[i][j] == ONVALUE) && ((total <2) || (total > 3))) ||
-							((squares[i][j] == OFFVALUE) && ((total == 2) || (total == 3))));
+				shouldChange[i-1][j-1] = (((grid[i][j] == ONVALUE) && ((total <2) || (total > 3))) ||
+							((grid[i][j] == OFFVALUE) && ((total == 2) || (total == 3))));
 				
 				
 				total = 0;
@@ -78,29 +78,29 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	public void changeSquares(boolean [][] shouldChange, int [][] squares) {
+	public void changegrid(boolean [][] shouldChange, int [][] grid) {
 		int i, j;
 		
-		for (i = 0; i < squares.length; i++) {
-			for (j = 0; j < squares.length; j++) {
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid.length; j++) {
 				if (shouldChange[i][j]) {
-					if (squares[i][j] == ONVALUE) {
-						squares[i][j] = OFFVALUE;
+					if (grid[i][j] == ONVALUE) {
+						grid[i][j] = OFFVALUE;
 					}
 					else {
-						squares[i][j] = ONVALUE;
+						grid[i][j] = ONVALUE;
 					}
 				}
 			}
 		}
 	}
 	
-	public void setCells (int [][] squares) {
+	public void setCells (int [][] grid) {
 		int i, j;
 		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game Of Life");
-		for (i = 0; i < squares.length; i++) {
-			for (j = 0; j < squares[0].length; j++) {
-				p.getCell(i, j).changeStatus(squares[i][j]);
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid[0].length; j++) {
+				p.getCell(i, j).changeStatus(grid[i][j]);
 			}
 		}
 	}

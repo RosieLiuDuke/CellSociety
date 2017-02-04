@@ -13,15 +13,7 @@ import javafx.scene.text.Text;
  * @author Yilin Gao
  *
  */
-public class PageGameOfLife extends Page {
-	
-	private Cell[][] cells;
-	private int rowNum;
-	private int colNum;
-	private double size;
-	
-	private double speed;	
-	private int currentStep;
+public class PageGameOfLife extends GamePage {
 	
 	private Text parameters;
 	private Button back;
@@ -39,34 +31,6 @@ public class PageGameOfLife extends Page {
 	
 	public Button getBack(){
 		return back;
-	}
-	
-	public int getRow(){
-		return rowNum - 2;
-	}
-	
-	public int getCol(){
-		return colNum - 2;
-	}
-	
-	public Cell getCell(int i, int j){
-		return cells[i+1][j+1];
-	}
-	
-	public void setRowNum(int rNum){
-		rowNum = rNum + 2;
-	}
-	
-	public void setColNum(int cNum){
-		colNum = cNum + 2;
-	}
-	
-	public void setSize(double s){
-		size = s;
-	}
-	
-	public void setSpeed(double s){
-		speed = s;
 	}
 
 	public PageGameOfLife(CellSociety cs) {
@@ -86,13 +50,19 @@ public class PageGameOfLife extends Page {
 			e.printStackTrace();
 		}
 		
-		currentStep = 0;
+		// assume now the initial pattern is hard-coded
+		setRowNum(32);
+		setColNum(32);
+		setSize(10);
+		setCells(getRow(), getCol());
+		setSpeed(1);
+		setCurrentStep(0);
 		
-		String text = "Number of rows: " + rowNum 
-				+ "\nNumber of columns: " + colNum 
-				+ "\nCell size: " + size
-				+ "\nStep speed: " + speed
-				+ "\nStep: " + currentStep;
+		String text = "Number of rows: " + getRow() 
+				+ "\nNumber of columns: " + getCol() 
+				+ "\nCell size: " + getSize()
+				+ "\nStep speed: " + getSpeed()
+				+ "\nStep: " + getCurrentStep();
 		parameters = new Text(text);
 		parameters.setLayoutX(0);
 		parameters.setLayoutY(20);
@@ -123,50 +93,37 @@ public class PageGameOfLife extends Page {
 		this.getRoot().getChildren().add(layoutChoice);
 		
 		this.getCellSociety().setIsStep(true);
-		this.getCellSociety().setDelay(speed);
+		this.getCellSociety().setDelay(getSpeed());
 		this.getCellSociety().setupGameLoop();
 	}
 
-	private void handleMouseReleaseBack(MouseEvent e) {
-		this.getCellSociety().stopGameLoop();
-		this.getCellSociety().loadPage("Welcome");
-	}
 
-	private void handleMouseReleasedStep(MouseEvent e) {
-		this.getCellSociety().setIsStep(true);
-	}
-
-	private void handleMouseReleasedStart(MouseEvent e) {
-		this.getCellSociety().setIsStep(false);
-	}
-
-	private void setoutLayout(String newValue) {
+	protected void setoutLayout(String newValue) {
 		// TODO assume now the grid of cells starting from (0, 300)
 		if (newValue.equals("default")){
-			int rowMid = (rowNum - 2) / 2;
-			int colMid = (colNum - 2) / 2;
- 			for (int i = 0; i < rowNum; i++){
-				for (int j = 0; j < colNum; j++){
-					double xPosition = 0 + i * size;
-					double yPosition = 300 + j * size;
+			int rowMid = (getRow() - 2) / 2;
+			int colMid = (getCol() - 2) / 2;
+ 			for (int i = 0; i < getRow(); i++){
+				for (int j = 0; j < getCol(); j++){
+					double xPosition = 0 + i * getSize();
+					double yPosition = 300 + j * getSize();
 					if (i == rowMid && j == colMid){
-						cells[i][j] = new Cell(xPosition, yPosition, size, 1); // 1 stands for alive
-						cells[i][j].getCell().setFill(Color.BLACK);
+						setCell(i,j, new Cell(xPosition, yPosition, getSize(), 1)); // 1 stands for alive
+						getCell(i, j).getCell().setFill(Color.BLACK);
 					}
 					else if (i == rowMid + 1 && j == colMid + 1){
-						cells[i][j] = new Cell(xPosition, yPosition, size, 1);
-						cells[i][j].getCell().setFill(Color.BLACK);
+						setCell(i, j, new Cell(xPosition, yPosition, getSize(), 1));
+						getCell(i,j).getCell().setFill(Color.BLACK);
 					}
 					else{
-						cells[i][j] = new Cell(xPosition, yPosition, size, -1); // -1 stands for dead
+						setCell(i, j, new Cell(xPosition, yPosition, getSize(), -1)); // -1 stands for dead
 					}
-					if (i != 0 && i != rowNum - 1 && j != 0 && j != colNum - 1)
-						this.getRoot().getChildren().add(cells[i][j].getCell());
+					if (i != 0 && i != getRow() - 1 && j != 0 && j != getCol() - 1)
+						this.getRoot().getChildren().add(getCell(i,j).getCell());
 				}
 			}
 		}
 		this.getCellSociety().beginGameLoop();
 	}
-
 
 }
