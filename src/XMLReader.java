@@ -1,7 +1,6 @@
 import java.io.File;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
@@ -25,8 +24,8 @@ public class XMLReader{
     }
 
 
-    public void chooseFile (Stage primaryStage) throws Exception {
-        File dataFile = myChooser.showOpenDialog(primaryStage);
+    public void chooseFile () {
+        File dataFile = myChooser.showOpenDialog(theCellSociety.getStage());
         if (dataFile != null) {
         	 theCellSociety.setFile(dataFile);
         }

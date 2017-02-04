@@ -1,13 +1,10 @@
-import java.io.File;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class XMLParser extends DefaultHandler{
+	
+	PageGameOfLife page;
 	
 	boolean bGameOfLife = false;
 	boolean bGrid = false;
@@ -15,6 +12,10 @@ public class XMLParser extends DefaultHandler{
 	boolean bNCol = false;
 	boolean bSize = false;
 	boolean bSpeed = false;
+	
+	public XMLParser(PageGameOfLife p){
+		page = p;
+	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -36,7 +37,7 @@ public class XMLParser extends DefaultHandler{
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-
+		
 	}
 
 	@Override
@@ -46,25 +47,14 @@ public class XMLParser extends DefaultHandler{
 		} else if (bGrid) {
 			
 		} else if (bNRow) {
-			
+			page.setRowNum(Integer.parseInt(new String(ch, start, length)));
 		} else if (bNCol) {
-			
+			page.setColNum(Integer.parseInt(new String(ch, start, length)));
 		} else if (bSize) {
-			
+			page.setSize(Integer.parseInt(new String(ch, start, length)));
 		} else if (bSpeed) {
-			
+			page.setSpeed(Integer.parseInt(new String(ch, start, length)));
 		}
 	}	
-	
-	public static void readFile (File inputFile){
-		try {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser saxParser = factory.newSAXParser();
-			XMLParser userhandler = new XMLParser();
-			saxParser.parse(inputFile, userhandler);     
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	} 
 
 }

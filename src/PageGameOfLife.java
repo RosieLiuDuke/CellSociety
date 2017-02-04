@@ -1,3 +1,6 @@
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -49,16 +52,40 @@ public class PageGameOfLife extends Page {
 	public Cell getCell(int i, int j){
 		return cells[i+1][j+1];
 	}
+	
+	public void setRowNum(int rNum){
+		rowNum = rNum + 2;
+	}
+	
+	public void setColNum(int cNum){
+		colNum = cNum + 2;
+	}
+	
+	public void setSize(double s){
+		size = s;
+	}
+	
+	public void setSpeed(double s){
+		speed = s;
+	}
 
 	public PageGameOfLife(CellSociety cs) {
 		super(cs);
 		// TODO without input from XML, hard-coded first
-		// assume now the initial pattern is hard-coded
-		rowNum = 32;
-		colNum = 32;
-		size = 10;
-		cells = new Cell[rowNum][colNum];
-		speed = 1;
+//		rowNum = 32;
+//		colNum = 32;
+//		size = 10;
+//		cells = new Cell[rowNum][colNum];
+//		speed = 1;
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
+			XMLParser userhandler = new XMLParser(this);
+			saxParser.parse(this.getCellSociety().getFile(), userhandler);     
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		currentStep = 0;
 		
 		String text = "Number of rows: " + rowNum 
