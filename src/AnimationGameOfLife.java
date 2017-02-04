@@ -2,47 +2,43 @@ import java.util.ArrayList;
 
 public class AnimationGameOfLife extends Animation {
 	
-	public AnimationGameOfLife(CellSociety c) {
-		super(c);
-	}
-
 	private static final int ONVALUE = 1;
 	private static final int OFFVALUE = 0;
 	
-	private int [][] squares;
 	
-	public void setUp () {
-		
+	public AnimationGameOfLife(CellSociety c) {
+		super(c);
 	}
 	
-	public void calculateMove(Cell [][] cellArray) {
+	public void calculateMove() {
 		boolean [][] shouldChange;
+		int [][] squares;
 		
-		
-		squares = convertArray(cellArray);
+		squares = getArray();
 		shouldChange = new boolean[squares.length][squares[0].length];
 		
-		checkSurrounding(shouldChange);
+		checkSurrounding(shouldChange, squares);
 		
-		changeSquares(shouldChange);
+		changeSquares(shouldChange, squares);
 		
-		setCells(cellArray);
+		setCells(squares);
 	}
 	
-	public int [][] convertArray(Cell [][] cellArray) {
+	public int [][] getArray() {
 		int i, j;
-		int [][] intArray = new int[cellArray.length][cellArray[0].length];
+		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game Of Life");
+		int [][] intArray = new int[ p.getRow()][p.getCol()];
 		
-		for (i = 0; i < cellArray.length; i++) {
-			for (j = 0; j < cellArray[0].length; j++) {
-				squares[i][j] = cellArray[i][j].getStatus();
+		for (i = 0; i < intArray.length; i++) {
+			for (j = 0; j < intArray[0].length; j++) {
+				intArray[i][j] = p.getCell(i, j).getStatus();
 			}
 		}
 		
 		return intArray;
 	}
 	
-	public void checkSurrounding(boolean [][] shouldChange) {
+	public void checkSurrounding(boolean [][] shouldChange, int [][] squares) {
 		int i, j, k, l, total = 0;
 		
 		int [][] surroundingArray = new int[squares.length +2][squares[0].length+2];
@@ -82,7 +78,7 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	public void changeSquares(boolean [][] shouldChange) {
+	public void changeSquares(boolean [][] shouldChange, int [][] squares) {
 		int i, j;
 		
 		for (i = 0; i < squares.length; i++) {
@@ -99,18 +95,13 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	public void setCells (Cell [][] cellArray) {
+	public void setCells (int [][] squares) {
 		int i, j;
-		for (i = 0; i < cellArray.length; i++) {
-			for (j = 0; j < cellArray[0].length; j++) {
-				cellArray[i][j].changeStatus(squares[i][j]);
+		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game Of Life");
+		for (i = 0; i < squares.length; i++) {
+			for (j = 0; j < squares[0].length; j++) {
+				p.getCell(i, j).changeStatus(squares[i][j]);
 			}
 		}
-	}
-
-	@Override
-	public void calculateMove() {
-		// TODO Auto-generated method stub
-		
 	}
 }
