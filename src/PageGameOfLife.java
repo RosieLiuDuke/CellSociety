@@ -1,7 +1,7 @@
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -30,15 +30,18 @@ public class PageGameOfLife extends GamePage {
 		setSpeed(1);
 		setCurrentStep(0);
 		
+		HBox parametersBox = new HBox();
+		
 		String text = "Number of rows: " + getRow() 
 				+ "\nNumber of columns: " + getCol() 
 				+ "\nCell size: " + getSize()
 				+ "\nStep speed: " + getSpeed()
 				+ "\nStep: " + getCurrentStep();
-		parameters = new Text(text);
-		parameters.setLayoutX(0);
-		parameters.setLayoutY(20);
-		this.getRoot().getChildren().add(parameters);
+		
+		parameters = new Text(text);	
+		parametersBox.getChildren().add(parameters);
+		
+		this.getRoot().getChildren().add(parametersBox);
 		
 		back = new Button("Back");
 		back.setLayoutX(0);

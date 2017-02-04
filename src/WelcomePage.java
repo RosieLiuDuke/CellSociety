@@ -34,7 +34,7 @@ public class WelcomePage extends Page {
 		TITLE.setId("title");
 		
 		Button UPLOAD = createButton("SELECT FILE", event -> handleTypeChoice("filler text"));
-		Button START = createButton("START", event -> handleTypeChoice("filler text"));
+		Button START = createButton("START", event -> new PageGameOfLife(cs));
 		
 		VBox buttonBox = new VBox(SPACING);
 		buttonBox.getChildren().addAll(TITLE, UPLOAD, START);
