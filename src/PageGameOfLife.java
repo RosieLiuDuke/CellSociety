@@ -1,3 +1,6 @@
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -18,10 +21,35 @@ public class PageGameOfLife extends GamePage {
 	private Button step;
 	private ChoiceBox<String> layoutChoice;
 	
+	public Button getStart(){
+		return start;
+	}
+	
+	public Button getStep(){
+		return step;
+	}
+	
+	public Button getBack(){
+		return back;
+	}
 
 	public PageGameOfLife(CellSociety cs) {
 		super(cs);
 		// TODO without input from XML, hard-coded first
+//		rowNum = 32;
+//		colNum = 32;
+//		size = 10;
+//		cells = new Cell[rowNum][colNum];
+//		speed = 1;
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
+			XMLParser userhandler = new XMLParser(this);
+			saxParser.parse(this.getCellSociety().getFile(), userhandler);     
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// assume now the initial pattern is hard-coded
 		setRowNum(32);
 		setColNum(32);
@@ -96,18 +124,6 @@ public class PageGameOfLife extends GamePage {
 			}
 		}
 		this.getCellSociety().beginGameLoop();
-	}
-	
-	public Button getStart(){
-		return start;
-	}
-	
-	public Button getStep(){
-		return step;
-	}
-	
-	public Button getBack(){
-		return back;
 	}
 
 }

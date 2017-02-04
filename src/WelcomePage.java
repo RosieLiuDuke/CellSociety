@@ -1,18 +1,12 @@
-import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 
@@ -40,8 +34,8 @@ public class WelcomePage extends Page {
 		title = new Text("Cell Society");
 		title.setId("title");
 		
-		Button UPLOAD = createButton("SELECT FILE", event -> handleTypeChoice("filler text"));
-		Button START = createButton("START", event -> handleTypeChoice("filler text"));
+		Button UPLOAD = createButton("SELECT FILE", event -> handleMouseReleasedUpload(event));
+		Button START = createButton("START", event -> handleMouseReleasedStart(event));
 		
 		VBox center = new VBox(SPACING);
 		center.getChildren().addAll(title, UPLOAD, START);
@@ -51,7 +45,12 @@ public class WelcomePage extends Page {
 		this.getRoot().setBackground(bg);
 		
 	}
-	private void handleTypeChoice(String nVal) {
-		this.getCellSociety().initializePage(nVal);
+	
+	private void handleMouseReleasedUpload(Event e){
+		this.getXMLReader().chooseFile();
+	}
+	
+	private void handleMouseReleasedStart(Event e) {
+		this.getCellSociety().initializePage("Game of Life");
 	}
 }
