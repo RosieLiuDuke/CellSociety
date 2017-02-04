@@ -28,13 +28,7 @@ public class PageGameOfLife extends GamePage {
 	public void setupComponents() {
 		HBox parametersBox = new HBox(15);
 		
-		String text = "Number of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "Step: " + getCurrentStep();
-		
-		parameters = new Text(text);	
+		parameters = new Text();
 		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("default", "3 in line"));
 		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
 		parametersBox.getChildren().addAll(parameters, layoutChoice);
@@ -43,6 +37,8 @@ public class PageGameOfLife extends GamePage {
 		HBox buttonBox = new HBox(5);
 		buttonBox.getChildren().addAll(this.getBack(), this.getStart(), this.getStop(), this.getStep());
 		buttonBox.setAlignment(Pos.CENTER);
+
+		updateTextInfo();
 		
 		this.getRoot().setBottom(buttonBox);
 		this.getRoot().setTop(parametersBox);
@@ -54,11 +50,23 @@ public class PageGameOfLife extends GamePage {
 		this.getCellSociety().setupGameLoop();
 	}
 
+	public void updateTextInfo() {
+		String text = "Number of rows: " + getRow() + " | " 
+				+ "Number of columns: " + getCol() + " | "  
+				+ "Cell size: " + getSize() + " | "
+				+ "Step speed: " + getSpeed() + " | " 
+				+ "Step: " + getCurrentStep();
+		parameters.setText(text);
+	}
 
 	protected void setupGrid(String newValue) {
 		// TODO how to deal with multiple layouts
+		this.getCellSociety().stopGameLoop();
 		this.setCells(this.getRow(), this.getCol());
 		this.getGrid().getChildren().clear();
+		this.setCurrentStep(0);
+		updateTextInfo();
+		
 		if (newValue.equals("default")){
 			int rowMid = getRow() / 2;
 			int colMid = getCol() / 2;
