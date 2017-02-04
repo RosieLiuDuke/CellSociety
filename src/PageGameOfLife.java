@@ -36,11 +36,6 @@ public class PageGameOfLife extends GamePage {
 	public PageGameOfLife(CellSociety cs) {
 		super(cs);
 		// TODO without input from XML, hard-coded first
-//		rowNum = 32;
-//		colNum = 32;
-//		size = 10;
-//		cells = new Cell[rowNum][colNum];
-//		speed = 1;
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
@@ -49,14 +44,6 @@ public class PageGameOfLife extends GamePage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		// assume now the initial pattern is hard-coded
-		setRowNum(32);
-		setColNum(32);
-		setSize(10);
-		setCells(getRow(), getCol());
-		setSpeed(1);
-		setCurrentStep(0);
 		
 		String text = "Number of rows: " + getRow() 
 				+ "\nNumber of columns: " + getCol() 
