@@ -1,3 +1,4 @@
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -33,8 +34,8 @@ public class WelcomePage extends Page {
 		TITLE = new Text("Cell Society");
 		TITLE.setId("title");
 		
-		Button UPLOAD = createButton("SELECT FILE", event -> handleTypeChoice("filler text"));
-		Button START = createButton("START", event -> new PageGameOfLife(cs));
+		Button UPLOAD = createButton("SELECT FILE", event -> handleMouseReleasedUpload(event));
+		Button START = createButton("START", event -> handleMouseReleasedStart(event));
 		
 		VBox buttonBox = new VBox(SPACING);
 		buttonBox.getChildren().addAll(TITLE, UPLOAD, START);
@@ -44,7 +45,11 @@ public class WelcomePage extends Page {
 		this.getRoot().setCenter(buttonBox);
 	}
 	
-	private void handleTypeChoice(String nVal) {
-		this.getCellSociety().initializePage(nVal);
+	private void handleMouseReleasedUpload(Event e){
+		this.getXMLReader().chooseFile();
+	}
+	
+	private void handleMouseReleasedStart(Event e) {
+		this.getCellSociety().initializePage("Game of Life");
 	}
 }

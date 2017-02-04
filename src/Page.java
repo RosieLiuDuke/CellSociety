@@ -18,6 +18,7 @@ public class Page {
 	private Stage stage;
 	private BorderPane root;
 	private Scene scene;
+	private XMLReader xmlReader;
 	
 	public Page (CellSociety cs){
 		theCellSociety = cs;
@@ -25,6 +26,7 @@ public class Page {
 		stage.setTitle(TITLE);
 		root = new BorderPane();
 		scene = new Scene(root, WIDTH, HEIGHT);
+		xmlReader = new XMLReader(theCellSociety);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -43,6 +45,10 @@ public class Page {
 	
 	public Scene getScene(){
 		return scene;
+	}
+	
+	public XMLReader getXMLReader(){
+		return xmlReader;
 	}
 	
 	protected void readXMLInput(String path){
