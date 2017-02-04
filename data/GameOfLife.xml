@@ -1,0 +1,8 @@
+<GameOfLife>
+	<grid>
+		<nRow>30</nRow>
+		<nCol>30</nCol>
+		<size>1</size>
+	</grid>
+	<speed>1</speed>
+</GameOfLife>

@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Hashtable;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -8,6 +9,7 @@ import javafx.util.Duration;
 
 public class CellSociety {
 	private Stage stage;
+	private File inputFile;
 	private Hashtable<String, Page> pages = new Hashtable<>();
 	private Hashtable<String, Animation> animations = new Hashtable<>();
 	private String currentType = "";
@@ -23,8 +25,16 @@ public class CellSociety {
 		return stage;
 	}
 	
+	public File getFile(){
+		return inputFile;
+	}
+	
 	public Page getPage(String type){
 		return pages.get(type);
+	}
+	
+	public void setFile(File file){
+		inputFile = file;
 	}
 	
 	public void setDelay(double step){
