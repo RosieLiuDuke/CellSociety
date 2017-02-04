@@ -1,6 +1,10 @@
+package util;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import page.GamePage;
+import page.WelcomePage;
 
 public class XMLParser extends DefaultHandler{
 	

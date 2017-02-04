@@ -1,11 +1,18 @@
+package cellSociety;
 import java.io.File;
 import java.util.Hashtable;
+
+import animation.Animation;
+import animation.AnimationGameOfLife;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import page.Page;
+import page.PageGameOfLife;
+import page.WelcomePage;
 
 public class CellSociety {
 	private Stage stage;
@@ -19,7 +26,7 @@ public class CellSociety {
 	private double millisecondDelay;
 	private double secondDelay;	
 	
-	// if the simulation is step by step or consecutive. Default is step by step.
+	// if the simulation is step by step or consecutive.
 	private Boolean isStep = false; 
 	private Boolean nextStep = false;
 		
@@ -35,6 +42,10 @@ public class CellSociety {
 		return pages.get(type);
 	}
 	
+	public Animation getAnimation(String type){
+		return animations.get(type);
+	}
+	
 	public String getCurrentType(){
 		return currentType;
 	}
@@ -45,6 +56,14 @@ public class CellSociety {
 	
 	public void setFile(File file){
 		inputFile = file;
+	}
+	
+	public void setCurrrentType(String s){
+		currentType = s;
+	}
+	
+	public void setNextType(String s){
+		nextType = s;
 	}
 	
 	public void setDelay(double step){
@@ -60,19 +79,12 @@ public class CellSociety {
 		nextStep = value;
 	}
 	
-	public void setCurrrentType(String s){
-		currentType = s;
-	}
-	
-	public void setNextType(String s){
-		nextType = s;
-	}
-	
 	public CellSociety(Stage theStage) {
 		stage = theStage;
 	}
 	
 	public void initializePage(String type){
+		currentType = type;
 		if (type.equals("Welcome")){
 			Page newWelcomePage = new WelcomePage(this);
 			pages.put(type, newWelcomePage);
@@ -89,7 +101,9 @@ public class CellSociety {
 	public void loadPage(String type){
 		pages.clear();
 		animations.clear();
-		initializePage("Welcome");
+		inputFile = null;
+		nextType = "";
+		initializePage(type);
 	}
 	
 	public void setupGameLoop(){
@@ -116,12 +130,12 @@ public class CellSociety {
 	}
 
 	private void actionsPerFrame(double elapsedTime) {
-		// TODO Auto-generated method stub
 		// if the current mode is consecutive simulation
 		if (!isStep){
 			animations.get(currentType).calculateMove();
 			((PageGameOfLife) pages.get(currentType)).updateColor();
 		}
+		// if the current mode is simulation step by step
 		else {
 			if (nextStep){
 				animations.get(currentType).calculateMove();

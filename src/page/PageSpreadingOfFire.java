@@ -1,3 +1,5 @@
+package page;
+import cellSociety.CellSociety;
 
 public class PageSpreadingOfFire extends GamePage {
 
@@ -5,12 +7,12 @@ public class PageSpreadingOfFire extends GamePage {
 		super(cs);
 	}
 	
-	protected void setoutGrid(String newValue) {
+	protected void setupGrid(String newValue) {
 		
 	}
 
 	@Override
-	protected void setoutComponents() {
+	protected void setupComponents() {
 		// TODO Auto-generated method stub
 		
 	}

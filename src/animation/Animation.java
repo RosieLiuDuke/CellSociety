@@ -1,4 +1,5 @@
-
+package animation;
+import cellSociety.CellSociety;
 
 public abstract class Animation {
 	
