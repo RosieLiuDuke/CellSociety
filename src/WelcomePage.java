@@ -4,13 +4,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.*;
 
-public class WelcomePage extends Page {
-	
-	/**
-	 * The WelcomePage that contains the menu for selecting simulation
-	 * @author Yilin Gao, Harry Liu
-	 *
-	 */
+/**
+ * The WelcomePage that contains the menu for selecting simulation
+ * @author Yilin Gao, Harry Liu
+ *
+ */
+public class WelcomePage extends Page {	
 	
 	private Text title;
 	private ChoiceBox<String> typeOfCellSociety;
@@ -34,9 +33,7 @@ public class WelcomePage extends Page {
 		this.getRoot().getChildren().add(title);
 		
 		typeOfCellSociety = new ChoiceBox<String>(FXCollections.observableArrayList("Game of Life"));
-		typeOfCellSociety.setLayoutX(WIDTH / 2 - typeOfCellSociety.getBoundsInParent().getWidth() / 2);
 		typeOfCellSociety.setLayoutY(HEIGHT/2);
-		typeOfCellSociety.getSelectionModel().selectFirst();
 		typeOfCellSociety.valueProperty().addListener((obs, oVal, nVal) -> handleTypeChoice(nVal));
 		this.getRoot().getChildren().add(typeOfCellSociety);
 		
