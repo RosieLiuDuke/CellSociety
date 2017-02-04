@@ -27,6 +27,10 @@ public abstract class GamePage extends Page {
 		return rowNum;
 	}
 	
+	public String getFakeString() {
+		return "This works";
+	}
+	
 	public int getCol(){
 		return colNum;
 	}
@@ -54,6 +58,7 @@ public abstract class GamePage extends Page {
 
 	protected void handleMouseReleasedStep(ActionEvent event) {
 		this.getCellSociety().setIsStep(true);
+		this.getCellSociety().setNextStep(true);
 	}
 
 	protected void handleMouseReleasedStart(ActionEvent event) {
