@@ -26,8 +26,8 @@ public class AnimationGameOfLife extends Animation {
 	
 	public int [][] getArray() {
 		int i, j;
-		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game Of Life");
-		int [][] intArray = new int[ p.getRow()][p.getCol()];
+		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game of Life");
+		int [][] intArray = new int[p.getRow()][p.getCol()];
 		
 		for (i = 0; i < intArray.length; i++) {
 			for (j = 0; j < intArray[0].length; j++) {
@@ -45,7 +45,7 @@ public class AnimationGameOfLife extends Animation {
 		
 		for (i = 1; i < grid.length+1; i++) {
 			for (j = 1; j < grid[0].length+1; j++) {
-				borderArray[i][j] = grid[i][j];
+				borderArray[i][j] = grid[i-1][j-1];
 			}
 		}
 		for (i = 0; i < borderArray.length; i++) {
@@ -69,8 +69,8 @@ public class AnimationGameOfLife extends Animation {
 				total -= borderArray[i][j];
 				
 				
-				shouldChange[i-1][j-1] = (((grid[i][j] == ONVALUE) && ((total <2) || (total > 3))) ||
-							((grid[i][j] == OFFVALUE) && ((total == 2) || (total == 3))));
+				shouldChange[i-1][j-1] = (((grid[i-1][j-1] == ONVALUE) && ((total <2) || (total > 3))) ||
+							((grid[i-1][j-1] == OFFVALUE) && (total == 3)));
 				
 				
 				total = 0;
@@ -97,7 +97,7 @@ public class AnimationGameOfLife extends Animation {
 	
 	public void setCells (int [][] grid) {
 		int i, j;
-		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game Of Life");
+		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game of Life");
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				p.getCell(i, j).changeStatus(grid[i][j]);
