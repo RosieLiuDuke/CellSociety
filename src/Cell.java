@@ -53,4 +53,8 @@ public class Cell {
 	public void changeStatus(int newStatus) {
 		this.status = newStatus;
 	}
+	
+	public void changeColor(Color c) {
+		rectangle.setFill(c);
+	}
 }
