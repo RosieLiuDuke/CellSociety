@@ -9,4 +9,8 @@ public abstract class Animation {
 	}
 	
 	public abstract void calculateMove();
+	
+	public CellSociety getCellSociety() {
+		return cellSociety;
+	}
 }
