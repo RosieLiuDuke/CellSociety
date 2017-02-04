@@ -12,12 +12,12 @@ import javafx.scene.text.*;
 
 /**
  * The WelcomePage that contains the menu for selecting simulation
- * @author Yilin Gao, Harry Liu
+ * @author Harry Liu, Yilin Gao
  *
  */
 public class WelcomePage extends Page {	
 	
-	private Text title;
+	private Text TITLE;
 	private String BACKGROUND = "splash_bg.jpg";
 	private int SPACING = 10;
 	
@@ -28,22 +28,21 @@ public class WelcomePage extends Page {
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(BACKGROUND));	
-		BackgroundImage bgimg = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+		BackgroundImage bgimg = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 		Background bg = new Background (bgimg);
 		
-		title = new Text("Cell Society");
-		title.setId("title");
+		TITLE = new Text("Cell Society");
+		TITLE.setId("title");
 		
 		Button UPLOAD = createButton("SELECT FILE", event -> handleMouseReleasedUpload(event));
 		Button START = createButton("START", event -> handleMouseReleasedStart(event));
 		
-		VBox center = new VBox(SPACING);
-		center.getChildren().addAll(title, UPLOAD, START);
-		center.setAlignment(Pos.CENTER);
+		VBox buttonBox = new VBox(SPACING);
+		buttonBox.getChildren().addAll(TITLE, UPLOAD, START);
+		buttonBox.setAlignment(Pos.CENTER);
 		
-		this.getRoot().setCenter(center);
 		this.getRoot().setBackground(bg);
-		
+		this.getRoot().setCenter(buttonBox);
 	}
 	
 	private void handleMouseReleasedUpload(Event e){

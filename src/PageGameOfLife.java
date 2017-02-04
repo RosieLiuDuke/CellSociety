@@ -1,18 +1,19 @@
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import javafx.collections.FXCollections;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
  * The subclass Page to hold the Scene for the Game of Life simulation.
- * @author Yilin Gao
+ * @author Yilin Gao, Harry Liu
  *
  */
+
 public class PageGameOfLife extends GamePage {
 	
 	private Text parameters;
@@ -35,7 +36,6 @@ public class PageGameOfLife extends GamePage {
 
 	public PageGameOfLife(CellSociety cs) {
 		super(cs);
-		// TODO without input from XML, hard-coded first
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
@@ -44,40 +44,33 @@ public class PageGameOfLife extends GamePage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		HBox parametersBox = new HBox(15);
 		
-		String text = "Number of rows: " + getRow() 
-				+ "\nNumber of columns: " + getCol() 
-				+ "\nCell size: " + getSize()
-				+ "\nStep speed: " + getSpeed()
-				+ "\nStep: " + getCurrentStep();
-		parameters = new Text(text);
-		parameters.setLayoutX(0);
-		parameters.setLayoutY(20);
-		this.getRoot().getChildren().add(parameters);
+		String text = "Number of rows: " + getRow() + " | " 
+				+ "Number of columns: " + getCol() + " | "  
+				+ "Cell size: " + getSize() + " | "
+				+ "Step speed: " + getSpeed() + " | " 
+				+ "Step: " + getCurrentStep();
 		
-		back = new Button("Back");
-		back.setLayoutX(0);
-		back.setLayoutY(100);
-		back.setOnMouseReleased(e -> handleMouseReleaseBack(e));
-		this.getRoot().getChildren().add(back);
-		
-		start = new Button("Start");
-		start.setLayoutX(0);
-		start.setLayoutY(250);
-		start.setOnMouseReleased(e -> handleMouseReleasedStart(e));
-		this.getRoot().getChildren().add(start);
-		
-		step = new Button("Step");
-		step.setLayoutX(200);
-		step.setLayoutY(250);
-		step.setOnMouseReleased(e -> handleMouseReleasedStep(e));
-		this.getRoot().getChildren().add(step);
-		
+		parameters = new Text(text);	
 		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("default"));
-		layoutChoice.setLayoutX(0);
-		layoutChoice.setLayoutY(200);
-		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setoutLayout(nVal));
-		this.getRoot().getChildren().add(layoutChoice);
+		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setoutLayout(nVal));	
+		parametersBox.getChildren().addAll(parameters, layoutChoice);
+		parametersBox.setAlignment(Pos.CENTER);
+
+		back = createButton("BACK", event-> handleMouseReleasedBack(event));
+		start = createButton("START", event-> handleMouseReleasedStart(event));
+		step = createButton("STEP", event-> handleMouseReleasedStep(event));
+
+		HBox buttonBox = new HBox(5);
+		buttonBox.getChildren().addAll(back, start, step);
+		buttonBox.setAlignment(Pos.CENTER);
+		
+		this.getRoot().setBottom(buttonBox);
+		this.getRoot().setTop(parametersBox);
+		
+		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
 		this.getCellSociety().setIsStep(true);
 		this.getCellSociety().setDelay(getSpeed());
@@ -88,6 +81,7 @@ public class PageGameOfLife extends GamePage {
 	protected void setoutLayout(String newValue) {
 		// TODO assume now the grid of cells starting from (0, 300)
 		if (newValue.equals("default")){
+			this.initializeCells();
 			int rowMid = (getRow() - 2) / 2;
 			int colMid = (getCol() - 2) / 2;
  			for (int i = 0; i < getRow(); i++){
@@ -106,7 +100,7 @@ public class PageGameOfLife extends GamePage {
 						setCell(i, j, new Cell(xPosition, yPosition, getSize(), -1)); // -1 stands for dead
 					}
 					if (i != 0 && i != getRow() - 1 && j != 0 && j != getCol() - 1)
-						this.getRoot().getChildren().add(getCell(i,j).getCell());
+						this.getRoot().setCenter(getCell(i,j).getCell());
 				}
 			}
 		}

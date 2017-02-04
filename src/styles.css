@@ -21,6 +21,14 @@
     -fx-pref-width: 200;
 }
 
+.choice-box {
+	-fx-font-size:20px;
+    -fx-text-fill:black;
+    -fx-font-family:"Arial";
+    -fx-background-color: #FFD700;
+    -fx-pref-width: 200;
+}
+
 .button:hover{
     -fx-background-color: white;
 }

@@ -13,7 +13,6 @@ public class Page {
 	
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
-	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	public static final String TITLE = "CellSociety";
 	private CellSociety theCellSociety;
 	private Stage stage;
