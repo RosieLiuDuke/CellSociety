@@ -1,4 +1,6 @@
 package page;
+import java.util.ResourceBundle;
+
 import cellSociety.CellSociety;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,14 +16,17 @@ import util.XMLReader;
  */
 public class Page {
 	
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
-	public static final String TITLE = "CellSociety";
+	private static final int WIDTH = 800;
+	private static final int HEIGHT = 600;
+	private static final String TITLE = "CellSociety";
 	private CellSociety theCellSociety;
 	private Stage stage;
 	private BorderPane root;
 	private Scene scene;
 	private XMLReader xmlReader;
+	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	private ResourceBundle myResources;
+	private String language = "Spanish";
 	
 	/**
 	 * The constructor of the Page class. 
@@ -34,6 +39,7 @@ public class Page {
 		root = new BorderPane();
 		scene = new Scene(root, WIDTH, HEIGHT);
 		xmlReader = new XMLReader(theCellSociety);
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
 	}
 	
 	/**
@@ -64,6 +70,10 @@ public class Page {
 		return xmlReader;
 	}
 	
+	public ResourceBundle getResourceBundle(){
+		return getMyResources();
+	}
+	
 	/**
 	 * A general method to create any buttons.
 	 * @param name: button name
@@ -74,5 +84,13 @@ public class Page {
 		Button newButton = new Button(name);
 		newButton.setOnAction(handler);
 		return newButton;
+	}
+
+	public ResourceBundle getMyResources() {
+		return myResources;
+	}
+
+	public void setMyResources(ResourceBundle myResources) {
+		this.myResources = myResources;
 	}
 }

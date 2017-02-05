@@ -1,22 +1,12 @@
 package page;
-import javafx.collections.FXCollections;
-import javafx.geometry.Pos;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import java.util.ArrayList;
+import java.util.List;
+
 import cell.Cell;
 import cellSociety.CellSociety;
-
-/**
- * The subclass Page to hold the Scene for the spreading of fire simulation.
- * @author Yilin Gao
- *
- */
-public class PageSpreadingOfFire extends GamePage {
-
-	private Text parameters;
-	private ChoiceBox<String> layoutChoice;
+public class PageSpreadingOfFire extends UIsetup {
+	private List<String> myOptions;
 	
 	public PageSpreadingOfFire(CellSociety cs) {
 		super(cs);
@@ -25,41 +15,12 @@ public class PageSpreadingOfFire extends GamePage {
 		getColorMap().put(2, Color.RED);
 	}
 	
-	public void setupComponents() {		
-		HBox parametersBox = new HBox(15);
-		parameters = new Text();
-		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("input"));
-		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
-		parametersBox.getChildren().addAll(parameters, layoutChoice);
-		parametersBox.setAlignment(Pos.CENTER);
-
-		HBox buttonBox = new HBox(5);
-		buttonBox.getChildren().addAll(this.getBack(), this.getStart(), this.getStop(), this.getStep());
-		buttonBox.setAlignment(Pos.CENTER);
-
-		updateTextInfo();
-		
-		this.getRoot().setBottom(buttonBox);
-		this.getRoot().setTop(parametersBox);
-		this.getRoot().setCenter(this.getGrid());
-		
-		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
-		
-		this.getCellSociety().setDelay(getSpeed());
-		this.getCellSociety().setupGameLoop();
+	@Override
+	protected void setupComponents() {
+		myOptions = new ArrayList<String>();
+		myOptions.add("FillerText");
+		setupComponents(myOptions, this);
 	}
-
-	public void updateTextInfo() {
-		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "Probability of Catching: " + getProb() + " | " 
-				+ "\nStep: " + getCurrentStep();
-		parameters.setText(text);
-	}
-
 	/**
 	 * The method to set up initial states of all cells.
 	 * 2 kinds of choices: from input file or from hard-coded rules.
@@ -83,5 +44,4 @@ public class PageSpreadingOfFire extends GamePage {
 			}
 		}
 	}
-
 }
