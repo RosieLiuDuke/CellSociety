@@ -126,7 +126,6 @@ public class XMLParser extends DefaultHandler{
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
 		GamePage thePage = (GamePage) page.getCellSociety().getPage(type); 
-		System.out.println(thePage);
 		if (bNCol) {
 			thePage.setColNum(Integer.parseInt(new String(ch, start, length)));
 		} 
