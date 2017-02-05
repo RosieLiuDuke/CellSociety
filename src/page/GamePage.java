@@ -1,6 +1,7 @@
 package page;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import cell.Cell;
 import cellSociety.CellSociety;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
 
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
- * @author Joshua Kopen, Yilin Gao
+ * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
 public abstract class GamePage extends Page {
@@ -32,16 +33,18 @@ public abstract class GamePage extends Page {
 	private int defaultStatus;
 	private double prob; // TODO may be different in different simulations
 	
+	
 	public GamePage (CellSociety cs) {
 		super(cs);
 		grid = new Group();
 		cells = new HashMap<Indices, Cell>();
 		cellsStatus = new HashMap<Indices, Integer>();
-		back = createButton("BACK", event-> handleMouseReleasedBack(event));
-		start = createButton("START", event-> handleMouseReleasedStart(event));
-		stop = createButton("STOP", event-> handleMouseReleasedStop(event));
-		step = createButton("STEP", event-> handleMouseReleasedStep(event));
+		back = createButton(getMyResources().getString("BackCommand"), event-> backButton(event));
+		start = createButton(getMyResources().getString("StartCommand"), event-> startButton(event));
+		stop = createButton(getMyResources().getString("StopCommand"), event-> stopButton(event));
+		step = createButton(getMyResources().getString("StepCommand"), event-> stepButton(event));
 		colorMap = new HashMap<Integer, Color>();
+		
 	}
 
 	public Group getGrid(){
@@ -178,7 +181,7 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the game will return to the splash screen.
 	 * @param event
 	 */
-	protected void handleMouseReleasedBack(ActionEvent event) {
+	protected void backButton(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().loadPage("Welcome");
 	}
@@ -188,7 +191,7 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the simulation will run consecutively.
 	 * @param event
 	 */
-	protected void handleMouseReleasedStart(ActionEvent event) {
+	protected void startButton(ActionEvent event) {
 		this.getCellSociety().setIsStep(false);
 		this.getCellSociety().beginGameLoop();
 	}
@@ -199,7 +202,7 @@ public abstract class GamePage extends Page {
 	 * Only if the "START" or the "STEP" button is pressed, the simulation will resume.
 	 * @param event
 	 */
-	private void handleMouseReleasedStop(ActionEvent event) {
+	private void stopButton(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();
 	}
 	
@@ -208,7 +211,7 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the simulation will perform the next step.
 	 * @param event
 	 */
-	protected void handleMouseReleasedStep(ActionEvent event) {
+	protected void stepButton(ActionEvent event) {
 		this.getCellSociety().setIsStep(true);
 		this.getCellSociety().setNextStep(true);
 		this.getCellSociety().beginGameLoop();

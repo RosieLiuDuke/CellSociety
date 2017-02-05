@@ -4,19 +4,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import cell.Cell;
+
+import java.util.ArrayList;
+import java.util.List;
 import cellSociety.CellSociety;
 
-/**
- * The subclass Page to hold the Scene for the spreading of fire simulation.
- * @author Yilin Gao
- *
- */
-public class PageSpreadingOfFire extends GamePage {
+public class PageSpreadingOfFire extends UIsetup {
 
-	private Text parameters;
-	private ChoiceBox<String> layoutChoice;
+	private List<String> myOptions;
 	
 	public PageSpreadingOfFire(CellSociety cs) {
 		super(cs);
@@ -49,15 +44,11 @@ public class PageSpreadingOfFire extends GamePage {
 		this.getCellSociety().setupGameLoop();
 	}
 
-	public void updateTextInfo() {
-		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "Probability of Catching: " + getProb() + " | " 
-				+ "\nStep: " + getCurrentStep();
-		parameters.setText(text);
+	@Override
+	protected void setupComponents() {
+		myOptions = new ArrayList<String>();
+		myOptions.add("FillerText");
+		setupComponents(myOptions, this);
 	}
 
 	/**
