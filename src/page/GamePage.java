@@ -1,7 +1,5 @@
 package page;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cell.Cell;
@@ -20,7 +18,7 @@ public abstract class GamePage extends Page {
 
 	private Group grid;
 	private Map<Indices, Cell> cells;
-	private List<Indices> aliveCells;
+	private Map<Indices, Integer> cellsStatus;
 	private int colNum;
 	private int rowNum;
 	private double size;
@@ -31,12 +29,14 @@ public abstract class GamePage extends Page {
 	private Button stop;
 	private Button step;
 	private Map <Integer, Color> colorMap;	
+	private int defaultStatus;
+	private double prob; // TODO may be different in different simulations
 	
 	public GamePage (CellSociety cs) {
 		super(cs);
 		grid = new Group();
 		cells = new HashMap<Indices, Cell>();
-		aliveCells = new ArrayList<Indices>();
+		cellsStatus = new HashMap<Indices, Integer>();
 		back = createButton("BACK", event-> handleMouseReleasedBack(event));
 		start = createButton("START", event-> handleMouseReleasedStart(event));
 		stop = createButton("STOP", event-> handleMouseReleasedStop(event));
@@ -60,8 +60,17 @@ public abstract class GamePage extends Page {
 		return cells.get(new Indices(col, row));
 	}
 	
-	protected boolean isAliveCell(int col, int row){
-		return (aliveCells.contains(new Indices(col, row)));
+	protected int getCellStatus(int col, int row){
+		if (cellsStatus.containsKey(new Indices(col, row))){
+			return cellsStatus.get(new Indices(col, row));
+		}
+		else{
+			return defaultStatus;
+		}
+	}
+	
+	protected int getDefaultStatus(){
+		return defaultStatus;
 	}
 	
 	protected double getSize () {
@@ -74,6 +83,10 @@ public abstract class GamePage extends Page {
 	
 	public int getCurrentStep () {
 		return currentStep;
+	}
+	
+	public double getProb(){
+		return prob;
 	}
 	
 	public Button getStart(){
@@ -104,6 +117,10 @@ public abstract class GamePage extends Page {
 		rowNum = r;
 	}
 	
+	public void setDefaultStatus(int s){
+		defaultStatus = s;
+	}
+	
 	public void setSize (double s) {
 		size = s;
 	}
@@ -117,13 +134,17 @@ public abstract class GamePage extends Page {
 		cells.put(newKey, c);
 	}
 	
-	public void setAliveCell(int col, int row){
+	public void setCellStatus(int col, int row, int state){
 		Indices newKey = new Indices(col, row);
-		aliveCells.add(newKey);
+		cellsStatus.put(newKey, state);
 	}
 	
 	public void setCurrentStep(int cs) {
 		currentStep = cs;
+	}
+	
+	public void setProb(double p){
+		prob = p;
 	}
 	
 	/**
