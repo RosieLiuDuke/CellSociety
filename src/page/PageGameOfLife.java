@@ -75,12 +75,7 @@ public class PageGameOfLife extends GamePage {
 				for (int row = 0; row < getRow(); row++){  // y position - row
 					double xPosition = 0 + col * getSize();
 					double yPosition = 300 + row * getSize();
-					if (isAliveCell(col, row)){
-						setCell(col,row, new Cell(xPosition, yPosition, getSize(), 1));
-					}
-					else{
-						setCell(col,row, new Cell(xPosition, yPosition, getSize(), 0));
-					}
+					setCell(col,row, new Cell(xPosition, yPosition, getSize(), getCellStatus(col, row)));
 					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
 					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
 				}

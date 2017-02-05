@@ -16,11 +16,14 @@ public class XMLParser extends DefaultHandler{
 	boolean bNCol = false;
 	boolean bNRow = false;
 	boolean bSize = false;
-	boolean bAlive = false;
+	boolean bDefault = false;
+	boolean bState = false;
 	boolean bCol = false;
 	boolean bRow = false;
 	boolean bSpeed = false;
+	boolean bProb = false;
 	String type = "";
+	int state = 0;
 	int row = 0;
 	int col = 0;
 	
@@ -48,8 +51,12 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("size")) {
 			bSize = true;
 		} 
-		else if (qName.equals("alive")){
-			bAlive = true;
+		else if (qName.equals("default")){
+			bDefault = true;
+		}
+		else if (qName.equals("state")){
+			bState = true;
+			state = Integer.parseInt(attributes.getValue("value"));
 		}
 		else if (qName.equals("column")){
 			bCol = true;
@@ -59,6 +66,9 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (qName.equals("speed")){
 			bSpeed = true;
+		}
+		else if (qName.equals("prob")){
+			bProb = true;
 		}
 	}
 
@@ -79,11 +89,15 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("size")) {
 			bSize = false;
 		} 
-		else if (qName.equals("alive")){
+		else if (qName.equals("default")){
+			bDefault = false;
+		}
+		else if (qName.equals("state")){
 			GamePage thePage = (GamePage) page.getCellSociety().getPage(type);
-			thePage.setAliveCell(col, row);
+			thePage.setCellStatus(col, row, state);
 			row = col = 0;
-			bAlive = false;
+			state = 0;
+			bState = false;
 		}
 		else if (qName.equals("column")){
 			bCol = false;
@@ -93,6 +107,9 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (qName.equals("speed")){
 			bSpeed = false;
+		}
+		else if (qName.equals("prob")){
+			bProb = false;
 		}
 	}
 
@@ -107,15 +124,21 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (bSize) {
 			thePage.setSize(Integer.parseInt(new String(ch, start, length)));
-		} 
-		else if (bSpeed) {
-			thePage.setSpeed(Integer.parseInt(new String(ch, start, length)));
+		}
+		else if (bDefault){
+			thePage.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));
 		}
 		else if (bCol){
 			col = Integer.parseInt(new String(ch, start, length));
 		}
 		else if (bRow){
 			row = Integer.parseInt(new String(ch, start, length));
+		} 
+		else if (bSpeed) {
+			thePage.setSpeed(Integer.parseInt(new String(ch, start, length)));
+		}
+		else if (bProb){
+			thePage.setProb(Integer.parseInt(new String(ch, start, length)));
 		}
 	}	
 

@@ -1,17 +1,18 @@
-<Simulation name="Game of Life">
+<Simulation name="Fire">
 	<grid>
 		<nCol>30</nCol>
 		<nRow>30</nRow>
 		<size>10</size>
-		<default>0</default>
-		<state value = "1">
+		<default>1</default>
+		<state value = "0">
 			<column>15</column>
 			<row>15</row>
 		</state>
-		<state value = "1">
+		<state value = "2">
 			<column>16</column>
 			<row>16</row>
 		</state>
 	</grid>
+	<prob>0.5</prob>
 	<speed>1</speed>
 </Simulation>
