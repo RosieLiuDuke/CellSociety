@@ -81,7 +81,7 @@ public class WelcomePage extends Page {
 	 * @param event
 	 */
 	private void handleMouseReleasedStart(Event event) {
-		String type = this.getCellSociety().getNextType();
+		String type = this.getCellSociety().getCurrentType();
 		GamePage thePage = (GamePage) this.getCellSociety().getPage(type);
 		if (thePage != null){
 			thePage.setupComponents();

@@ -106,6 +106,4 @@ public class PageGameOfLife extends GamePage {
 			}
 		}
 	}
-	
-
 }

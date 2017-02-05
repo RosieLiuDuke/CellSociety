@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 import animation.Animation;
 import animation.AnimationGameOfLife;
+import animation.AnimationSpreadingOfFire;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -12,8 +13,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import page.Page;
 import page.PageGameOfLife;
+import page.PageSpreadingOfFire;
 import page.WelcomePage;
 
+/**
+ * The class to maintain pages, animations and the game loop.
+ * @author Yilin Gao
+ *
+ */
 public class CellSociety {
 	private Stage stage;
 	private File inputFile;
@@ -79,6 +86,10 @@ public class CellSociety {
 		nextStep = value;
 	}
 	
+	/**
+	 * The constructor of the CellSociety class.
+	 * @param theStage
+	 */
 	public CellSociety(Stage theStage) {
 		stage = theStage;
 	}
@@ -95,6 +106,12 @@ public class CellSociety {
 			pages.put(type, newGameOfLifePage);
 			Animation newGameOfLifeAnimation = new AnimationGameOfLife(this);
 			animations.put(type, newGameOfLifeAnimation);
+		}
+		else if (type.equals("Fire")){
+			Page newFirePage = new PageSpreadingOfFire(this);
+			pages.put(type, newFirePage);
+			Animation newFireAnimation = new AnimationSpreadingOfFire(this,1); // TODO fix probcatch
+			animations.put(type, newFireAnimation);
 		}
 	}
 	
