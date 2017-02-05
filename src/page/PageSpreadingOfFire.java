@@ -23,9 +23,8 @@ public class PageSpreadingOfFire extends UIsetup {
 	@Override
 	protected void setupComponents() {
 		myOptions = new ArrayList<String>();
-		myOptions.add("Harry");
+		myOptions.add("FillerText");
 		setupComponents(myOptions, this);
-		
 	}
 
 

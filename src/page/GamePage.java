@@ -1,6 +1,7 @@
 package page;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import cell.Cell;
 import cellSociety.CellSociety;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
 
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
- * @author Joshua Kopen, Yilin Gao
+ * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
 public abstract class GamePage extends Page {
@@ -32,16 +33,18 @@ public abstract class GamePage extends Page {
 	private int defaultStatus;
 	private double prob; // TODO may be different in different simulations
 	
+	
 	public GamePage (CellSociety cs) {
 		super(cs);
 		grid = new Group();
 		cells = new HashMap<Indices, Cell>();
 		cellsStatus = new HashMap<Indices, Integer>();
-		back = createButton("BACK", event-> backButton(event));
-		start = createButton("START", event-> startButton(event));
-		stop = createButton("STOP", event-> stopButton(event));
-		step = createButton("STEP", event-> stepButton(event));
+		back = createButton(getMyResources().getString("BackCommand"), event-> backButton(event));
+		start = createButton(getMyResources().getString("StartCommand"), event-> startButton(event));
+		stop = createButton(getMyResources().getString("StopCommand"), event-> stopButton(event));
+		step = createButton(getMyResources().getString("StepCommand"), event-> stepButton(event));
 		colorMap = new HashMap<Integer, Color>();
+		
 	}
 
 	public Group getGrid(){

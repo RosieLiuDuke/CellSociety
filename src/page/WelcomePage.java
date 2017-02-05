@@ -42,8 +42,8 @@ public class WelcomePage extends Page {
 		TITLE = new Text("Cell Society");
 		TITLE.setId("title");
 		
-		Button UPLOAD = createButton("SELECT FILE", event -> handleMouseReleasedUpload(event));
-		Button START = createButton("START", event -> handleMouseReleasedStart(event));
+		Button UPLOAD = createButton(getMyResources().getString("FileSelectCommand"), event -> handleMouseReleasedUpload(event));
+		Button START = createButton(getMyResources().getString("StartCommand"), event -> handleMouseReleasedStart(event));
 		
 		VBox buttonBox = new VBox(SPACING);
 		buttonBox.getChildren().addAll(TITLE, UPLOAD, START);
