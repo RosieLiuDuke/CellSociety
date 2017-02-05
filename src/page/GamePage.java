@@ -37,10 +37,10 @@ public abstract class GamePage extends Page {
 		grid = new Group();
 		cells = new HashMap<Indices, Cell>();
 		cellsStatus = new HashMap<Indices, Integer>();
-		back = createButton("BACK", event-> handleMouseReleasedBack(event));
-		start = createButton("START", event-> handleMouseReleasedStart(event));
-		stop = createButton("STOP", event-> handleMouseReleasedStop(event));
-		step = createButton("STEP", event-> handleMouseReleasedStep(event));
+		back = createButton("BACK", event-> backButton(event));
+		start = createButton("START", event-> startButton(event));
+		stop = createButton("STOP", event-> stopButton(event));
+		step = createButton("STEP", event-> stepButton(event));
 		colorMap = new HashMap<Integer, Color>();
 	}
 
@@ -178,7 +178,7 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the game will return to the splash screen.
 	 * @param event
 	 */
-	protected void handleMouseReleasedBack(ActionEvent event) {
+	protected void backButton(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().loadPage("Welcome");
 	}
@@ -188,7 +188,7 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the simulation will run consecutively.
 	 * @param event
 	 */
-	protected void handleMouseReleasedStart(ActionEvent event) {
+	protected void startButton(ActionEvent event) {
 		this.getCellSociety().setIsStep(false);
 		this.getCellSociety().beginGameLoop();
 	}
@@ -199,7 +199,7 @@ public abstract class GamePage extends Page {
 	 * Only if the "START" or the "STEP" button is pressed, the simulation will resume.
 	 * @param event
 	 */
-	private void handleMouseReleasedStop(ActionEvent event) {
+	private void stopButton(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();
 	}
 	
@@ -208,7 +208,7 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the simulation will perform the next step.
 	 * @param event
 	 */
-	protected void handleMouseReleasedStep(ActionEvent event) {
+	protected void stepButton(ActionEvent event) {
 		this.getCellSociety().setIsStep(true);
 		this.getCellSociety().setNextStep(true);
 		this.getCellSociety().beginGameLoop();
