@@ -1,38 +1,43 @@
 package page;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
-
 import cell.Cell;
 import cellSociety.CellSociety;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-
+import javafx.scene.text.Text;
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
  * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
-public abstract class GamePage extends Page {
-
+public class GamePage extends Page {
 	private Group grid;
 	private Map<Indices, Cell> cells;
-	private Map<Indices, Integer> cellsStatus;  // map of cell indices and non-default status
+	private Map<Indices, Integer> cellsStatus;
 	private int colNum;
 	private int rowNum;
 	private double size;
 	private double speed;	
 	private int currentStep;
+	private int defaultStatus;
+	private double prob; 
 	private Button back;
 	private Button start;
 	private Button stop;
 	private Button step;
+	private Text parameters;
+	private List<String> myOptions;
+	private ChoiceBox<String> layoutChoice;
 	private Map <Integer, Color> colorMap;	
-	private int defaultStatus;
-	private double prob; // TODO may be different in different simulations
-	
 	
 	public GamePage (CellSociety cs) {
 		super(cs);
@@ -44,13 +49,14 @@ public abstract class GamePage extends Page {
 		stop = createButton(getMyResources().getString("StopCommand"), event-> stopButton(event));
 		step = createButton(getMyResources().getString("StepCommand"), event-> stepButton(event));
 		colorMap = new HashMap<Integer, Color>();
-		
+		parameters = new Text();
+		myOptions = new ArrayList<String>();
 	}
-
+	
 	public Group getGrid(){
 		return grid;
 	}
-
+	
 	public int getCol(){
 		return colNum;
 	}
@@ -107,11 +113,19 @@ public abstract class GamePage extends Page {
 	public Button getBack(){
 		return back;
 	}
-
+	
 	public Map<Integer, Color> getColorMap(){
 		return colorMap;
 	}
-
+	
+	public List<String> getOptions(){
+		return myOptions;
+	}
+	
+	public Text getParameters(){
+		return parameters;
+	}
+	
 	public void setColNum (int c) {
 		colNum = c;
 	}
@@ -154,14 +168,58 @@ public abstract class GamePage extends Page {
 	 * The method to set up required components in the scene.
 	 * Abstract.
 	 */
-	protected abstract void setupComponents();
+	protected void setupComponents(){
+		HBox parametersBox = new HBox(15);
+		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList(myOptions));
+		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
+		parameters = new Text();
+		parametersBox.getChildren().addAll(parameters, layoutChoice);
+		parametersBox.setAlignment(Pos.CENTER);
+		updateTextInfo();
+		
+		this.getRoot().setTop(parametersBox);
+		this.getRoot().setCenter(this.getGrid());
+		this.getRoot().setBottom(addButtons());
+		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
+		
+		this.getCellSociety().setDelay(getSpeed());
+		this.getCellSociety().setupGameLoop();
+	}
 	
 	/**
 	 * The method to set up the grid layout in the scene.
 	 * Abstract.
 	 * @param newValue
 	 */
-	protected abstract void setupGrid(String newValue);
+	protected void setupGrid(String newValue){
+		this.getCellSociety().stopGameLoop();
+		this.getGrid().getChildren().clear();
+		this.setCurrentStep(0);
+		updateTextInfo();
+
+		if (newValue.equals("Input")){
+			for (int col = 0; col < getCol(); col ++){  // x position - col
+				for (int row = 0; row < getRow(); row++){  // y position - row
+					double xPosition = 0 + col * getSize();
+					double yPosition = 300 + row * getSize();
+					setCell(col,row, new Cell(xPosition, yPosition, getSize(), getCellStatus(col, row)));
+					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
+					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
+				}
+			}
+		}
+	}
+	
+	private HBox addButtons(){
+		HBox buttonBox = new HBox(5);
+		buttonBox.getChildren().addAll(this.getBack(), this.getStart(), this.getStop(), this.getStep());
+		buttonBox.setAlignment(Pos.CENTER);
+		return buttonBox;		
+	}
+	
+	public void updateTextInfo() {
+		
+	}
 	
 	/**
 	 * The method to update the color on each step.
@@ -181,17 +239,16 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the game will return to the splash screen.
 	 * @param event
 	 */
-	protected void backButton(ActionEvent event) {
+	private void backButton(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().loadPage("Welcome");
 	}
-
 	/**
 	 * The handler of the "START" button.
 	 * When the button is pressed, the simulation will run consecutively.
 	 * @param event
 	 */
-	protected void startButton(ActionEvent event) {
+	private void startButton(ActionEvent event) {
 		this.getCellSociety().setIsStep(false);
 		this.getCellSociety().beginGameLoop();
 	}
@@ -211,7 +268,7 @@ public abstract class GamePage extends Page {
 	 * When the button is pressed, the simulation will perform the next step.
 	 * @param event
 	 */
-	protected void stepButton(ActionEvent event) {
+	private void stepButton(ActionEvent event) {
 		this.getCellSociety().setIsStep(true);
 		this.getCellSociety().setNextStep(true);
 		this.getCellSociety().beginGameLoop();

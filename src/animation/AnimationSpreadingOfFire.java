@@ -1,5 +1,6 @@
 package animation;
 import cellSociety.CellSociety;
+import page.GamePage;
 import page.PageSpreadingOfFire;
 
 public class AnimationSpreadingOfFire extends Animation {
@@ -11,12 +12,17 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	
 	
-	public AnimationSpreadingOfFire(CellSociety c, int p) {
+	public AnimationSpreadingOfFire(CellSociety c) {
 		super(c);
-		probCatch = p;
 	}
 	
 	public void calculateMove () {
+		
+		// Josh: I changed the way of getting probCatch by storing the value in GamePage. Yilin
+		String type = this.getCellSociety().getCurrentType();
+		GamePage page = (GamePage) this.getCellSociety().getPage(type);
+		probCatch = page.getProb();
+		
 		boolean [][] shouldChange;
 		int [][] squares;
 		

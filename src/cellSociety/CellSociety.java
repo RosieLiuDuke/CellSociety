@@ -110,7 +110,7 @@ public class CellSociety {
 		else if (type.equals("Fire")){
 			Page newFirePage = new PageSpreadingOfFire(this);
 			pages.put(type, newFirePage);
-			Animation newFireAnimation = new AnimationSpreadingOfFire(this,1); // TODO fix probcatch
+			Animation newFireAnimation = new AnimationSpreadingOfFire(this); // TODO fix probcatch
 			animations.put(type, newFireAnimation);
 		}
 	}
