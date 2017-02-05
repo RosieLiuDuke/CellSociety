@@ -6,6 +6,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import page.GamePage;
 import page.WelcomePage;
 
+/**
+ * The handler to parse XML file with Java SAX package.
+ * @author Yilin Gao
+ *
+ */
 public class XMLParser extends DefaultHandler{
 	
 	WelcomePage page;
@@ -27,6 +32,11 @@ public class XMLParser extends DefaultHandler{
 	int row = 0;
 	int col = 0;
 	
+	/**
+	 * The constructor of the XMLParser class.
+	 * All the class requires is the current WelcomePage.
+	 * @param p
+	 */
 	public XMLParser(WelcomePage p){
 		page = p;
 	}
@@ -116,6 +126,7 @@ public class XMLParser extends DefaultHandler{
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
 		GamePage thePage = (GamePage) page.getCellSociety().getPage(type); 
+		System.out.println(thePage);
 		if (bNCol) {
 			thePage.setColNum(Integer.parseInt(new String(ch, start, length)));
 		} 
@@ -138,7 +149,7 @@ public class XMLParser extends DefaultHandler{
 			thePage.setSpeed(Integer.parseInt(new String(ch, start, length)));
 		}
 		else if (bProb){
-			thePage.setProb(Integer.parseInt(new String(ch, start, length)));
+			thePage.setProb(Double.parseDouble(new String(ch, start, length)));
 		}
 	}	
 

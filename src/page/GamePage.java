@@ -19,7 +19,7 @@ public abstract class GamePage extends Page {
 
 	private Group grid;
 	private Map<Indices, Cell> cells;
-	private Map<Indices, Integer> cellsStatus;
+	private Map<Indices, Integer> cellsStatus;  // map of cell indices and non-default status
 	private int colNum;
 	private int rowNum;
 	private double size;

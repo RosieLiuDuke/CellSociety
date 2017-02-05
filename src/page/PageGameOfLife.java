@@ -76,6 +76,4 @@ public class PageGameOfLife extends UIsetup {
 			}
 		}
 	}
-	
-
 }
