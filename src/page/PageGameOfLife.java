@@ -1,23 +1,19 @@
 package page;
+import java.util.ArrayList;
+import java.util.List;
+
 import cell.Cell;
 import cellSociety.CellSociety;
-import javafx.collections.FXCollections;
-import javafx.geometry.Pos;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 /**
  * The subclass Page to hold the Scene for the Game of Life simulation.
  * @author Yilin Gao, Harry Liu
- *
  */
 
-public class PageGameOfLife extends GamePage {
+public class PageGameOfLife extends UIsetup {
 	
-	private Text parameters;
-	private ChoiceBox<String> layoutChoice;
+	private List<String> myOptions;
 
 	public PageGameOfLife(CellSociety cs) {
 		super(cs);
@@ -25,38 +21,12 @@ public class PageGameOfLife extends GamePage {
 		this.getColorMap().put(1, Color.BLACK);
 	}
 
-	public void setupComponents() {		
-		HBox parametersBox = new HBox(15);
-		parameters = new Text();
-		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList("input", "3 in line"));
-		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
-		parametersBox.getChildren().addAll(parameters, layoutChoice);
-		parametersBox.setAlignment(Pos.CENTER);
-
-		HBox buttonBox = new HBox(5);
-		buttonBox.getChildren().addAll(this.getBack(), this.getStart(), this.getStop(), this.getStep());
-		buttonBox.setAlignment(Pos.CENTER);
-
-		updateTextInfo();
-		
-		this.getRoot().setBottom(buttonBox);
-		this.getRoot().setTop(parametersBox);
-		this.getRoot().setCenter(this.getGrid());
-		
-		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
-		
-		this.getCellSociety().setDelay(getSpeed());
-		this.getCellSociety().setupGameLoop();
-	}
-
-	public void updateTextInfo() {
-		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "Step: " + getCurrentStep();
-		parameters.setText(text);
+	@Override
+	public void setupComponents(){
+		myOptions = new ArrayList<String>();
+		myOptions.add("input");
+		myOptions.add("3 in line");
+		setupComponents(myOptions, this);
 	}
 
 	/**

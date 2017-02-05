@@ -1,10 +1,14 @@
 package page;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
 import cellSociety.CellSociety;
 
-public class PageSpreadingOfFire extends GamePage {
+public class PageSpreadingOfFire extends UIsetup {
 
+	private List<String> myOptions;
+	
 	public PageSpreadingOfFire(CellSociety cs) {
 		super(cs);
 		getColorMap().put(0, Color.YELLOW);
@@ -18,7 +22,9 @@ public class PageSpreadingOfFire extends GamePage {
 
 	@Override
 	protected void setupComponents() {
-		// TODO Auto-generated method stub
+		myOptions = new ArrayList<String>();
+		myOptions.add("Harry");
+		setupComponents(myOptions, this);
 		
 	}
 
