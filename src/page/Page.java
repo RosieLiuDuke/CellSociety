@@ -1,6 +1,5 @@
 package page;
 import java.util.ResourceBundle;
-
 import cellSociety.CellSociety;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +25,7 @@ public class Page {
 	private XMLReader xmlReader;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private ResourceBundle myResources;
-	private String language = "English";
+	private String language = "Spanish";
 	
 	/**
 	 * The constructor of the Page class. 

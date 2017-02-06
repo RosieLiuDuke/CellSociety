@@ -77,9 +77,9 @@ public class PageSegregation extends GamePage {
 	
 	@Override
 	public void addTextInfo() {
-		String myText = getText() + "Satisfactory level: " + getSatisfaction();
+		String myText = getText() + getMyResources().getString("SatisfactionParameter") + getSatisfaction() + " | ";
 		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += "Percentage of type " + entry.getKey() + ": " + entry.getValue() + " | ";
+		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + " | ";
 		}
 		this.getParameters().setText(myText);
 

@@ -7,11 +7,15 @@ import cell.Cell;
 import cell.Indices;
 import cellSociety.CellSociety;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -34,14 +38,14 @@ public class GamePage extends Page {
 	private double speed;	
 	private int currentStep;
 	private int defaultStatus;
-	
+	private Boolean simulationSelected = false;
 	private Button back;
 	private Button start;
 	private Button stop;
 	private Button step;
 	private Text parameters;
 	private List<String> myOptions;
-	private ChoiceBox<String> layoutChoice;
+	private ComboBox<String> layoutChoice;
 	private String text;
 	
 	public GamePage (CellSociety cs) {
@@ -185,8 +189,12 @@ public class GamePage extends Page {
 	 */
 	protected void setupComponents(){
 		VBox parametersBox = new VBox(15);
-		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList(myOptions));
+		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
+		layoutChoice = new ComboBox<String>(options);
 		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
+		layoutChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
+		layoutChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
+		layoutChoice.setMaxWidth(getWidth()/2);
 		parameters = new Text();
 		parameters.setId("parameters");
 		parameters.setWrappingWidth(getWidth());
@@ -213,6 +221,9 @@ public class GamePage extends Page {
 	 * @param newValue
 	 */
 	protected void setupGrid(String newValue){
+		if (newValue!=null){
+			simulationSelected = true;
+		}
 		this.getCellSociety().stopGameLoop();
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
@@ -248,13 +259,13 @@ public class GamePage extends Page {
 	 * The method that updates the parameters displayed at the top of the UI Screen
 	 */
 	public void updateTextInfo() {
-		text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "
-				+ "Grid width: " + gridWidth + " | "
-				+ "Grid height: " + gridHeight + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "Step: " + getCurrentStep() + " | ";
+		text = getMyResources().getString("TitleParameter") + this.getCellSociety().getCurrentType() 
+				+ "\n\n" + getMyResources().getString("RowParameter") + getRow() + " | " 
+				+ getMyResources().getString("ColParameter") + getCol() + " | "
+				+ getMyResources().getString("GridWidthParameter") + gridWidth + " | "
+				+ getMyResources().getString("GridHeightParameter") + gridHeight + " | "
+				+ getMyResources().getString("StepParameter") + getSpeed() + " | " 
+				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ " | ";
 		this.getParameters().setText(text);
 	}
 	
@@ -293,8 +304,14 @@ public class GamePage extends Page {
 	 * @param event
 	 */
 	private void startButton(ActionEvent event) {
-		this.getCellSociety().setIsStep(false);
-		this.getCellSociety().beginGameLoop();
+		if (simulationSelected){
+			this.getCellSociety().setIsStep(false);
+			this.getCellSociety().beginGameLoop();
+		}
+		else{
+			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
+			alert.showAndWait();
+		}
 	}
 	
 	/**

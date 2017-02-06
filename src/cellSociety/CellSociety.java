@@ -123,12 +123,6 @@ public class CellSociety {
 			Animation newFireAnimation = new AnimationSpreadingOfFire(this);
 			animations.put(type, newFireAnimation);
 		}
-		else if (type.equals("Segregation")) {
-			Page newSegregationPage = new PageSegregation(this);
-			pages.put(type, newSegregationPage);
-//			Animation newSegregationAnimation = new AnimationSegregation(this);
-//			animations.put(type, newSegregationAnimation);
-		}
 	}
 	
 	public void loadPage(String type){
