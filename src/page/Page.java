@@ -26,7 +26,7 @@ public class Page {
 	private XMLReader xmlReader;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private ResourceBundle myResources;
-	private String language = "Spanish";
+	private String language = "English";
 	
 	/**
 	 * The constructor of the Page class. 
