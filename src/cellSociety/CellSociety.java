@@ -14,6 +14,7 @@ import javafx.util.Duration;
 import page.GamePage;
 import page.Page;
 import page.PageGameOfLife;
+import page.PageSegregation;
 import page.PageSpreadingOfFire;
 import page.WelcomePage;
 
@@ -107,6 +108,12 @@ public class CellSociety {
 			pages.put(type, newGameOfLifePage);
 			Animation newGameOfLifeAnimation = new AnimationGameOfLife(this);
 			animations.put(type, newGameOfLifeAnimation);
+		}
+		else if (type.equals("Segregation")){
+			Page newSegregationPage = new PageSegregation(this);
+			pages.put(type, newSegregationPage);
+			//Animation newSegregationAnimation = new AnimationSegregation(this); // TODO fix probcatch
+			//animations.put(type, newSegregationAnimation);
 		}
 		else if (type.equals("Fire")){
 			Page newFirePage = new PageSpreadingOfFire(this);

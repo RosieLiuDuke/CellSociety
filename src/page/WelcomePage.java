@@ -88,7 +88,7 @@ public class WelcomePage extends Page {
 			thePage.showPage();
 		}
 		else{
-			Alert alert = new Alert(AlertType.ERROR, "Please choose an input file!");
+			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("AlertCommand"));
 			alert.showAndWait();
 		}
 	}

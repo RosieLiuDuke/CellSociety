@@ -52,7 +52,6 @@ public class PageGameOfLife extends GamePage {
 		}
 	}
 	
-	@Override
 	public void updateTextInfo() {
 		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
 				+ "\nNumber of rows: " + getRow() + " | " 
