@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import page.GamePage;
 import page.Page;
 import page.PageGameOfLife;
 import page.PageSpreadingOfFire;
@@ -150,17 +151,17 @@ public class CellSociety {
 		// if the current mode is consecutive simulation
 		if (!isStep){
 			animations.get(currentType).calculateMove();
-			((PageGameOfLife)pages.get(currentType)).setCurrentStep(((PageGameOfLife)pages.get(currentType)).getCurrentStep() + 1);
-			((PageGameOfLife) pages.get(currentType)).updateColor();
-			((PageGameOfLife) pages.get(currentType)).updateTextInfo();
+			((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
+			((GamePage) pages.get(currentType)).updateColor();
+			((GamePage) pages.get(currentType)).updateTextInfo();
 		}
 		// if the current mode is simulation step by step
 		else {
 			if (nextStep){
 				animations.get(currentType).calculateMove();
-				((PageGameOfLife)pages.get(currentType)).setCurrentStep(((PageGameOfLife)pages.get(currentType)).getCurrentStep() + 1);
-				((PageGameOfLife) pages.get(currentType)).updateColor();
-				((PageGameOfLife) pages.get(currentType)).updateTextInfo();
+				((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
+				((GamePage) pages.get(currentType)).updateColor();
+				((GamePage) pages.get(currentType)).updateTextInfo();
 				nextStep = false;
 			}
 		}
