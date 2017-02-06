@@ -26,24 +26,27 @@ public class PageGameOfLife extends GamePage {
 	protected void setupGrid(String newValue){
 		super.setupGrid(newValue);
 		
+		double width = gridWidth / getCol();
+		double height = gridHeight / getCol();
+		
 		if (newValue.equals("3 in line")){
 			int rowMid = getRow() / 2;
 			int colMid = getCol() / 2;
  			for (int col = 0; col < getCol(); col++){
 				for (int row = 0; row < getRow(); row++){
-					double xPosition = 0 + col * getSize();
-					double yPosition = 300 + row * getSize();
+					double xPosition = col * width;
+					double yPosition = row * height;
 					if (col == colMid && row == rowMid){
-						setCell(col,row, new Cell(xPosition, yPosition, getSize(), 1));
+						setCell(col,row, new Cell(xPosition, yPosition, width, height, 1));
 					}
 					else if (col == colMid && row == rowMid + 1){
-						setCell(col, row, new Cell(xPosition, yPosition, getSize(), 1));
+						setCell(col, row, new Cell(xPosition, yPosition, width, height, 1));
 					}
 					else if (col == colMid && row == rowMid - 1){
-						setCell(col, row, new Cell(xPosition, yPosition, getSize(), 1));
+						setCell(col, row, new Cell(xPosition, yPosition, width, height, 1));
 					}
 					else{
-						setCell(col, row, new Cell(xPosition, yPosition, getSize(), 0));
+						setCell(col, row, new Cell(xPosition, yPosition, width, height, 0));
 					}
 					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
 					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
@@ -51,5 +54,4 @@ public class PageGameOfLife extends GamePage {
 			}
 		}
 	}
-	
 }

@@ -19,9 +19,9 @@ public class Cell {
 	* @param size
 	* @param status
 	**/
-	public Cell (double xPosition, double yPosition, double size, int status){
+	public Cell (double xPosition, double yPosition, double width, double height, int status){
 		this.status = status;
-		rectangle = new Rectangle(xPosition, yPosition, size, size);
+		rectangle = new Rectangle(xPosition, yPosition, width, height);
 		rectangle.setStroke(Color.BLACK);
 		// only for game of life
 		//rectangle.setOnMouseReleased(e -> handleMouseRelease(e));

@@ -9,6 +9,18 @@ import cellSociety.CellSociety;
  */
 public class PageSpreadingOfFire extends GamePage {
 	
+	private double probCatch; 
+	
+	@Override
+	public double getProb(){
+		return probCatch;
+	}
+	
+	@Override
+	public void setProb(double p){
+		probCatch = p;
+	}
+	
 	public PageSpreadingOfFire(CellSociety cs) {
 		super(cs);
 		getColorMap().put(0, Color.YELLOW);
