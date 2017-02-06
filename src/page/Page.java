@@ -74,18 +74,6 @@ public class Page {
 		return getMyResources();
 	}
 	
-	/**
-	 * A general method to create any buttons.
-	 * @param name: button name
-	 * @param handler: EventHandler of the button
-	 * @return
-	 */
-	public Button createButton (String name, EventHandler<ActionEvent> handler ) {
-		Button newButton = new Button(name);
-		newButton.setOnAction(handler);
-		return newButton;
-	}
-
 	public ResourceBundle getMyResources() {
 		return myResources;
 	}
@@ -96,5 +84,17 @@ public class Page {
 	
 	public int getWidth(){
 		return WIDTH;
+	}
+	
+	/**
+	 * A general method to create any buttons.
+	 * @param name: button name
+	 * @param handler: EventHandler of the button
+	 * @return
+	 */
+	public Button createButton (String name, EventHandler<ActionEvent> handler ) {
+		Button newButton = new Button(name);
+		newButton.setOnAction(handler);
+		return newButton;
 	}
 }
