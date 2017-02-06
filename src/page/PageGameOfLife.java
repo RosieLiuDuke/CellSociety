@@ -54,15 +54,4 @@ public class PageGameOfLife extends GamePage {
 			}
 		}
 	}
-	
-	public void updateTextInfo() {
-		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of columns: " + getCol() + " | " 
-				+ "Number of rows: " + getRow() + " | " 
-				+ "Grid width: " + gridWidth + " | "
-				+ "Grid height: " + gridHeight + " | "
-				+ "\nStep speed: " + getSpeed() + " | " 
-				+ "Step: " + getCurrentStep();
-		this.getParameters().setText(text);
-	}
 }

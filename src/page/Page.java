@@ -74,6 +74,18 @@ public class Page {
 		return getMyResources();
 	}
 	
+	public ResourceBundle getMyResources() {
+		return myResources;
+	}
+
+	public void setMyResources(ResourceBundle myResources) {
+		this.myResources = myResources;
+	}
+	
+	public int getWidth(){
+		return WIDTH;
+	}
+	
 	/**
 	 * A general method to create any buttons.
 	 * @param name: button name
@@ -84,13 +96,5 @@ public class Page {
 		Button newButton = new Button(name);
 		newButton.setOnAction(handler);
 		return newButton;
-	}
-
-	public ResourceBundle getMyResources() {
-		return myResources;
-	}
-
-	public void setMyResources(ResourceBundle myResources) {
-		this.myResources = myResources;
 	}
 }

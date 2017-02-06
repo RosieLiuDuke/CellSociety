@@ -12,8 +12,13 @@
     -fx-stroke-width: 1;
 }
 
+#parameters {
+    -fx-font: 18px Avenir;
+    -fx-fill: blue;
+    -fx-stroke-width: 1;
+}
 
-.button {
+.choice-box {
 	-fx-font-size:20px;
     -fx-text-fill:black;
     -fx-font-family:"Arial";
@@ -21,7 +26,7 @@
     -fx-pref-width: 200;
 }
 
-.choice-box {
+.button {
 	-fx-font-size:20px;
     -fx-text-fill:black;
     -fx-font-family:"Arial";

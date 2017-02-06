@@ -76,18 +76,12 @@ public class PageSegregation extends GamePage {
 	}
 	
 	@Override
-	public void updateTextInfo() {
-		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of columns: " + getCol() + " | " 
-				+ "Number of rows: " + getRow() + " | " 
-				+ "Grid width: " + gridWidth + " | "
-				+ "Grid height: " + gridHeight + " | "
-				+ "\nSatisfactory level: " + getSatisfaction() + " | ";
+	public void addTextInfo() {
+		String myText = getText() + "Satisfactory level: " + getSatisfaction();
 		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    text += "Percentage of type " + entry.getKey() + ": " + entry.getValue() + " | ";
+		    myText += "Percentage of type " + entry.getKey() + ": " + entry.getValue() + " | ";
 		}
-		text += "\nStep speed: " + getSpeed() + " | " 
-				+ "Step: " + getCurrentStep() + " | ";
-		this.getParameters().setText(text);
+		this.getParameters().setText(myText);
+
 	}	
 }
