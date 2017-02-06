@@ -18,7 +18,7 @@
     -fx-stroke-width: 1;
 }
 
-.choice-box {
+.combo-box {
 	-fx-font-size:20px;
     -fx-text-fill:black;
     -fx-font-family:"Arial";
