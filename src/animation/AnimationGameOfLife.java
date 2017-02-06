@@ -18,7 +18,7 @@ public class AnimationGameOfLife extends Animation {
 		boolean [][] shouldChange;
 		int [][] grid;
 		
-		grid = getArray();
+		grid = getArray("Game of Life");
 		shouldChange = new boolean[grid.length][grid[0].length];
 		
 		checkSurrounding(shouldChange, grid);
@@ -26,20 +26,6 @@ public class AnimationGameOfLife extends Animation {
 		changegrid(shouldChange, grid);
 		
 		setCells(grid);
-	}
-	
-	public int [][] getArray() {
-		int i, j;
-		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game of Life");
-		int [][] intArray = new int[p.getRow()][p.getCol()];
-		
-		for (i = 0; i < intArray.length; i++) {
-			for (j = 0; j < intArray[0].length; j++) {
-				intArray[i][j] = p.getCell(i, j).getStatus();
-			}
-		}
-		
-		return intArray;
 	}
 	
 	public void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
@@ -101,7 +87,7 @@ public class AnimationGameOfLife extends Animation {
 	
 	public void setCells (int [][] grid) {
 		int i, j;
-		PageGameOfLife p = (PageGameOfLife) getCellSociety().getPage("Game of Life");
+		PageGameOfLife p = (PageGameOfLife) getNeededPage("Game of Life");
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				p.getCell(i, j).changeStatus(grid[i][j]);
