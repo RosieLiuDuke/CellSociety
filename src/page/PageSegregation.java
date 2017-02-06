@@ -1,7 +1,8 @@
 package page;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 
 import cellSociety.CellSociety;
 import javafx.scene.paint.Color;
@@ -27,6 +28,23 @@ public class PageSegregation extends GamePage {
 	}
 	
 	@Override
+	protected int getCellStatus(int col, int row){
+		int status = 0;
+		Random rn = new Random();
+		double indicator = rn.nextDouble();
+		int numberOfStates = percentage.size();
+		double prevStateProb = 0, nextStateProb = 0;
+		for (int i = 0; i < numberOfStates; i++){
+			nextStateProb += percentage.get(i);
+			if (indicator >= prevStateProb && indicator < nextStateProb){
+				status = i;
+			}
+			prevStateProb += nextStateProb;
+		}
+		return status;
+	}
+	
+	@Override
 	public void setSatisfaction(double value){
 		satisfaction = value;
 	}
@@ -38,10 +56,11 @@ public class PageSegregation extends GamePage {
 	
 	public PageSegregation(CellSociety cs) {
 		super(cs);
+		this.getColorMap().clear();
 		this.getColorMap().put(0, Color.TRANSPARENT);
 		this.getColorMap().put(1, Color.RED);
 		this.getColorMap().put(2, Color.BLUE);
-		percentage = new HashMap<Integer, Double>();
+		percentage = new LinkedHashMap<Integer, Double>();
 	}
 	
 	@Override
