@@ -23,9 +23,7 @@ public class AnimationSpreadingOfFire extends Animation {
 		probCatch = page.getProb();
 		
 		boolean [][] shouldChange;
-		int [][] grid;
-		
-		grid = getArray("Fire");
+		int [][] grid= getArray("Fire");
 		shouldChange = new boolean[grid.length][grid[0].length];
 		
 		checkSurrounding(shouldChange, grid);
