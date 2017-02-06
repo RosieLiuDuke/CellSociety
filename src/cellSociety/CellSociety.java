@@ -114,6 +114,13 @@ public class CellSociety {
 			Animation newFireAnimation = new AnimationSpreadingOfFire(this); // TODO fix probcatch
 			animations.put(type, newFireAnimation);
 		}
+		else if (type.equals("Segregation")){
+			// TODO
+			Page newFirePage = new PageSpreadingOfFire(this);
+			pages.put(type, newFirePage);
+			Animation newFireAnimation = new AnimationSpreadingOfFire(this); // TODO fix probcatch
+			animations.put(type, newFireAnimation);
+		}
 	}
 	
 	public void loadPage(String type){

@@ -1,0 +1,16 @@
+<Simulation name="Segregation">
+	<grid>
+		<nCol>30</nCol>
+		<nRow>30</nRow>
+		<size>10</size>
+		<default>0</default>
+		<state value = "1">
+			<percentage>0.45</percentage>
+		</state>
+		<state value = "2">
+			<percentage>0.45</percentage>
+		</state>
+	</grid>
+	<prob>0.3</prob>
+	<speed>1</speed>
+</Simulation>

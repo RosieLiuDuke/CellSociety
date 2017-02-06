@@ -23,13 +23,14 @@ public class GamePage extends Page {
 	private Group grid;
 	private Map<Indices, Cell> cells;
 	private Map<Indices, Integer> cellsStatus;
+	private Map <Integer, Color> colorMap;	
 	private int colNum;
 	private int rowNum;
 	private double size;
 	private double speed;	
 	private int currentStep;
 	private int defaultStatus;
-	private double prob; 
+	
 	private Button back;
 	private Button start;
 	private Button stop;
@@ -37,7 +38,6 @@ public class GamePage extends Page {
 	private Text parameters;
 	private List<String> myOptions;
 	private ChoiceBox<String> layoutChoice;
-	private Map <Integer, Color> colorMap;	
 	
 	public GamePage (CellSociety cs) {
 		super(cs);
@@ -95,7 +95,7 @@ public class GamePage extends Page {
 	}
 	
 	public double getProb(){
-		return prob;
+		return 0;
 	}
 	
 	public Button getStart(){
@@ -161,7 +161,7 @@ public class GamePage extends Page {
 	}
 	
 	public void setProb(double p){
-		prob = p;
+//		prob = p;
 	}
 	
 	/**
