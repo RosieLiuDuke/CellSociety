@@ -18,80 +18,67 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	public void calculateMove () {
 		
-		// Josh: I changed the way of getting probCatch by storing the value in GamePage. Yilin
 		String type = this.getCellSociety().getCurrentType();
 		GamePage page = (GamePage) this.getCellSociety().getPage(type);
 		probCatch = page.getProb();
 		
 		boolean [][] shouldChange;
-		int [][] squares;
+		int [][] grid;
 		
-		squares = getArray();
-		shouldChange = new boolean[squares.length][squares[0].length];
+		grid = getArray("Fire");
+		shouldChange = new boolean[grid.length][grid[0].length];
 		
-		checkSurrounding(shouldChange, squares);
+		checkSurrounding(shouldChange, grid);
 		
-		changeSquares(shouldChange, squares);
+		changegrid(shouldChange, grid);
 		
-		setCells(squares);
+		setCells(grid);
 	}
 	
-	public int [][] getArray() {
-		int i, j;
-		PageSpreadingOfFire p = (PageSpreadingOfFire) getCellSociety().getPage("Fire");
-		int [][] intArray = new int[ p.getRow()][p.getCol()];
-		
-		for (i = 0; i < intArray.length; i++) {
-			for (j = 0; j < intArray[0].length; j++) {
-				intArray[i][j] = p.getCell(i, j).getStatus();
-			}
-		}
-		
-		return intArray;
-	}
 	
-	private void checkSurrounding(boolean [][] shouldChange, int [][] squares) {
+	
+	private void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
 		int i, j;
 		
-		for (i = 0; i < squares.length; i++) {
-			for (j = 0; j < squares[0].length; j++) {
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid[0].length; j++) {
 				if (!shouldChange[i][j])
-					shouldChange[i][j] = (squares[i][j] == BURNINGVALUE);
+					shouldChange[i][j] = (grid[i][j] == BURNINGVALUE);
 				
-				if (squares[i][j] == BURNINGVALUE) {
+				if (grid[i][j] == BURNINGVALUE) {
 					if ((i-1) >= 0)
-						shouldChange[i-1][j] = figureShouldChange(i-1, j, shouldChange, squares);
+						shouldChange[i-1][j] = figureShouldChange(i-1, j, shouldChange, grid);
 					if ((j-1) >= 0)
-						shouldChange[i][j-1] = figureShouldChange(i, j-1, shouldChange, squares);
-					if ((i+1) < squares.length)
-						shouldChange[i+1][j] = figureShouldChange(i+1, j, shouldChange, squares);
-					if ((j+1) < squares[0].length)
-						shouldChange[i][j+1] = figureShouldChange(i, j+1, shouldChange, squares);
+						shouldChange[i][j-1] = figureShouldChange(i, j-1, shouldChange, grid);
+					if ((i+1) < grid.length)
+						shouldChange[i+1][j] = figureShouldChange(i+1, j, shouldChange, grid);
+					if ((j+1) < grid[0].length)
+						shouldChange[i][j+1] = figureShouldChange(i, j+1, shouldChange, grid);
 				}
 				
 			}
 		}
 	}
 	
-	private boolean figureShouldChange(int i, int j, boolean [][] shouldChange, int [][] squares) {
+	private boolean figureShouldChange(int i, int j, boolean [][] shouldChange, int [][] grid) {
 		if (!shouldChange[i][j]) {
-			return ((squares[i][j] == UNBURNEDVALUE) &&
+			return ((grid[i][j] == UNBURNEDVALUE) &&
 				(Math.random() >= probCatch));
 		}
 		return shouldChange[i][j];
 	}
 	
-	private void changeSquares(boolean [][] shouldChange, int [][] squares) {
+	private void changegrid(boolean [][] shouldChange, int [][] grid) {
 		int i, j;
 		
-		for (i = 0; i < squares.length; i++) {
-			for (j = 0; j < squares.length; j++) {
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid.length; j++) {
 				if (shouldChange[i][j]) {
-					if (squares[i][j] == BURNINGVALUE) {
-						squares[i][j] = BURNEDVALUE;
+					if (grid[i][j] == BURNINGVALUE) {
+						grid[i][j] = BURNEDVALUE;
 					}
 					else {
-						squares[i][j] = BURNINGVALUE;
+						grid[i][j] = BURNINGVALUE;
 					}
 				}
 			}
@@ -99,12 +86,12 @@ public class AnimationSpreadingOfFire extends Animation {
 	}
 	
 
-	private void setCells (int [][] squares) {
+	private void setCells (int [][] grid) {
 		int i, j;
-		PageSpreadingOfFire p = (PageSpreadingOfFire) getCellSociety().getPage("Fire");
-		for (i = 0; i < squares.length; i++) {
-			for (j = 0; j < squares[0].length; j++) {
-				p.getCell(i, j).changeStatus(squares[i][j]);
+		PageSpreadingOfFire p = (PageSpreadingOfFire)getNeededPage("Fire");
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid[0].length; j++) {
+				p.getCell(i, j).changeStatus(grid[i][j]);
 			}
 		}
 	}
