@@ -28,7 +28,7 @@ public class AnimationGameOfLife extends Animation {
 		setCells(grid);
 	}
 	
-	public void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
+	private void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
 		int i, j, k, l, total = 0;
 		
 		int [][] borderArray = new int[grid.length +2][grid[0].length+2];
@@ -68,7 +68,7 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	public void changegrid(boolean [][] shouldChange, int [][] grid) {
+	private void changegrid(boolean [][] shouldChange, int [][] grid) {
 		int i, j;
 		
 		for (i = 0; i < grid.length; i++) {
@@ -85,7 +85,7 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	public void setCells (int [][] grid) {
+	private void setCells (int [][] grid) {
 		int i, j;
 		PageGameOfLife p = (PageGameOfLife) getNeededPage("Game of Life");
 		for (i = 0; i < grid.length; i++) {
