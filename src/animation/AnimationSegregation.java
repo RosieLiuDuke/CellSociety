@@ -83,7 +83,7 @@ public class AnimationSegregation extends Animation{
 				agree -= 1;
 				
 				
-				shouldChange[i-1][j-1] = ((agree / disagree) < neededNeighbors);
+				shouldChange[i-1][j-1] = ((agree / disagree) <= neededNeighbors);
 				
 				
 				agree = 0; disagree = 0;
