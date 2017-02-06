@@ -1,23 +1,24 @@
 package page;
-import javafx.scene.paint.Color;
+
 import cellSociety.CellSociety;
+import javafx.scene.paint.Color;
 
 /**
- * The subclass Page to hold the Scene for the spreading of fire simulation.
- * @author Harry Liu, Yilin Gao
- *
+ * The subclass Page to hold the Scene for the Segregation simulation.
+ * @author Harry Liu
  */
-public class PageSpreadingOfFire extends GamePage {
-	
-	public PageSpreadingOfFire(CellSociety cs) {
+
+public class PageSegregation extends GamePage {
+		
+	public PageSegregation(CellSociety cs) {
 		super(cs);
-		getColorMap().put(0, Color.YELLOW);
-		getColorMap().put(1, Color.GREEN);
-		getColorMap().put(2, Color.RED);
+		this.getColorMap().put(0, Color.TRANSPARENT);
+		this.getColorMap().put(1, Color.RED);
+		this.getColorMap().put(2, Color.BLUE);
 	}
 	
 	@Override
-	protected void setupComponents() {
+	protected void setupComponents(){
 		this.getOptions().add("Input");
 		super.setupComponents();
 	}
@@ -26,7 +27,6 @@ public class PageSpreadingOfFire extends GamePage {
 	protected void setupGrid(String newValue){
 		super.setupGrid(newValue);
 		
-		// can add other grid layouts
 	}
 	
 	@Override
@@ -36,8 +36,8 @@ public class PageSpreadingOfFire extends GamePage {
 				+ "Number of columns: " + getCol() + " | "  
 				+ "Cell size: " + getSize() + " | "
 				+ "Step speed: " + getSpeed() + " | " 
-				+ "\nStep: " + getCurrentStep() + " | " 
-				+ "Probability: " + getProb() + " | ";
+				+ "Step: " + getCurrentStep() + " | " 
+				+ "Probability: " + getProb() + " | " ;
 		this.getParameters().setText(text);
-	}
+	}	
 }

@@ -210,6 +210,9 @@ public class GamePage extends Page {
 		}
 	}
 	
+	/**
+	 * The method to add Buttons to the bottom of the UI Screen
+	 */
 	private HBox addButtons(){
 		HBox buttonBox = new HBox(5);
 		buttonBox.getChildren().addAll(this.getBack(), this.getStart(), this.getStop(), this.getStep());
@@ -217,6 +220,9 @@ public class GamePage extends Page {
 		return buttonBox;		
 	}
 	
+	/**
+	 * The method that updates the parameters displayed at the top of the UI Screen
+	 */
 	public void updateTextInfo() {
 		
 	}
