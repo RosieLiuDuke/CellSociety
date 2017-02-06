@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import cell.Cell;
+import cell.Indices;
 import cellSociety.CellSociety;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -20,16 +21,18 @@ import javafx.scene.text.Text;
  *
  */
 public class GamePage extends Page {
+	protected static final int gridWidth = 300;
+	protected static final int gridHeight = 300;
 	private Group grid;
 	private Map<Indices, Cell> cells;
 	private Map<Indices, Integer> cellsStatus;
+	private Map <Integer, Color> colorMap;	
 	private int colNum;
 	private int rowNum;
-	private double size;
 	private double speed;	
 	private int currentStep;
 	private int defaultStatus;
-	private double prob; 
+	
 	private Button back;
 	private Button start;
 	private Button stop;
@@ -37,7 +40,6 @@ public class GamePage extends Page {
 	private Text parameters;
 	private List<String> myOptions;
 	private ChoiceBox<String> layoutChoice;
-	private Map <Integer, Color> colorMap;	
 	
 	public GamePage (CellSociety cs) {
 		super(cs);
@@ -82,10 +84,6 @@ public class GamePage extends Page {
 		return defaultStatus;
 	}
 	
-	protected double getSize () {
-		return size;
-	}
-	
 	protected double getSpeed () {
 		return speed;
 	}
@@ -95,7 +93,7 @@ public class GamePage extends Page {
 	}
 	
 	public double getProb(){
-		return prob;
+		return 0;
 	}
 	
 	public Button getStart(){
@@ -138,10 +136,6 @@ public class GamePage extends Page {
 		defaultStatus = s;
 	}
 	
-	public void setSize (double s) {
-		size = s;
-	}
-	
 	public void setSpeed (double s) {
 		speed = s;
 	}
@@ -161,7 +155,21 @@ public class GamePage extends Page {
 	}
 	
 	public void setProb(double p){
-		prob = p;
+//		prob = p;
+	}
+	
+	public double getSatisfaction(){
+		return 0;
+	}
+	
+	public double getPercentage(int state){
+		return 0;
+	}
+	
+	public void setSatisfaction(double value){
+	}
+	
+	public void setPercentage(int type, double value){
 	}
 	
 	/**
@@ -196,13 +204,16 @@ public class GamePage extends Page {
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
+		
+		double width = gridWidth / getCol();
+		double height = gridHeight / getCol();
 
 		if (newValue.equals("Input")){
 			for (int col = 0; col < getCol(); col ++){  // x position - col
 				for (int row = 0; row < getRow(); row++){  // y position - row
-					double xPosition = 0 + col * getSize();
-					double yPosition = 300 + row * getSize();
-					setCell(col,row, new Cell(xPosition, yPosition, getSize(), getCellStatus(col, row)));
+					double xPosition = col * width;
+					double yPosition = row * height;
+					setCell(col,row, new Cell(xPosition, yPosition, width, height, getCellStatus(col, row)));
 					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
 					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
 				}

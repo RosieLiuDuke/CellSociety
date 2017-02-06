@@ -9,6 +9,18 @@ import cellSociety.CellSociety;
  */
 public class PageSpreadingOfFire extends GamePage {
 	
+	private double probCatch; 
+	
+	@Override
+	public double getProb(){
+		return probCatch;
+	}
+	
+	@Override
+	public void setProb(double p){
+		probCatch = p;
+	}
+	
 	public PageSpreadingOfFire(CellSociety cs) {
 		super(cs);
 		getColorMap().put(0, Color.YELLOW);
@@ -32,12 +44,13 @@ public class PageSpreadingOfFire extends GamePage {
 	@Override
 	public void updateTextInfo() {
 		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "\nStep: " + getCurrentStep() + " | " 
-				+ "Probability: " + getProb() + " | ";
+				+ "\nNumber of columns: " + getCol() + " | " 
+				+ "Number of rows: " + getRow() + " | " 
+				+ "Grid width: " + gridWidth + " | "
+				+ "Grid height: " + gridHeight + " | "
+				+ "Probability: " + getProb() + " | "
+				+ "\nStep speed: " + getSpeed() + " | " 
+				+ "Step: " + getCurrentStep() + " | ";
 		this.getParameters().setText(text);
 	}
 }
