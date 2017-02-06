@@ -20,17 +20,19 @@ public class XMLParser extends DefaultHandler{
 	boolean bGrid = false;
 	boolean bNCol = false;
 	boolean bNRow = false;
-	boolean bSize = false;
 	boolean bDefault = false;
 	boolean bState = false;
 	boolean bCol = false;
 	boolean bRow = false;
+	boolean bPercentage = false;
 	boolean bSpeed = false;
 	boolean bProb = false;
+	boolean bSatisfaction = false;
 	String type = "";
 	int state = 0;
 	int row = 0;
 	int col = 0;
+	double percentage;
 	
 	/**
 	 * The constructor of the XMLParser class.
@@ -58,9 +60,6 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("nRow")) {
 			bNRow = true;
 		}
-		else if (qName.equals("size")) {
-			bSize = true;
-		} 
 		else if (qName.equals("default")){
 			bDefault = true;
 		}
@@ -73,6 +72,9 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (qName.equals("row")){
 			bRow = true;
+		}
+		else if (qName.equals("percentage")){
+			bPercentage = true;
 		}
 		else if (qName.equals("speed")){
 			bSpeed = true;
@@ -96,17 +98,16 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("nRow")) {
 			bNRow = false;
 		}
-		else if (qName.equals("size")) {
-			bSize = false;
-		} 
 		else if (qName.equals("default")){
 			bDefault = false;
 		}
 		else if (qName.equals("state")){
 			GamePage thePage = (GamePage) page.getCellSociety().getPage(type);
 			thePage.setCellStatus(col, row, state);
+			thePage.setPercentage(state, percentage);
 			row = col = 0;
 			state = 0;
+			percentage = 0;
 			bState = false;
 		}
 		else if (qName.equals("column")){
@@ -114,6 +115,9 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (qName.equals("row")){
 			bRow = false;
+		}
+		else if (qName.equals("percentage")){
+			bPercentage = false;
 		}
 		else if (qName.equals("speed")){
 			bSpeed = false;
@@ -132,9 +136,6 @@ public class XMLParser extends DefaultHandler{
 		else if (bNRow) {
 			thePage.setRowNum(Integer.parseInt(new String(ch, start, length)));
 		}
-		else if (bSize) {
-			thePage.setSize(Integer.parseInt(new String(ch, start, length)));
-		}
 		else if (bDefault){
 			thePage.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));
 		}
@@ -144,6 +145,9 @@ public class XMLParser extends DefaultHandler{
 		else if (bRow){
 			row = Integer.parseInt(new String(ch, start, length));
 		} 
+		else if (bPercentage){
+			percentage = Double.parseDouble(new String(ch, start, length));
+		}
 		else if (bSpeed) {
 			thePage.setSpeed(Integer.parseInt(new String(ch, start, length)));
 		}
