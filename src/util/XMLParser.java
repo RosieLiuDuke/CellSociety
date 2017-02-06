@@ -20,7 +20,6 @@ public class XMLParser extends DefaultHandler{
 	boolean bGrid = false;
 	boolean bNCol = false;
 	boolean bNRow = false;
-	boolean bSize = false;
 	boolean bDefault = false;
 	boolean bState = false;
 	boolean bCol = false;
@@ -61,9 +60,6 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("nRow")) {
 			bNRow = true;
 		}
-		else if (qName.equals("size")) {
-			bSize = true;
-		} 
 		else if (qName.equals("default")){
 			bDefault = true;
 		}
@@ -102,9 +98,6 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("nRow")) {
 			bNRow = false;
 		}
-		else if (qName.equals("size")) {
-			bSize = false;
-		} 
 		else if (qName.equals("default")){
 			bDefault = false;
 		}
@@ -142,9 +135,6 @@ public class XMLParser extends DefaultHandler{
 		} 
 		else if (bNRow) {
 			thePage.setRowNum(Integer.parseInt(new String(ch, start, length)));
-		}
-		else if (bSize) {
-			thePage.setSize(Integer.parseInt(new String(ch, start, length)));
 		}
 		else if (bDefault){
 			thePage.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));

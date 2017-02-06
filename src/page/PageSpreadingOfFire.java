@@ -44,12 +44,13 @@ public class PageSpreadingOfFire extends GamePage {
 	@Override
 	public void updateTextInfo() {
 		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "\nStep: " + getCurrentStep() + " | " 
-				+ "Probability: " + getProb() + " | ";
+				+ "\nNumber of columns: " + getCol() + " | " 
+				+ "Number of rows: " + getRow() + " | " 
+				+ "Grid width: " + gridWidth + " | "
+				+ "Grid height: " + gridHeight + " | "
+				+ "Probability: " + getProb() + " | "
+				+ "\nStep speed: " + getSpeed() + " | " 
+				+ "Step: " + getCurrentStep() + " | ";
 		this.getParameters().setText(text);
 	}
 }
