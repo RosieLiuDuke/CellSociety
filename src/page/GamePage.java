@@ -164,6 +164,20 @@ public class GamePage extends Page {
 //		prob = p;
 	}
 	
+	public double getSatisfaction(){
+		return 0;
+	}
+	
+	public double getPercentage(int state){
+		return 0;
+	}
+	
+	public void setSatisfaction(double value){
+	}
+	
+	public void setPercentage(int type, double value){
+	}
+	
 	/**
 	 * The method to set up required components in the scene.
 	 * Abstract.

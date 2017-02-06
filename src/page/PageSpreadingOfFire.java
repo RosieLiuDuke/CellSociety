@@ -9,16 +9,16 @@ import cellSociety.CellSociety;
  */
 public class PageSpreadingOfFire extends GamePage {
 	
-	private double prob; 
+	private double probCatch; 
 	
 	@Override
 	public double getProb(){
-		return prob;
+		return probCatch;
 	}
 	
 	@Override
 	public void setProb(double p){
-		prob = p;
+		probCatch = p;
 	}
 	
 	public PageSpreadingOfFire(CellSociety cs) {
