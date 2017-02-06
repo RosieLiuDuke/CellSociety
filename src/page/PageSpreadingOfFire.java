@@ -48,8 +48,8 @@ public class PageSpreadingOfFire extends GamePage {
 				+ "Number of columns: " + getCol() + " | "  
 				+ "Cell size: " + getSize() + " | "
 				+ "Step speed: " + getSpeed() + " | " 
-				+ "Probability: " + getProb() + " | " 
-				+ "\nStep: " + getCurrentStep();
+				+ "\nStep: " + getCurrentStep() + " | " 
+				+ "Probability: " + getProb() + " | ";
 		this.getParameters().setText(text);
 	}
 }
