@@ -1,5 +1,11 @@
-package page;
+package cell;
 
+/**
+ * The (x,y) index for a cell.
+ * Used to store (Indices, Cell) pair in Map.
+ * @author Yilin Gao
+ *
+ */
 public class Indices {
 
     private final int col;
