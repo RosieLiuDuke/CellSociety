@@ -1,5 +1,9 @@
 package page;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+
 import cellSociety.CellSociety;
 import javafx.scene.paint.Color;
 
@@ -9,12 +13,54 @@ import javafx.scene.paint.Color;
  */
 
 public class PageSegregation extends GamePage {
-		
+	
+	private double satisfaction;
+	private Map<Integer, Double> percentage;
+	
+	@Override
+	public double getSatisfaction(){
+		return satisfaction;
+	}
+	
+	@Override
+	public double getPercentage(int state){
+		return percentage.get(state);
+	}
+	
+	@Override
+	protected int getCellStatus(int col, int row){
+		int status = 0;
+		Random rn = new Random();
+		double indicator = rn.nextDouble();
+		int numberOfStates = percentage.size();
+		double prevStateProb = 0, nextStateProb = 0;
+		for (int i = 0; i < numberOfStates; i++){
+			nextStateProb += percentage.get(i);
+			if (indicator >= prevStateProb && indicator < nextStateProb){
+				status = i;
+			}
+			prevStateProb += nextStateProb;
+		}
+		return status;
+	}
+	
+	@Override
+	public void setSatisfaction(double value){
+		satisfaction = value;
+	}
+	
+	@Override
+	public void setPercentage(int state, double value){
+		percentage.put(state, value);
+	}
+	
 	public PageSegregation(CellSociety cs) {
 		super(cs);
+		this.getColorMap().clear();
 		this.getColorMap().put(0, Color.TRANSPARENT);
 		this.getColorMap().put(1, Color.RED);
 		this.getColorMap().put(2, Color.BLUE);
+		percentage = new LinkedHashMap<Integer, Double>();
 	}
 	
 	@Override
@@ -32,12 +78,16 @@ public class PageSegregation extends GamePage {
 	@Override
 	public void updateTextInfo() {
 		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "Step: " + getCurrentStep() + " | " 
-				+ "Probability: " + getProb() + " | " ;
+				+ "\nNumber of columns: " + getCol() + " | " 
+				+ "Number of rows: " + getRow() + " | " 
+				+ "Grid width: " + gridWidth + " | "
+				+ "Grid height: " + gridHeight + " | "
+				+ "\nSatisfactory level: " + getSatisfaction() + " | ";
+		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
+		    text += "Percentage of type " + entry.getKey() + ": " + entry.getValue() + " | ";
+		}
+		text += "\nStep speed: " + getSpeed() + " | " 
+				+ "Step: " + getCurrentStep() + " | ";
 		this.getParameters().setText(text);
 	}	
 }
