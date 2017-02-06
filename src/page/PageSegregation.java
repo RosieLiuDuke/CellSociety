@@ -30,14 +30,8 @@ public class PageSegregation extends GamePage {
 	}
 	
 	@Override
-	public void updateTextInfo() {
-		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "Step: " + getCurrentStep() + " | " 
-				+ "Probability: " + getProb() + " | " ;
-		this.getParameters().setText(text);
+	public void addTextInfo() {
+		String myText = getText() + "Probability: " + getProb() + " | ";
+		this.getParameters().setText(myText);
 	}	
 }

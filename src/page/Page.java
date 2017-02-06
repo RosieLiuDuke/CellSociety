@@ -93,4 +93,8 @@ public class Page {
 	public void setMyResources(ResourceBundle myResources) {
 		this.myResources = myResources;
 	}
+	
+	public int getWidth(){
+		return WIDTH;
+	}
 }

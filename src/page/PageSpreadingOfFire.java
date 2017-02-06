@@ -25,19 +25,12 @@ public class PageSpreadingOfFire extends GamePage {
 	@Override
 	protected void setupGrid(String newValue){
 		super.setupGrid(newValue);
-		
 		// can add other grid layouts
 	}
 	
 	@Override
-	public void updateTextInfo() {
-		String text = "Simulation name: " + this.getCellSociety().getCurrentType() 
-				+ "\nNumber of rows: " + getRow() + " | " 
-				+ "Number of columns: " + getCol() + " | "  
-				+ "Cell size: " + getSize() + " | "
-				+ "Step speed: " + getSpeed() + " | " 
-				+ "\nStep: " + getCurrentStep() + " | " 
-				+ "Probability: " + getProb() + " | ";
-		this.getParameters().setText(text);
-	}
+	public void addTextInfo() {
+		String myText = getText() + "Probability: " + getProb() + " | ";
+		this.getParameters().setText(myText);
+	}	
 }

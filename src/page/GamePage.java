@@ -12,8 +12,10 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
  * @author Joshua Kopen, Yilin Gao, Harry Liu
@@ -38,6 +40,7 @@ public class GamePage extends Page {
 	private List<String> myOptions;
 	private ChoiceBox<String> layoutChoice;
 	private Map <Integer, Color> colorMap;	
+	private String text;
 	
 	public GamePage (CellSociety cs) {
 		super(cs);
@@ -114,6 +117,10 @@ public class GamePage extends Page {
 		return back;
 	}
 	
+	public String getText(){
+		return text;
+	}
+	
 	public Map<Integer, Color> getColorMap(){
 		return colorMap;
 	}
@@ -169,13 +176,19 @@ public class GamePage extends Page {
 	 * Abstract.
 	 */
 	protected void setupComponents(){
-		HBox parametersBox = new HBox(15);
+		VBox parametersBox = new VBox(15);
 		layoutChoice = new ChoiceBox<String>(FXCollections.observableArrayList(myOptions));
 		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
 		parameters = new Text();
+		parameters.setId("parameters");
+		parameters.setWrappingWidth(getWidth());
+		parameters.setTextAlignment(TextAlignment.CENTER);
+		
 		parametersBox.getChildren().addAll(parameters, layoutChoice);
 		parametersBox.setAlignment(Pos.CENTER);
+		
 		updateTextInfo();
+		addTextInfo();
 		
 		this.getRoot().setTop(parametersBox);
 		this.getRoot().setCenter(this.getGrid());
@@ -196,6 +209,7 @@ public class GamePage extends Page {
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
+		addTextInfo();
 
 		if (newValue.equals("Input")){
 			for (int col = 0; col < getCol(); col ++){  // x position - col
@@ -224,7 +238,20 @@ public class GamePage extends Page {
 	 * The method that updates the parameters displayed at the top of the UI Screen
 	 */
 	public void updateTextInfo() {
-		
+		text = "Simulation name: " + this.getCellSociety().getCurrentType() 
+				+ "\nNumber of rows: " + getRow() + " | " 
+				+ "Number of columns: " + getCol() + " | "  
+				+ "Cell size: " + getSize() + " | "
+				+ "Step speed: " + getSpeed() + " | " 
+				+ "Step: " + getCurrentStep() + " | ";
+		this.getParameters().setText(text);
+	}
+	
+	/**
+	 * The method to adds on additional parameters if necessary to the UI Screen.
+	 */
+	public void addTextInfo(){
+		//EMPTY (called only if new parameters need to be added)
 	}
 	
 	/**

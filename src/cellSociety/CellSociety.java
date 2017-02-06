@@ -161,6 +161,7 @@ public class CellSociety {
 			((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
 			((GamePage) pages.get(currentType)).updateColor();
 			((GamePage) pages.get(currentType)).updateTextInfo();
+			((GamePage) pages.get(currentType)).addTextInfo();
 		}
 		// if the current mode is simulation step by step
 		else {
