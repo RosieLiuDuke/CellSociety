@@ -236,7 +236,7 @@ public class GamePage extends Page {
 		this.getCellSociety().setDelay(nVal);
 		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().setupGameLoop();
-		this.getCellSociety().beginGameLoop();
+		this.updateTextInfo();
 	}
 
 	/**
