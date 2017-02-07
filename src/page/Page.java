@@ -1,6 +1,5 @@
 package page;
 import java.util.ResourceBundle;
-
 import cellSociety.CellSociety;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +25,7 @@ public class Page {
 	private XMLReader xmlReader;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private ResourceBundle myResources;
-	private String language = "English";
+	private String language = "Spanish";
 	
 	/**
 	 * The constructor of the Page class. 
@@ -74,6 +73,18 @@ public class Page {
 		return getMyResources();
 	}
 	
+	public ResourceBundle getMyResources() {
+		return myResources;
+	}
+
+	public void setMyResources(ResourceBundle myResources) {
+		this.myResources = myResources;
+	}
+	
+	public int getWidth(){
+		return WIDTH;
+	}
+	
 	/**
 	 * A general method to create any buttons.
 	 * @param name: button name
@@ -84,13 +95,5 @@ public class Page {
 		Button newButton = new Button(name);
 		newButton.setOnAction(handler);
 		return newButton;
-	}
-
-	public ResourceBundle getMyResources() {
-		return myResources;
-	}
-
-	public void setMyResources(ResourceBundle myResources) {
-		this.myResources = myResources;
 	}
 }

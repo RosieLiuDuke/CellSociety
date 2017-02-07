@@ -149,7 +149,7 @@ public class XMLParser extends DefaultHandler{
 			percentage = Double.parseDouble(new String(ch, start, length));
 		}
 		else if (bSpeed) {
-			thePage.setSpeed(Integer.parseInt(new String(ch, start, length)));
+			thePage.setSpeed(Double.parseDouble(new String(ch, start, length)));
 		}
 		else if (bProb){
 			thePage.setProb(Double.parseDouble(new String(ch, start, length)));

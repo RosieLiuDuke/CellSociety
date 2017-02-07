@@ -81,14 +81,14 @@ public class WelcomePage extends Page {
 	 * @param event
 	 */
 	private void handleMouseReleasedStart(Event event) {
-		String type = this.getCellSociety().getCurrentType();
-		GamePage thePage = (GamePage) this.getCellSociety().getPage(type);
+		String type = this.getCellSociety().getNextType();
+		GamePage thePage = (GamePage)this.getCellSociety().getPage(type);
 		if (thePage != null){
 			thePage.setupComponents();
 			thePage.showPage();
 		}
 		else{
-			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("AlertCommand"));
+			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("UploadCommand"));
 			alert.showAndWait();
 		}
 	}

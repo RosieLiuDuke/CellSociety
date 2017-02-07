@@ -34,7 +34,6 @@ public class CellSociety {
 	
 	private Timeline timeline; 
 	private double millisecondDelay;
-	private double secondDelay;	
 	
 	// if the simulation is step by step or consecutive.
 	private Boolean isStep = false; 
@@ -77,8 +76,7 @@ public class CellSociety {
 	}
 	
 	public void setDelay(double step){
-		millisecondDelay = 1000 * step;
-		secondDelay = step;
+		millisecondDelay = 1000 / step;
 	}
 	
 	public void setIsStep(Boolean value){
@@ -123,12 +121,6 @@ public class CellSociety {
 			Animation newFireAnimation = new AnimationSpreadingOfFire(this);
 			animations.put(type, newFireAnimation);
 		}
-		else if (type.equals("Segregation")) {
-			Page newSegregationPage = new PageSegregation(this);
-			pages.put(type, newSegregationPage);
-//			Animation newSegregationAnimation = new AnimationSegregation(this);
-//			animations.put(type, newSegregationAnimation);
-		}
 	}
 	
 	public void loadPage(String type){
@@ -145,7 +137,7 @@ public class CellSociety {
 
 			@Override
 			public void handle(ActionEvent event) {
-				actionsPerFrame(secondDelay);
+				actionsPerFrame();
 			}
 			
 		});
@@ -162,13 +154,14 @@ public class CellSociety {
 		timeline.stop();
 	}
 
-	private void actionsPerFrame(double elapsedTime) {
+	private void actionsPerFrame() {
 		// if the current mode is consecutive simulation
 		if (!isStep){
 			animations.get(currentType).calculateMove();
 			((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
 			((GamePage) pages.get(currentType)).updateColor();
 			((GamePage) pages.get(currentType)).updateTextInfo();
+			((GamePage) pages.get(currentType)).addTextInfo();
 		}
 		// if the current mode is simulation step by step
 		else {
