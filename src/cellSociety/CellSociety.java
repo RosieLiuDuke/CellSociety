@@ -77,7 +77,7 @@ public class CellSociety {
 	}
 	
 	public void setDelay(double step){
-		millisecondDelay = 1000 * step;
+		millisecondDelay = 1000 / step;
 		secondDelay = step;
 	}
 	
