@@ -13,9 +13,10 @@ public class AnimationPredator extends Animation{
 	private final static int FISHNUMBER = 1;
 	private final static int SHARKNUMBER = 2;
 	
-	private final static int sharkLife = 3;
-	private final static int fishLife = 3;
+	private final static int sharkLife = 2;
+	private final static int fishLife = 1;
 	private boolean firstTime;
+	private int [][] lives;
 	
 	private class Coord {
 		int x;
@@ -43,18 +44,20 @@ public class AnimationPredator extends Animation{
 	
 	public void calculateMove() {
 		int [][] grid = getArray("Predator");
-		int [][] lives = new int[grid.length][grid[0].length];
 		
 		
-		if (firstTime)
-			createLives(grid, lives);
+		if (firstTime) {
+			lives = new int[grid.length][grid[0].length];
+			createLives(grid);
+		}
 		
-		progressThrough(grid, lives);
+		progressThrough(grid);
 		setCells(grid, (PagePredator)getNeededPage("Predator"));
 	}
 	
-	private void createLives(int [][] grid, int [][] lives) {
+	private void createLives(int [][] grid) {
 		int i,j;
+		firstTime = false;
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				if (grid[i][j] == FISHNUMBER) {
@@ -70,13 +73,12 @@ public class AnimationPredator extends Animation{
 		}
 	}
 	
-	private void progressThrough(int [][] grid, int [][] lives) {
-		
-		sharkProgress(grid, lives);
-		fishProgress(grid, lives);
+	private void progressThrough(int [][] grid) {
+		sharkProgress(grid);
+		fishProgress(grid);
 	}
 	
-	private void sharkProgress (int [][] grid, int [][] lives) {
+	private void sharkProgress (int [][] grid) {
 		int i, j, rand, x, y;
 		
 		
@@ -110,7 +112,7 @@ public class AnimationPredator extends Animation{
 			}
 		}
 	}
-	private void fishProgress(int [][] grid, int [][] lives) {
+	private void fishProgress(int [][] grid) {
 		int i, j, rand, x, y;
 		
 		for (i = 0; i < grid.length; i++) {
