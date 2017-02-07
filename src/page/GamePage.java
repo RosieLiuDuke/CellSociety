@@ -216,7 +216,6 @@ public class GamePage extends Page {
 		controlBox.getChildren().addAll(speedChoice, addButtons());
 		
 		updateTextInfo();
-		addTextInfo();
 		
 		this.getRoot().setTop(parametersBox);
 		this.getRoot().setCenter(this.getGrid());
@@ -240,7 +239,6 @@ public class GamePage extends Page {
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
-		addTextInfo();
 		double width = gridWidth / getCol();
 		double height = gridHeight / getCol();
 
@@ -279,13 +277,6 @@ public class GamePage extends Page {
 				+ getMyResources().getString("StepParameter") + getSpeed() + " | " 
 				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ " | ";
 		this.getParameters().setText(text);
-	}
-	
-	/**
-	 * The method to adds on additional parameters if necessary to the UI Screen.
-	 */
-	public void addTextInfo(){
-		//EMPTY (called only if new parameters need to be added)
 	}
 	
 	/**
@@ -342,9 +333,15 @@ public class GamePage extends Page {
 	 * @param event
 	 */
 	private void stepButton(ActionEvent event) {
-		this.getCellSociety().setIsStep(true);
-		this.getCellSociety().setNextStep(true);
-		this.getCellSociety().beginGameLoop();
+		if (simulationSelected){
+			this.getCellSociety().setIsStep(true);
+			this.getCellSociety().setNextStep(true);
+			this.getCellSociety().beginGameLoop();
+		}
+		else{
+			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
+			alert.showAndWait();
+		}
 	}	
 	
 }
