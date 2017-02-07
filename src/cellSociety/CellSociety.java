@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 import animation.Animation;
 import animation.AnimationGameOfLife;
+import animation.AnimationSegregation;
 //import animation.AnimationSegregation;
 import animation.AnimationSpreadingOfFire;
 import javafx.animation.KeyFrame;
@@ -112,8 +113,8 @@ public class CellSociety {
 			Page newSegregationPage = new PageSegregation(this);
 			pages.put(type, newSegregationPage);
 			// TODO
-			//Animation newSegregationAnimation = new AnimationSegregation(this); 
-			//animations.put(type, newSegregationAnimation);
+			Animation newSegregationAnimation = new AnimationSegregation(this); 
+			animations.put(type, newSegregationAnimation);
 		}
 		else if (type.equals("Fire")){
 			Page newFirePage = new PageSpreadingOfFire(this);

@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
@@ -46,6 +47,7 @@ public class GamePage extends Page {
 	private Text parameters;
 	private List<String> myOptions;
 	private ComboBox<String> layoutChoice;
+	private Slider speedChoice;
 	private String text;
 	
 	public GamePage (CellSociety cs) {
@@ -203,12 +205,22 @@ public class GamePage extends Page {
 		parametersBox.getChildren().addAll(parameters, layoutChoice);
 		parametersBox.setAlignment(Pos.CENTER);
 		
+		speedChoice = new Slider(1, 10, getSpeed());
+		speedChoice.setShowTickLabels(false);
+		speedChoice.setShowTickMarks(false);
+		speedChoice.setMajorTickUnit(1);
+		speedChoice.setBlockIncrement(1);
+		// TODO
+		
+		HBox controlBox = new HBox(15);
+		controlBox.getChildren().addAll(speedChoice, addButtons());
+		
 		updateTextInfo();
 		addTextInfo();
 		
 		this.getRoot().setTop(parametersBox);
 		this.getRoot().setCenter(this.getGrid());
-		this.getRoot().setBottom(addButtons());
+		this.getRoot().setBottom(controlBox);
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
 		this.getCellSociety().setDelay(getSpeed());
