@@ -205,14 +205,15 @@ public class GamePage extends Page {
 		parametersBox.getChildren().addAll(parameters, layoutChoice);
 		parametersBox.setAlignment(Pos.CENTER);
 		
-		speedChoice = new Slider(1, 10, getSpeed());
-		speedChoice.setShowTickLabels(false);
-		speedChoice.setShowTickMarks(false);
+		speedChoice = new Slider(1, 5, getSpeed());
+		speedChoice.setShowTickLabels(true);
+		speedChoice.setShowTickMarks(true);
 		speedChoice.setMajorTickUnit(1);
 		speedChoice.setBlockIncrement(1);
+		speedChoice.setValue(3);
 		speedChoice.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
 		
-		HBox controlBox = new HBox(15);
+		VBox controlBox = new VBox(15);
 		controlBox.getChildren().addAll(speedChoice, addButtons());
 		
 		updateTextInfo();
