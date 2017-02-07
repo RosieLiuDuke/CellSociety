@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import page.GamePage;
 import page.Page;
 import page.PageGameOfLife;
+import page.PagePredator;
 import page.PageSegregation;
 import page.PageSpreadingOfFire;
 import page.WelcomePage;
@@ -121,6 +122,12 @@ public class CellSociety {
 			pages.put(type, newFirePage);
 			Animation newFireAnimation = new AnimationSpreadingOfFire(this);
 			animations.put(type, newFireAnimation);
+		}
+		else if (type.equals("Predator")){
+			Page newPredatorPage = new PagePredator(this);
+			pages.put(type, newPredatorPage);
+//			Animation newPredatorAnimation = new AnimationPredator(this);
+//			animations.put(type, newPredatorAnimation);
 		}
 	}
 	
