@@ -34,7 +34,6 @@ public class CellSociety {
 	
 	private Timeline timeline; 
 	private double millisecondDelay;
-	private double secondDelay;	
 	
 	// if the simulation is step by step or consecutive.
 	private Boolean isStep = false; 
@@ -78,7 +77,6 @@ public class CellSociety {
 	
 	public void setDelay(double step){
 		millisecondDelay = 1000 / step;
-		secondDelay = step;
 	}
 	
 	public void setIsStep(Boolean value){
@@ -139,7 +137,7 @@ public class CellSociety {
 
 			@Override
 			public void handle(ActionEvent event) {
-				actionsPerFrame(secondDelay);
+				actionsPerFrame();
 			}
 			
 		});
@@ -156,7 +154,7 @@ public class CellSociety {
 		timeline.stop();
 	}
 
-	private void actionsPerFrame(double elapsedTime) {
+	private void actionsPerFrame() {
 		// if the current mode is consecutive simulation
 		if (!isStep){
 			animations.get(currentType).calculateMove();
