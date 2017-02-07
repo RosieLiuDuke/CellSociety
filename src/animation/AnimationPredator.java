@@ -13,8 +13,8 @@ public class AnimationPredator extends Animation{
 	private final static int FISHNUMBER = 1;
 	private final static int SHARKNUMBER = 2;
 	
-	private int sharkLife;
-	private int fishLife;
+	private final static int sharkLife = 3;
+	private final static int fishLife = 3;
 	private boolean firstTime;
 	
 	private class Coord {
