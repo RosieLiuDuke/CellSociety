@@ -41,7 +41,8 @@ public class PageSpreadingOfFire extends GamePage {
 	}
 	
 	@Override
-	public void addTextInfo() {
+	public void updateTextInfo() {
+		super.updateTextInfo();
 		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + " | ";
 		this.getParameters().setText(myText);
 	}	
