@@ -210,7 +210,7 @@ public class GamePage extends Page {
 		speedChoice.setShowTickMarks(false);
 		speedChoice.setMajorTickUnit(1);
 		speedChoice.setBlockIncrement(1);
-		// TODO
+		speedChoice.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
 		
 		HBox controlBox = new HBox(15);
 		controlBox.getChildren().addAll(speedChoice, addButtons());
@@ -226,6 +226,18 @@ public class GamePage extends Page {
 		this.getCellSociety().setupGameLoop();
 	}
 	
+	/**
+	 * When the slider is updated, change the speed of simulation by having a new timeline.
+	 * @param nVal
+	 */
+	private void updateSpeed(int nVal) {
+		setSpeed(nVal);
+		this.getCellSociety().setDelay(nVal);
+		this.getCellSociety().stopGameLoop();
+		this.getCellSociety().setupGameLoop();
+		this.getCellSociety().beginGameLoop();
+	}
+
 	/**
 	 * The method to set up the grid layout in the scene.
 	 * Abstract.
