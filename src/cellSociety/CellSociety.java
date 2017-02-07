@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 import animation.Animation;
 import animation.AnimationGameOfLife;
+import animation.AnimationSegregation;
 //import animation.AnimationSegregation;
 import animation.AnimationSpreadingOfFire;
 import javafx.animation.KeyFrame;
@@ -112,8 +113,8 @@ public class CellSociety {
 			Page newSegregationPage = new PageSegregation(this);
 			pages.put(type, newSegregationPage);
 			// TODO
-			//Animation newSegregationAnimation = new AnimationSegregation(this); 
-			//animations.put(type, newSegregationAnimation);
+			Animation newSegregationAnimation = new AnimationSegregation(this); 
+			animations.put(type, newSegregationAnimation);
 		}
 		else if (type.equals("Fire")){
 			Page newFirePage = new PageSpreadingOfFire(this);
@@ -161,7 +162,6 @@ public class CellSociety {
 			((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
 			((GamePage) pages.get(currentType)).updateColor();
 			((GamePage) pages.get(currentType)).updateTextInfo();
-			((GamePage) pages.get(currentType)).addTextInfo();
 		}
 		// if the current mode is simulation step by step
 		else {

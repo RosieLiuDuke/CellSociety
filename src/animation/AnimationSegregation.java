@@ -3,6 +3,7 @@ package animation;
 import java.util.ArrayList;
 
 import cellSociety.CellSociety;
+import page.GamePage;
 import page.PageGameOfLife;
 import page.PageSegregation;
 
@@ -36,6 +37,10 @@ public class AnimationSegregation extends Animation{
 	}
 
 	public void calculateMove() {
+		String type = this.getCellSociety().getCurrentType();
+		GamePage page = (GamePage) this.getCellSociety().getPage(type);
+		neededNeighbors = page.getSatisfaction();
+		
 		int [][] grid = getArray("Segregation");
 		boolean [][] shouldChange = new boolean[grid.length][grid[0].length];
 		

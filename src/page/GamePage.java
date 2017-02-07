@@ -14,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
@@ -46,6 +47,7 @@ public class GamePage extends Page {
 	private Text parameters;
 	private List<String> myOptions;
 	private ComboBox<String> layoutChoice;
+	private Slider speedChoice;
 	private String text;
 	
 	public GamePage (CellSociety cs) {
@@ -203,18 +205,39 @@ public class GamePage extends Page {
 		parametersBox.getChildren().addAll(parameters, layoutChoice);
 		parametersBox.setAlignment(Pos.CENTER);
 		
+		speedChoice = new Slider(1, 10, getSpeed());
+		speedChoice.setShowTickLabels(false);
+		speedChoice.setShowTickMarks(false);
+		speedChoice.setMajorTickUnit(1);
+		speedChoice.setBlockIncrement(1);
+		speedChoice.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
+		
+		HBox controlBox = new HBox(15);
+		controlBox.getChildren().addAll(speedChoice, addButtons());
+		
 		updateTextInfo();
-		addTextInfo();
 		
 		this.getRoot().setTop(parametersBox);
 		this.getRoot().setCenter(this.getGrid());
-		this.getRoot().setBottom(addButtons());
+		this.getRoot().setBottom(controlBox);
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
 		this.getCellSociety().setDelay(getSpeed());
 		this.getCellSociety().setupGameLoop();
 	}
 	
+	/**
+	 * When the slider is updated, change the speed of simulation by having a new timeline.
+	 * @param nVal
+	 */
+	private void updateSpeed(int nVal) {
+		setSpeed(nVal);
+		this.getCellSociety().setDelay(nVal);
+		this.getCellSociety().stopGameLoop();
+		this.getCellSociety().setupGameLoop();
+		this.getCellSociety().beginGameLoop();
+	}
+
 	/**
 	 * The method to set up the grid layout in the scene.
 	 * Abstract.
@@ -228,7 +251,6 @@ public class GamePage extends Page {
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
-		addTextInfo();
 		double width = gridWidth / getCol();
 		double height = gridHeight / getCol();
 
@@ -267,13 +289,6 @@ public class GamePage extends Page {
 				+ getMyResources().getString("StepParameter") + getSpeed() + " | " 
 				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ " | ";
 		this.getParameters().setText(text);
-	}
-	
-	/**
-	 * The method to adds on additional parameters if necessary to the UI Screen.
-	 */
-	public void addTextInfo(){
-		//EMPTY (called only if new parameters need to be added)
 	}
 	
 	/**
@@ -330,9 +345,15 @@ public class GamePage extends Page {
 	 * @param event
 	 */
 	private void stepButton(ActionEvent event) {
-		this.getCellSociety().setIsStep(true);
-		this.getCellSociety().setNextStep(true);
-		this.getCellSociety().beginGameLoop();
+		if (simulationSelected){
+			this.getCellSociety().setIsStep(true);
+			this.getCellSociety().setNextStep(true);
+			this.getCellSociety().beginGameLoop();
+		}
+		else{
+			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
+			alert.showAndWait();
+		}
 	}	
 	
 }
