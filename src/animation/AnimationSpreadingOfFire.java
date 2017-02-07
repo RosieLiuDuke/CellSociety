@@ -30,7 +30,7 @@ public class AnimationSpreadingOfFire extends Animation {
 		
 		changegrid(shouldChange, grid);
 		
-		setCells(grid);
+		setCells(grid, (PageSpreadingOfFire)getNeededPage("Fire"));
 	}
 	
 	
@@ -79,17 +79,6 @@ public class AnimationSpreadingOfFire extends Animation {
 						grid[i][j] = BURNINGVALUE;
 					}
 				}
-			}
-		}
-	}
-	
-
-	private void setCells (int [][] grid) {
-		int i, j;
-		PageSpreadingOfFire p = (PageSpreadingOfFire)getNeededPage("Fire");
-		for (i = 0; i < grid.length; i++) {
-			for (j = 0; j < grid[0].length; j++) {
-				p.getCell(i, j).changeStatus(grid[i][j]);
 			}
 		}
 	}

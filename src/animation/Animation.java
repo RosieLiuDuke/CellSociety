@@ -1,6 +1,8 @@
 package animation;
 import cellSociety.CellSociety;
 import page.GamePage;
+import page.Page;
+import page.PageSegregation;
 import page.PageSpreadingOfFire;
 
 public abstract class Animation {
@@ -44,5 +46,14 @@ public abstract class Animation {
 	 */
 	public GamePage getNeededPage(String s) {
 		return (GamePage) getCellSociety().getPage(s);
+	}
+	
+	protected void setCells (int [][] grid, GamePage p) {
+		int i, j;
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid[0].length; j++) {
+				p.getCell(i, j).changeStatus(grid[i][j]);
+			}
+		}
 	}
 }

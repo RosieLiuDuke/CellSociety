@@ -48,7 +48,7 @@ public class AnimationSegregation extends Animation{
 		
 		changeCells(shouldChange,grid);
 		
-		setCells(grid);
+		setCells(grid, (PageSegregation) getNeededPage("Segregation"));
 	}
 
 	private void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
@@ -88,7 +88,7 @@ public class AnimationSegregation extends Animation{
 				agree -= 1;
 				
 				
-				shouldChange[i-1][j-1] = ((agree / disagree) < neededNeighbors);
+				shouldChange[i-1][j-1] = ((agree / disagree) <= neededNeighbors);
 				
 				
 				agree = 0; disagree = 0;
@@ -122,16 +122,6 @@ public class AnimationSegregation extends Animation{
 			emptyCells.remove(rand);
 			emptyCells.add(new Coord(i, j));
 			changeCells.remove(0);
-		}
-	}
-	
-	private void setCells (int [][] grid) {
-		int i, j;
-		PageSegregation p = (PageSegregation) getNeededPage("Segregation");
-		for (i = 0; i < grid.length; i++) {
-			for (j = 0; j < grid[0].length; j++) {
-				p.getCell(i, j).changeStatus(grid[i][j]);
-			}
 		}
 	}
 }

@@ -25,7 +25,7 @@ public class AnimationGameOfLife extends Animation {
 		
 		changegrid(shouldChange, grid);
 		
-		setCells(grid);
+		setCells(grid, (PageGameOfLife) getNeededPage("Game of Life"));
 	}
 	
 	private void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
@@ -85,13 +85,4 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	private void setCells (int [][] grid) {
-		int i, j;
-		PageGameOfLife p = (PageGameOfLife) getNeededPage("Game of Life");
-		for (i = 0; i < grid.length; i++) {
-			for (j = 0; j < grid[0].length; j++) {
-				p.getCell(i, j).changeStatus(grid[i][j]);
-			}
-		}
-	}
 }

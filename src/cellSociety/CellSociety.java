@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 import animation.Animation;
 import animation.AnimationGameOfLife;
+import animation.AnimationPredator;
 import animation.AnimationSegregation;
 //import animation.AnimationSegregation;
 import animation.AnimationSpreadingOfFire;
