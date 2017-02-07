@@ -127,8 +127,8 @@ public class CellSociety {
 		else if (type.equals("Predator")){
 			Page newPredatorPage = new PagePredator(this);
 			pages.put(type, newPredatorPage);
-//			Animation newPredatorAnimation = new AnimationPredator(this);
-//			animations.put(type, newPredatorAnimation);
+			Animation newPredatorAnimation = new AnimationPredator(this);
+			animations.put(type, newPredatorAnimation);
 		}
 	}
 	
