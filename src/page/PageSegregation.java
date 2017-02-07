@@ -39,7 +39,7 @@ public class PageSegregation extends GamePage {
 			if (indicator >= prevStateProb && indicator < nextStateProb){
 				status = i;
 			}
-			prevStateProb += nextStateProb;
+			prevStateProb += percentage.get(i);
 		}
 		return status;
 	}

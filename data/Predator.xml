@@ -1,0 +1,23 @@
+<Simulation name="Predator">
+	<grid>
+		<nCol>30</nCol>
+		<nRow>30</nRow>
+		<size>10</size>
+		<state value = "0">
+			<animal>water</animal>
+			<turnover>0</turnover>
+			<percentage>0.8</percentage>
+		</state>
+		<state value = "1">
+			<animal>fish</animal>
+			<turnover>3</turnover>
+			<percentage>0.15</percentage>
+		</state>
+		<state value = "2">
+			<animal>shark</animal>
+			<turnover>3</turnover>
+			<percentage>0.05</percentage>
+		</state>
+	</grid>
+	<speed>3</speed>
+</Simulation>
