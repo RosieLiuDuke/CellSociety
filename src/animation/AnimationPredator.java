@@ -77,18 +77,17 @@ public class AnimationPredator extends Animation{
 	private class Shark extends Creature {
 		private int x;
 		private int y;
-		private int life;
 		
 		private Shark (int i, int j) {
 			super(i, j);
-			life = sharkLife;
+			super.life = sharkLife;
 		}
 		
 		private void subLife() {
-			life--;
+			super.life--;
 		}
 		private void resetLife() {
-			life = sharkLife;
+			super.life = sharkLife;
 		}
 	}
 
@@ -97,6 +96,7 @@ public class AnimationPredator extends Animation{
 		firstTime = true;
 		fishList = new ArrayList<Fish>();
 		sharkList = new ArrayList<Shark>();
+		emptyList = new ArrayList<cellObject>();
 	}
 	
 	public void calculateMove() {
@@ -146,6 +146,7 @@ public class AnimationPredator extends Animation{
 				emptyList.add(new cellObject(sharkList.get(i).getX(), sharkList.get(i).getY()));
 				sharkList.remove(i);
 				i--;
+				initsize--;
 			}
 			else if (checkFish(sharkList.get(i)).size() > 0) {
 				sharkList.get(i).resetLife();
@@ -175,7 +176,8 @@ public class AnimationPredator extends Animation{
 		int initsize = fishList.size();
 		
 		for (i = 0; i < initsize; i++) {
-			if (checkEmpty(fishList.get(i)).size() > 0) {
+			if (checkEmpty(fishList.get(i)).size() != 0) {
+				System.out.println(checkEmpty(fishList.get(i)));
 				if (fishList.get(i).getLife() >= fishLife) {
 					fishList.get(i).resetLife();
 					rand = getRandomForList(checkEmpty(sharkList.get(i)).size());
@@ -196,12 +198,13 @@ public class AnimationPredator extends Animation{
 				}
 			}
 			else {
+				System.out.println("This happens");
 				fishList.get(i).addLife();
 			}
 		}
 	}
 	
-	private List <Fish> checkFish(Creature c) {
+	private ArrayList <Fish> checkFish(Creature c) {
 		ArrayList <Fish> returnList = new ArrayList<Fish>();
 		checkFishSpot(c.getX() -1, c.getY(),returnList);
 		checkFishSpot(c.getX() + 1, c.getY(), returnList);
@@ -216,7 +219,7 @@ public class AnimationPredator extends Animation{
 			}
 		}
 	}
-	private List <cellObject> checkEmpty(Creature c) {
+	private ArrayList <cellObject> checkEmpty(Creature c) {
 		ArrayList <cellObject> returnList = new ArrayList<cellObject>();
 		checkEmptySpot(c.getX() -1, c.getY(),returnList);
 		checkEmptySpot(c.getX() + 1, c.getY(), returnList);
@@ -225,9 +228,12 @@ public class AnimationPredator extends Animation{
 		return returnList;
 	}
 	private void checkEmptySpot(int x, int y, ArrayList <cellObject>returnList) {
+		int i;
 		if ((x >= 0) && (y>= 0) && (x < xMax) && (y < yMax)) {
-			if (emptyList.contains(new cellObject(x, y))) {
-				returnList.add(new cellObject(x,y));
+			for (i = 0; i < emptyList.size(); i++) {
+				if ((emptyList.get(i).getX() == x) && (emptyList.get(i).getY() == y)){
+					returnList.add(new cellObject(x,y));
+				}
 			}
 		}
 	}
