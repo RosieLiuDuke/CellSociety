@@ -185,6 +185,26 @@ public class GamePage extends Page {
 	public void setPercentage(int type, double value){
 	}
 	
+	public String getItemName(int state) {
+		return null;
+	}
+
+	public int getItemState(String name) {
+		return 0;
+	}
+
+	public double getItemTurnover(int state) {
+		return 0;
+	}
+
+	public double getItemTurnOver(String name) {
+		return 0;
+	}
+
+	public void inputSeaItem(int state, String name, double turnover) {
+		
+	}	
+	
 	/**
 	 * The method to set up required components in the scene.
 	 * Abstract.
@@ -355,6 +375,6 @@ public class GamePage extends Page {
 			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
 			alert.showAndWait();
 		}
-	}	
+	}
 	
 }

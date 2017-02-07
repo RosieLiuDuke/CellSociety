@@ -28,7 +28,11 @@ public class XMLParser extends DefaultHandler{
 	boolean bSpeed = false;
 	boolean bProb = false;
 	boolean bSatisfaction = false;
+	boolean bAnimal = false;
+	boolean bTurnover = false;
 	String type = "";
+	String animal = "";
+	double turnover = 0;
 	int state = 0;
 	int row = 0;
 	int col = 0;
@@ -85,6 +89,12 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("satisfaction")){
 			bSatisfaction = true;
 		}
+		else if (qName.equals("animal")){
+			bAnimal = true;
+		}
+		else if (qName.equals("turnover")){
+			bTurnover = true;
+		}
 	}
 
 	@Override
@@ -108,9 +118,12 @@ public class XMLParser extends DefaultHandler{
 			GamePage thePage = (GamePage) page.getCellSociety().getPage(type);
 			thePage.setCellStatus(col, row, state);
 			thePage.setPercentage(state, percentage);
+			thePage.inputSeaItem(state, animal, turnover);
 			row = col = 0;
 			state = 0;
 			percentage = 0;
+			animal = "";
+			turnover = 0;
 			bState = false;
 		}
 		else if (qName.equals("column")){
@@ -130,6 +143,12 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (qName.equals("satisfaction")){
 			bSatisfaction = false;
+		}
+		else if (qName.equals("animal")){
+			bAnimal = false;
+		}
+		else if (qName.equals("turnover")){
+			bTurnover = false;
 		}
 	}
 
@@ -162,6 +181,12 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (bSatisfaction){
 			thePage.setSatisfaction(Double.parseDouble(new String(ch, start, length)));
+		}
+		else if (bAnimal){
+			animal = new String(ch, start, length);
+		}
+		else if (bTurnover){
+			turnover = Double.parseDouble(new String(ch, start, length));
 		}
 	}	
 
