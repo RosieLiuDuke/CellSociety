@@ -82,6 +82,9 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("prob")){
 			bProb = true;
 		}
+		else if (qName.equals("satisfaction")){
+			bSatisfaction = true;
+		}
 	}
 
 	@Override
@@ -125,6 +128,9 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("prob")){
 			bProb = false;
 		}
+		else if (qName.equals("satisfaction")){
+			bSatisfaction = false;
+		}
 	}
 
 	@Override
@@ -153,6 +159,9 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (bProb){
 			thePage.setProb(Double.parseDouble(new String(ch, start, length)));
+		}
+		else if (bSatisfaction){
+			thePage.setSatisfaction(Double.parseDouble(new String(ch, start, length)));
 		}
 	}	
 

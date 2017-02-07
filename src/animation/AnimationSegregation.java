@@ -36,6 +36,7 @@ public class AnimationSegregation extends Animation{
 	}
 
 	public void calculateMove() {
+		System.out.println("calculateMove is called");
 		int [][] grid = getArray("Segregation");
 		boolean [][] shouldChange = new boolean[grid.length][grid[0].length];
 		

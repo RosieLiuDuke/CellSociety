@@ -15,8 +15,8 @@ import util.XMLReader;
  */
 public class Page {
 	
-	private static final int WIDTH = 800;
-	private static final int HEIGHT = 600;
+	protected static final int WIDTH = 800;
+	protected static final int HEIGHT = 600;
 	private static final String TITLE = "CellSociety";
 	private CellSociety theCellSociety;
 	private Stage stage;

@@ -13,6 +13,6 @@
 			<percentage>0.45</percentage>
 		</state>
 	</grid>
-	<prob>0.3</prob>
+	<satisfaction>0.3</satisfaction>
 	<speed>1</speed>
 </Simulation>
