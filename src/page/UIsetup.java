@@ -22,8 +22,8 @@ public class UIsetup extends GamePage {
 	private String text;
 	private Text parameters;
 	
-	public UIsetup(CellSociety cs) {
-		super(cs);
+	public UIsetup(CellSociety cs, String l) {
+		super(cs, l);
 		myOptions = new ArrayList<String>();
 	}
 	

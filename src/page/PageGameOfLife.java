@@ -9,8 +9,8 @@ import javafx.scene.paint.Color;
  */
 public class PageGameOfLife extends UIsetup {
 		
-	public PageGameOfLife(CellSociety cs) {
-		super(cs);
+	public PageGameOfLife(CellSociety cs, String language) {
+		super(cs, language);
 		this.getColorMap().put(0, Color.TRANSPARENT);
 		this.getColorMap().put(1, Color.BLACK);
 	}

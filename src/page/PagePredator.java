@@ -65,8 +65,8 @@ public class PagePredator extends UIsetup {
 		seaItems.put(stateName, turnover);
 	}
 	
-	public PagePredator(CellSociety cs) {
-		super(cs);
+	public PagePredator(CellSociety cs, String language) {
+		super(cs, language);
 		this.getColorMap().clear();
 		this.getColorMap().put(0, Color.BLUE);
 		this.getColorMap().put(1, Color.CORAL);

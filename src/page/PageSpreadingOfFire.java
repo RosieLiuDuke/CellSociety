@@ -21,8 +21,8 @@ public class PageSpreadingOfFire extends UIsetup {
 		probCatch = p;
 	}
 	
-	public PageSpreadingOfFire(CellSociety cs) {
-		super(cs);
+	public PageSpreadingOfFire(CellSociety cs, String language) {
+		super(cs, language);
 		getColorMap().put(0, Color.YELLOW);
 		getColorMap().put(1, Color.GREEN);
 		getColorMap().put(2, Color.RED);

@@ -54,8 +54,8 @@ public class PageSegregation extends UIsetup {
 		percentage.put(state, value);
 	}
 	
-	public PageSegregation(CellSociety cs) {
-		super(cs);
+	public PageSegregation(CellSociety cs, String language) {
+		super(cs, language);
 		this.getColorMap().clear();
 		this.getColorMap().put(0, Color.TRANSPARENT);
 		this.getColorMap().put(1, Color.RED);

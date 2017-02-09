@@ -34,8 +34,8 @@ public abstract class GamePage extends Page {
 	private Button stop;
 	private Button step;
 	
-	public GamePage (CellSociety cs) {
-		super(cs);
+	public GamePage (CellSociety cs, String language) {
+		super(cs, language);
 		grid = new Group();
 		cells = new HashMap<Indices, Cell>();
 		cellsStatus = new HashMap<Indices, Integer>();

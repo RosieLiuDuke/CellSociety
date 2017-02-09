@@ -38,8 +38,8 @@ public class WelcomePage extends Page {
 	private List<String> myLanguages;
 	private ComboBox<String> languageChoice;
 	
-	public WelcomePage(CellSociety cs) {
-		super(cs);
+	public WelcomePage(CellSociety cs, String l) {
+		super(cs, l);
 		myLanguages = new ArrayList<String>();
 		addLanguages();
 		ObservableList<String> languages = FXCollections.observableArrayList(myLanguages);
@@ -60,7 +60,7 @@ public class WelcomePage extends Page {
 		Button START = createButton(getMyResources().getString("StartCommand"), event -> handleMouseReleasedStart(event));
 		
 		VBox buttonBox = new VBox(SPACING);
-		buttonBox.getChildren().addAll(TITLE, UPLOAD, START, languageChoice);
+		buttonBox.getChildren().addAll(TITLE, languageChoice, UPLOAD, START);
 		buttonBox.setAlignment(Pos.CENTER);
 		
 		this.getRoot().setBackground(bg);
