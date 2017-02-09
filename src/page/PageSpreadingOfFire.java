@@ -7,7 +7,7 @@ import cellSociety.CellSociety;
  * @author Harry Liu, Yilin Gao
  *
  */
-public class PageSpreadingOfFire extends GamePage {
+public class PageSpreadingOfFire extends UIsetup {
 	
 	private double probCatch; 
 	
@@ -30,7 +30,6 @@ public class PageSpreadingOfFire extends GamePage {
 	
 	@Override
 	protected void setupComponents() {
-		this.getOptions().add("Input");
 		super.setupComponents();
 	}
 	

@@ -1,13 +1,19 @@
 package page;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import cellSociety.CellSociety;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -29,9 +35,17 @@ public class WelcomePage extends Page {
 	private Text TITLE;
 	private String BACKGROUND = "splash_bg.jpg";
 	private int SPACING = 10;
+	private List<String> myLanguages;
+	private ComboBox<String> languageChoice;
 	
 	public WelcomePage(CellSociety cs) {
 		super(cs);
+		myLanguages = new ArrayList<String>();
+		addLanguages();
+		ObservableList<String> languages = FXCollections.observableArrayList(myLanguages);
+		languageChoice = new ComboBox<String>(languages);
+		languageChoice.valueProperty().addListener((obs, oVal, nVal) -> changeLanguage(nVal));
+		languageChoice.setValue(myLanguages.get(0));
 		
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
@@ -46,11 +60,16 @@ public class WelcomePage extends Page {
 		Button START = createButton(getMyResources().getString("StartCommand"), event -> handleMouseReleasedStart(event));
 		
 		VBox buttonBox = new VBox(SPACING);
-		buttonBox.getChildren().addAll(TITLE, UPLOAD, START);
+		buttonBox.getChildren().addAll(TITLE, UPLOAD, START, languageChoice);
 		buttonBox.setAlignment(Pos.CENTER);
 		
 		this.getRoot().setBackground(bg);
 		this.getRoot().setCenter(buttonBox);
+	}
+	
+	private void addLanguages(){
+		myLanguages.add("English");
+		myLanguages.add("Spanish");
 	}
 	
 	/**
@@ -82,7 +101,7 @@ public class WelcomePage extends Page {
 	 */
 	private void handleMouseReleasedStart(Event event) {
 		String type = this.getCellSociety().getNextType();
-		GamePage thePage = (GamePage)this.getCellSociety().getPage(type);
+		UIsetup thePage = (UIsetup)this.getCellSociety().getPage(type);
 		if (thePage != null){
 			thePage.setupComponents();
 			thePage.showPage();

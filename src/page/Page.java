@@ -24,9 +24,9 @@ public class Page {
 	private Scene scene;
 	private XMLReader xmlReader;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	private ResourceBundle myResources;
-	private String language = "Spanish";
-	
+	private String language = "English";
+	private ResourceBundle myResourceBundle;
+
 	/**
 	 * The constructor of the Page class. 
 	 * @param cs
@@ -38,7 +38,7 @@ public class Page {
 		root = new BorderPane();
 		scene = new Scene(root, WIDTH, HEIGHT);
 		xmlReader = new XMLReader(theCellSociety);
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+		myResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
 	}
 	
 	/**
@@ -73,16 +73,20 @@ public class Page {
 		return getMyResources();
 	}
 	
-	public ResourceBundle getMyResources() {
-		return myResources;
+	public void setMyResources(String newLang) {
+		myResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + newLang);
 	}
-
-	public void setMyResources(ResourceBundle myResources) {
-		this.myResources = myResources;
+	
+	public ResourceBundle getMyResources() {
+		return myResourceBundle;
 	}
 	
 	public int getWidth(){
 		return WIDTH;
+	}
+	
+	public void changeLanguage(String newLang){
+		setMyResources(newLang);
 	}
 	
 	/**

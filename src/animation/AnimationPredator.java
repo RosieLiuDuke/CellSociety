@@ -1,9 +1,6 @@
 package animation;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import cell.Cell;
 import cellSociety.CellSociety;
 import page.PagePredator;
 
@@ -16,24 +13,6 @@ public class AnimationPredator extends Animation{
 	private final static int sharkLife = 3;
 	private final static int fishLife = 3;
 	private boolean firstTime;
-	
-	private class Coord {
-		int x;
-		int y;
-		
-		private Coord (int w, int z) {
-			x  = w;
-			y = z;
-		}
-		
-		private int getX () {
-			return x;
-		}
-		private int getY() {
-			return y;
-		}
-	}
-	
 	
 
 	public AnimationPredator(CellSociety c) {

@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
  * @author Harry Liu
  */
 
-public class PagePredator extends GamePage {
+public class PagePredator extends UIsetup {
 	private Map<Map<Integer,String>, Double> seaItems;
 	private Map<Integer, Double> percentage;
 	
@@ -77,7 +77,6 @@ public class PagePredator extends GamePage {
 	
 	@Override
 	protected void setupComponents(){
-		this.getOptions().add("Input");
 		super.setupComponents();
 	}
 	

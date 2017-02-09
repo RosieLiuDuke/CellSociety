@@ -1,33 +1,22 @@
 package page;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import cell.Cell;
 import cell.Indices;
 import cellSociety.CellSociety;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
  * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
-public class GamePage extends Page {
+public abstract class GamePage extends Page {
 	protected static final int gridWidth = 300;
 	protected static final int gridHeight = 300;
 	private Group grid;
@@ -44,11 +33,6 @@ public class GamePage extends Page {
 	private Button start;
 	private Button stop;
 	private Button step;
-	private Text parameters;
-	private List<String> myOptions;
-	private ComboBox<String> layoutChoice;
-	private Slider speedChoice;
-	private String text;
 	
 	public GamePage (CellSociety cs) {
 		super(cs);
@@ -59,9 +43,8 @@ public class GamePage extends Page {
 		start = createButton(getMyResources().getString("StartCommand"), event-> startButton(event));
 		stop = createButton(getMyResources().getString("StopCommand"), event-> stopButton(event));
 		step = createButton(getMyResources().getString("StepCommand"), event-> stepButton(event));
+		
 		colorMap = new HashMap<Integer, Color>();
-		parameters = new Text();
-		myOptions = new ArrayList<String>();
 	}
 	
 	public Group getGrid(){
@@ -121,20 +104,8 @@ public class GamePage extends Page {
 		return back;
 	}
 	
-	public String getText(){
-		return text;
-	}
-	
 	public Map<Integer, Color> getColorMap(){
 		return colorMap;
-	}
-	
-	public List<String> getOptions(){
-		return myOptions;
-	}
-	
-	public Text getParameters(){
-		return parameters;
 	}
 	
 	public void setColNum (int c) {
@@ -205,59 +176,6 @@ public class GamePage extends Page {
 		
 	}	
 	
-	/**
-	 * The method to set up required components in the scene.
-	 * Abstract.
-	 */
-	protected void setupComponents(){
-		VBox parametersBox = new VBox(15);
-		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
-		layoutChoice = new ComboBox<String>(options);
-		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
-		layoutChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
-		layoutChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
-		layoutChoice.setMaxWidth(getWidth()/2);
-		parameters = new Text();
-		parameters.setId("parameters");
-		parameters.setWrappingWidth(getWidth());
-		parameters.setTextAlignment(TextAlignment.CENTER);
-		
-		parametersBox.getChildren().addAll(parameters, layoutChoice);
-		parametersBox.setAlignment(Pos.CENTER);
-		
-		speedChoice = new Slider(1, 5, getSpeed());
-		speedChoice.setShowTickLabels(true);
-		speedChoice.setShowTickMarks(true);
-		speedChoice.setMajorTickUnit(1);
-		speedChoice.setBlockIncrement(1);
-		speedChoice.setValue(3);
-		speedChoice.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
-		
-		VBox controlBox = new VBox(15);
-		controlBox.getChildren().addAll(speedChoice, addButtons());
-		
-		updateTextInfo();
-		
-		this.getRoot().setTop(parametersBox);
-		this.getRoot().setCenter(this.getGrid());
-		this.getRoot().setBottom(controlBox);
-		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
-		
-		this.getCellSociety().setDelay(getSpeed());
-		this.getCellSociety().setupGameLoop();
-	}
-	
-	/**
-	 * When the slider is updated, change the speed of simulation by having a new timeline.
-	 * @param nVal
-	 */
-	private void updateSpeed(int nVal) {
-		setSpeed(nVal);
-		this.getCellSociety().setDelay(nVal);
-		this.getCellSociety().stopGameLoop();
-		this.getCellSociety().setupGameLoop();
-		this.updateTextInfo();
-	}
 
 	/**
 	 * The method to set up the grid layout in the scene.
@@ -288,29 +206,7 @@ public class GamePage extends Page {
 		}
 	}
 	
-	/**
-	 * The method to add Buttons to the bottom of the UI Screen
-	 */
-	private HBox addButtons(){
-		HBox buttonBox = new HBox(5);
-		buttonBox.getChildren().addAll(this.getBack(), this.getStart(), this.getStop(), this.getStep());
-		buttonBox.setAlignment(Pos.CENTER);
-		return buttonBox;		
-	}
-	
-	/**
-	 * The method that updates the parameters displayed at the top of the UI Screen
-	 */
-	public void updateTextInfo() {
-		text = getMyResources().getString("TitleParameter") + this.getCellSociety().getCurrentType() 
-				+ "\n\n" + getMyResources().getString("RowParameter") + getRow() + " | " 
-				+ getMyResources().getString("ColParameter") + getCol() + " | "
-				+ getMyResources().getString("GridWidthParameter") + gridWidth + " | "
-				+ getMyResources().getString("GridHeightParameter") + gridHeight + " | "
-				+ getMyResources().getString("StepParameter") + getSpeed() + " | " 
-				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ " | ";
-		this.getParameters().setText(text);
-	}
+	public abstract void updateTextInfo();
 	
 	/**
 	 * The method to update the color on each step.
@@ -345,8 +241,7 @@ public class GamePage extends Page {
 			this.getCellSociety().beginGameLoop();
 		}
 		else{
-			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
-			alert.showAndWait();
+			displayAlert(getMyResources().getString("SelectCommand"));
 		}
 	}
 	
@@ -365,16 +260,20 @@ public class GamePage extends Page {
 	 * When the button is pressed, the simulation will perform the next step.
 	 * @param event
 	 */
-	private void stepButton(ActionEvent event) {
-		if (simulationSelected){
+	private void stepButton(ActionEvent event){
+		if (!simulationSelected){
+			displayAlert(getMyResources().getString("SelectCommand"));
+		}	
+		else{
 			this.getCellSociety().setIsStep(true);
 			this.getCellSociety().setNextStep(true);
 			this.getCellSociety().beginGameLoop();
-		}
-		else{
-			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
-			alert.showAndWait();
-		}
+		}	
+	}
+	
+	private void displayAlert(String prompt){
+		Alert alert = new Alert(AlertType.ERROR, prompt);
+		alert.showAndWait();
 	}
 	
 }

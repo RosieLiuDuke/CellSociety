@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
  * @author Harry Liu
  */
 
-public class PageSegregation extends GamePage {
+public class PageSegregation extends UIsetup {
 	
 	private double satisfaction;
 	private Map<Integer, Double> percentage;
@@ -65,7 +65,6 @@ public class PageSegregation extends GamePage {
 	
 	@Override
 	protected void setupComponents(){
-		this.getOptions().add("Input");
 		super.setupComponents();
 	}
 	

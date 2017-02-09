@@ -11,7 +11,6 @@ public class Main extends Application {
 
 	private CellSociety cellSociety;
 
-
 	@Override
 	public void start(Stage theStage){
 		cellSociety = new CellSociety(theStage);

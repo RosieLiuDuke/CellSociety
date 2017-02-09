@@ -24,6 +24,7 @@
     -fx-font-family:"Arial";
     -fx-background-color: #FFD700;
     -fx-pref-width: 200;
+    -fx-max-width:500;
 }
 
 .button {
