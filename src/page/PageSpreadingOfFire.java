@@ -9,29 +9,24 @@ import cellSociety.CellSociety;
  */
 public class PageSpreadingOfFire extends GamePage {
 	
-	private double probCatch; 
-	
-	@Override
-	public double getProb(){
-		return probCatch;
+	public PageSpreadingOfFire(CellSociety cs, Parameters p) {
+		super(cs, p);
+		this.getParametersController().addColor(0, Color.YELLOW);
+		this.getParametersController().addColor(1, Color.GREEN);
+		this.getParametersController().addColor(2, Color.RED);
 	}
 	
+	// use specific setup for each status
 	@Override
-	public void setProb(double p){
-		probCatch = p;
-	}
-	
-	public PageSpreadingOfFire(CellSociety cs) {
-		super(cs);
-		getColorMap().put(0, Color.YELLOW);
-		getColorMap().put(1, Color.GREEN);
-		getColorMap().put(2, Color.RED);
+	protected int getCellStatus(int col, int row){
+		return this.getParametersController().getStatusDistribution(col, row);
 	}
 	
 	@Override
 	protected void setupComponents() {
 		this.getOptions().add("Input");
 		super.setupComponents();
+		// can add other choices of layouts
 	}
 	
 	@Override
@@ -43,7 +38,9 @@ public class PageSpreadingOfFire extends GamePage {
 	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
-		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + " | ";
-		this.getParameters().setText(myText);
+		String myText = getText() 
+				+ getMyResources().getString("ProbabilityParameter") 
+				+ this.getParametersController().getProb() + " | ";
+		this.getInfoText().setText(myText);
 	}	
 }

@@ -4,6 +4,8 @@ import cellSociety.CellSociety;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -25,7 +27,8 @@ public class Page {
 	private XMLReader xmlReader;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private ResourceBundle myResources;
-	private String language = "Spanish";
+	private String language = "English";
+	private Parameters parametersController;
 	
 	/**
 	 * The constructor of the Page class. 
@@ -39,6 +42,15 @@ public class Page {
 		scene = new Scene(root, WIDTH, HEIGHT);
 		xmlReader = new XMLReader(theCellSociety);
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+		parametersController = new Parameters();
+	}
+
+	public Parameters getParametersController(){
+		return parametersController;
+	}
+	
+	public void setParametersController(Parameters p){
+		parametersController = p;
 	}
 	
 	/**
@@ -95,5 +107,10 @@ public class Page {
 		Button newButton = new Button(name);
 		newButton.setOnAction(handler);
 		return newButton;
+	}
+
+	protected void createAlert(String text) {
+		Alert alert = new Alert(AlertType.ERROR, getMyResources().getString(text));
+		alert.showAndWait();
 	}
 }

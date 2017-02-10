@@ -5,8 +5,6 @@ import javax.xml.parsers.SAXParserFactory;
 import cellSociety.CellSociety;
 import javafx.event.Event;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -65,7 +63,7 @@ public class WelcomePage extends Page {
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			XMLParser userhandler = new XMLParser(this);
+			XMLParser userhandler = new XMLParser(this.getParametersController());
 			if (this.getCellSociety().getFile() != null){
 				saxParser.parse(this.getCellSociety().getFile(), userhandler);  
 			}
@@ -81,15 +79,16 @@ public class WelcomePage extends Page {
 	 * @param event
 	 */
 	private void handleMouseReleasedStart(Event event) {
-		String type = this.getCellSociety().getNextType();
+		String type = this.getParametersController().getType();
+		this.getCellSociety().setNextType(type);
+		this.getCellSociety().initializePage(type);
 		GamePage thePage = (GamePage)this.getCellSociety().getPage(type);
 		if (thePage != null){
 			thePage.setupComponents();
 			thePage.showPage();
 		}
 		else{
-			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("UploadCommand"));
-			alert.showAndWait();
+			createAlert("UploadCommand");
 		}
 	}
 }

@@ -11,15 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 /**
@@ -28,39 +25,30 @@ import javafx.scene.text.TextAlignment;
  *
  */
 public class GamePage extends Page {
-	protected static final int gridWidth = 300;
-	protected static final int gridHeight = 300;
 	private Group grid;
 	private Map<Indices, Cell> cells;
-	private Map<Indices, Integer> cellsStatus;
-	private Map <Integer, Color> colorMap;	
-	private int colNum;
-	private int rowNum;
-	private double speed;	
 	private int currentStep;
-	private int defaultStatus;
 	private Boolean simulationSelected = false;
 	private Button back;
 	private Button start;
 	private Button stop;
 	private Button step;
-	private Text parameters;
+	private Text info;
 	private List<String> myOptions;
 	private ComboBox<String> layoutChoice;
 	private Slider speedChoice;
 	private String text;
 	
-	public GamePage (CellSociety cs) {
+	public GamePage (CellSociety cs, Parameters p) {
 		super(cs);
+		this.setParametersController(p);
 		grid = new Group();
 		cells = new HashMap<Indices, Cell>();
-		cellsStatus = new HashMap<Indices, Integer>();
 		back = createButton(getMyResources().getString("BackCommand"), event-> backButton(event));
 		start = createButton(getMyResources().getString("StartCommand"), event-> startButton(event));
 		stop = createButton(getMyResources().getString("StopCommand"), event-> stopButton(event));
 		step = createButton(getMyResources().getString("StepCommand"), event-> stepButton(event));
-		colorMap = new HashMap<Integer, Color>();
-		parameters = new Text();
+		info = new Text();
 		myOptions = new ArrayList<String>();
 	}
 	
@@ -68,41 +56,12 @@ public class GamePage extends Page {
 		return grid;
 	}
 	
-	public int getCol(){
-		return colNum;
-	}
-	
-	public int getRow(){
-		return rowNum;
-	}
-	
 	public Cell getCell(int col, int row){
 		return cells.get(new Indices(col, row));
 	}
 	
-	protected int getCellStatus(int col, int row){
-		if (cellsStatus.containsKey(new Indices(col, row))){
-			return cellsStatus.get(new Indices(col, row));
-		}
-		else{
-			return defaultStatus;
-		}
-	}
-	
-	protected int getDefaultStatus(){
-		return defaultStatus;
-	}
-	
-	protected double getSpeed () {
-		return speed;
-	}
-	
 	public int getCurrentStep () {
 		return currentStep;
-	}
-	
-	public double getProb(){
-		return 0;
 	}
 	
 	public Button getStart(){
@@ -124,87 +83,28 @@ public class GamePage extends Page {
 	public String getText(){
 		return text;
 	}
-	
-	public Map<Integer, Color> getColorMap(){
-		return colorMap;
+
+	public Text getInfoText(){
+		return info;
 	}
 	
 	public List<String> getOptions(){
 		return myOptions;
 	}
-	
-	public Text getParameters(){
-		return parameters;
+		
+	protected int getCellStatus(int col, int row){
+		return this.getParametersController().getDefaultStatus();
 	}
 	
-	public void setColNum (int c) {
-		colNum = c;
-	}
-	
-	public void setRowNum (int r) {
-		rowNum = r;
-	}
-	
-	public void setDefaultStatus(int s){
-		defaultStatus = s;
-	}
-	
-	public void setSpeed (double s) {
-		speed = s;
-	}
-	
-	protected void setCell(int col, int row, Cell c) {
+	protected void addCell(int col, int row, Cell c) {
 		Indices newKey = new Indices(col, row);
 		cells.put(newKey, c);
 	}
 	
-	public void setCellStatus(int col, int row, int state){
-		Indices newKey = new Indices(col, row);
-		cellsStatus.put(newKey, state);
-	}
-	
-	public void setCurrentStep(int cs) {
-		currentStep = cs;
-	}
-	
-	public void setProb(double p){
-//		prob = p;
-	}
-	
-	public double getSatisfaction(){
-		return 0;
-	}
-	
-	public double getPercentage(int state){
-		return 0;
-	}
-	
-	public void setSatisfaction(double value){
-	}
-	
-	public void setPercentage(int type, double value){
-	}
-	
-	public String getItemName(int state) {
-		return null;
+	public void setCurrentStep(int step){
+		currentStep = step;
 	}
 
-	public int getItemState(String name) {
-		return 0;
-	}
-
-	public double getItemTurnover(int state) {
-		return 0;
-	}
-
-	public double getItemTurnOver(String name) {
-		return 0;
-	}
-
-	public void inputSeaItem(int state, String name, double turnover) {
-		
-	}	
-	
 	/**
 	 * The method to set up required components in the scene.
 	 * Abstract.
@@ -217,15 +117,15 @@ public class GamePage extends Page {
 		layoutChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
 		layoutChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
 		layoutChoice.setMaxWidth(getWidth()/2);
-		parameters = new Text();
-		parameters.setId("parameters");
-		parameters.setWrappingWidth(getWidth());
-		parameters.setTextAlignment(TextAlignment.CENTER);
+		info = new Text();
+		info.setId("Parameters Information");
+		info.setWrappingWidth(getWidth());
+		info.setTextAlignment(TextAlignment.CENTER);
 		
-		parametersBox.getChildren().addAll(parameters, layoutChoice);
+		parametersBox.getChildren().addAll(info, layoutChoice);
 		parametersBox.setAlignment(Pos.CENTER);
 		
-		speedChoice = new Slider(1, 5, getSpeed());
+		speedChoice = new Slider(1, 20, this.getParametersController().getSpeed());
 		speedChoice.setShowTickLabels(true);
 		speedChoice.setShowTickMarks(true);
 		speedChoice.setMajorTickUnit(1);
@@ -243,7 +143,7 @@ public class GamePage extends Page {
 		this.getRoot().setBottom(controlBox);
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		
-		this.getCellSociety().setDelay(getSpeed());
+		this.getCellSociety().setDelay(this.getParametersController().getSpeed());
 		this.getCellSociety().setupGameLoop();
 	}
 	
@@ -252,7 +152,7 @@ public class GamePage extends Page {
 	 * @param nVal
 	 */
 	private void updateSpeed(int nVal) {
-		setSpeed(nVal);
+		this.getParametersController().setSpeed(nVal);
 		this.getCellSociety().setDelay(nVal);
 		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().setupGameLoop();
@@ -272,16 +172,17 @@ public class GamePage extends Page {
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
-		double width = gridWidth / getCol();
-		double height = gridHeight / getCol();
+		double width = Parameters.gridWidth / this.getParametersController().getCol();
+		double height = Parameters.gridHeight / this.getParametersController().getCol();
 
 		if (newValue.equals("Input")){
-			for (int col = 0; col < getCol(); col ++){  // x position - col
-				for (int row = 0; row < getRow(); row++){  // y position - row
+			for (int col = 0; col < this.getParametersController().getCol(); col ++){  // x position - col
+				for (int row = 0; row < this.getParametersController().getRow(); row++){  // y position - row
 					double xPosition = col * width;
 					double yPosition = row * height;
-					setCell(col,row, new Cell(xPosition, yPosition, width, height, getCellStatus(col, row)));
-					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
+					int cellStatus = this.getCellStatus(col, row);
+					addCell(col,row, new Cell(xPosition, yPosition, width, height, cellStatus));
+					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
 					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
 				}
 			}
@@ -302,14 +203,14 @@ public class GamePage extends Page {
 	 * The method that updates the parameters displayed at the top of the UI Screen
 	 */
 	public void updateTextInfo() {
-		text = getMyResources().getString("TitleParameter") + this.getCellSociety().getCurrentType() 
-				+ "\n\n" + getMyResources().getString("RowParameter") + getRow() + " | " 
-				+ getMyResources().getString("ColParameter") + getCol() + " | "
-				+ getMyResources().getString("GridWidthParameter") + gridWidth + " | "
-				+ getMyResources().getString("GridHeightParameter") + gridHeight + " | "
-				+ getMyResources().getString("StepParameter") + getSpeed() + " | " 
+		text = getMyResources().getString("TitleParameter") + this.getParametersController().getType() 
+				+ "\n\n" + getMyResources().getString("RowParameter") + this.getParametersController().getRow() + " | " 
+				+ getMyResources().getString("ColParameter") + this.getParametersController().getCol() + " | "
+				+ getMyResources().getString("GridWidthParameter") + Parameters.gridWidth + " | "
+				+ getMyResources().getString("GridHeightParameter") + Parameters.gridHeight + " | "
+				+ getMyResources().getString("StepParameter") + this.getParametersController().getSpeed() + " | " 
 				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ " | ";
-		this.getParameters().setText(text);
+		this.getInfoText().setText(text);
 	}
 	
 	/**
@@ -318,9 +219,9 @@ public class GamePage extends Page {
 	 */
 	public void updateColor () {
 		int i, j;
-		for (i = 0; i < getRow(); i++) {
-			for (j = 0; j < getCol(); j++) {
-				getCell(i,j).changeColor(this.getColorMap().get(getCell(i,j).getStatus()));
+		for (i = 0; i < this.getParametersController().getRow(); i++) {
+			for (j = 0; j < this.getParametersController().getCol(); j++) {
+				getCell(i,j).changeColor(this.getParametersController().getColor(getCell(i,j).getStatus()));
 			}
 		}
 	}
@@ -345,8 +246,7 @@ public class GamePage extends Page {
 			this.getCellSociety().beginGameLoop();
 		}
 		else{
-			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
-			alert.showAndWait();
+			createAlert("SelectCommand");
 		}
 	}
 	
@@ -372,8 +272,7 @@ public class GamePage extends Page {
 			this.getCellSociety().beginGameLoop();
 		}
 		else{
-			Alert alert = new Alert(AlertType.ERROR, getMyResources().getString("SelectCommand"));
-			alert.showAndWait();
+			createAlert("SelectCommand");
 		}
 	}
 	

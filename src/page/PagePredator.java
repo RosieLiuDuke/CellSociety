@@ -1,7 +1,5 @@
 package page;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import cellSociety.CellSociety;
@@ -13,87 +11,25 @@ import javafx.scene.paint.Color;
  */
 
 public class PagePredator extends GamePage {
-	private Map<Map<Integer,String>, Double> seaItems;
-	private Map<Integer, Double> percentage;
-	
-	@Override
-	public String getItemName(int state){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			if (entry.getKey().containsKey(state)){
-				return entry.getKey().get(state);
-			}
-		}
-		return null;
-	}
-	@Override
-	public int getItemState(String name){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			for (Map.Entry<Integer, String> newEntry: entry.getKey().entrySet()){
-				if (newEntry.getValue().equals(name)){
-					return newEntry.getKey();
-				}
-			}
-		}
-		return 0;
-	}
-	@Override
-	public double getItemTurnover(int state){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			for (Map.Entry<Integer, String> newEntry: entry.getKey().entrySet()){
-				if (newEntry.getKey() == state){
-					return entry.getValue();
-				}
-			}
-		}
-		return 0;
-	}
-	@Override
-	public double getItemTurnOver(String name){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			for (Map.Entry<Integer, String> newEntry: entry.getKey().entrySet()){
-				if (newEntry.getValue().equals(name)){
-					return entry.getValue();
-				}
-			}
-		}
-		return 0;
-	}
-	@Override
-	public void inputSeaItem(int state, String name, double turnover){
-		Map<Integer, String> stateName = new HashMap<>();
-		stateName.put(state, name);
-		seaItems.put(stateName, turnover);
-	}
-	
-	public PagePredator(CellSociety cs) {
-		super(cs);
-		this.getColorMap().clear();
-		this.getColorMap().put(0, Color.BLUE);
-		this.getColorMap().put(1, Color.CORAL);
-		this.getColorMap().put(2, Color.CHARTREUSE);
-		seaItems = new HashMap<Map<Integer,String>, Double>();
-		percentage = new HashMap<Integer, Double>();
+		
+	public PagePredator(CellSociety cs, Parameters p) {
+		super(cs,p);
+		this.getParametersController().addColor(0, Color.BLUE);
+		this.getParametersController().addColor(1, Color.CORAL);
+		this.getParametersController().addColor(2, Color.CHARTREUSE);
 	}
 	
 	@Override
 	protected void setupComponents(){
 		this.getOptions().add("Input");
 		super.setupComponents();
+		// can add other choices of layouts
 	}
 	
 	@Override
 	protected void setupGrid(String newValue){
-		super.setupGrid(newValue);
-	}
-	
-	@Override
-	public double getPercentage(int state){
-		return percentage.get(state);
-	}
-	
-	@Override
-	public void setPercentage(int type, double value){
-		percentage.put(type, value);
+		super.setupGrid(newValue);		
+		// can add other grid layouts
 	}
 	
 	@Override
@@ -101,15 +37,15 @@ public class PagePredator extends GamePage {
 		int status = 0;
 		Random rn = new Random();
 		double indicator = rn.nextDouble();
-		int numberOfStates = percentage.size();
+		int numberOfStates = this.getParametersController().getNumberOfStates();
 		double prevStateProb = 0, nextStateProb = 0;
 		for (int i = 0; i < numberOfStates; i++){
-			nextStateProb += percentage.get(i);
+			nextStateProb += this.getParametersController().getStatusPercentage(i);
 			if (indicator >= prevStateProb && indicator < nextStateProb){
 				status = i;
 				break;
 			}
-			prevStateProb += percentage.get(i);
+			prevStateProb += this.getParametersController().getStatusPercentage(i);
 		}
 		return status;
 	}
@@ -117,10 +53,11 @@ public class PagePredator extends GamePage {
 	public void updateTextInfo() {
 		super.updateTextInfo();
 		String myText = getText();
-		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + " | ";
+		for (int i = 0; i < this.getParametersController().getNumberOfStates(); i++){
+			myText += getMyResources().getString("PercentageParameter") 
+		    		+ i + ": " + this.getParametersController().getStatusPercentage(i) + " | ";
 		}
-		this.getParameters().setText(myText);
+		this.getInfoText().setText(myText);
 
 	}	
 }

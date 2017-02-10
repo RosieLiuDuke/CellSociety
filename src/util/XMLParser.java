@@ -3,8 +3,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import page.GamePage;
-import page.WelcomePage;
+import page.Parameters;
 
 /**
  * The handler to parse XML file with Java SAX package.
@@ -13,7 +12,7 @@ import page.WelcomePage;
  */
 public class XMLParser extends DefaultHandler{
 	
-	WelcomePage page;
+	Parameters parametersController;
 	
 	boolean bSimulation = false;
 	boolean bName = false;
@@ -28,10 +27,8 @@ public class XMLParser extends DefaultHandler{
 	boolean bSpeed = false;
 	boolean bProb = false;
 	boolean bSatisfaction = false;
-	boolean bAnimal = false;
 	boolean bTurnover = false;
 	String type = "";
-	String animal = "";
 	double turnover = 0;
 	int state = 0;
 	int row = 0;
@@ -43,8 +40,8 @@ public class XMLParser extends DefaultHandler{
 	 * All the class requires is the current WelcomePage.
 	 * @param p
 	 */
-	public XMLParser(WelcomePage p){
-		page = p;
+	public XMLParser(Parameters p){
+		parametersController = p;
 	}
 
 	@Override
@@ -52,8 +49,7 @@ public class XMLParser extends DefaultHandler{
 		if (qName.equals("Simulation")) {
 			bSimulation = true;
 			type = attributes.getValue("name");
-			page.getCellSociety().setNextType(type);
-			page.getCellSociety().initializePage(type);
+			parametersController.setType(type);
 		} 
 		else if (qName.equals("grid")) {
 			bGrid = true;
@@ -89,9 +85,6 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("satisfaction")){
 			bSatisfaction = true;
 		}
-		else if (qName.equals("animal")){
-			bAnimal = true;
-		}
 		else if (qName.equals("turnover")){
 			bTurnover = true;
 		}
@@ -115,14 +108,12 @@ public class XMLParser extends DefaultHandler{
 			bDefault = false;
 		}
 		else if (qName.equals("state")){
-			GamePage thePage = (GamePage) page.getCellSociety().getPage(type);
-			thePage.setCellStatus(col, row, state);
-			thePage.setPercentage(state, percentage);
-			thePage.inputSeaItem(state, animal, turnover);
+			parametersController.setCellStatus(col, row, state);
+			parametersController.setPercentage(state, percentage);
+			parametersController.addSeaItem(state, turnover);
 			row = col = 0;
 			state = 0;
 			percentage = 0;
-			animal = "";
 			turnover = 0;
 			bState = false;
 		}
@@ -144,9 +135,6 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("satisfaction")){
 			bSatisfaction = false;
 		}
-		else if (qName.equals("animal")){
-			bAnimal = false;
-		}
 		else if (qName.equals("turnover")){
 			bTurnover = false;
 		}
@@ -154,15 +142,14 @@ public class XMLParser extends DefaultHandler{
 
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
-		GamePage thePage = (GamePage) page.getCellSociety().getPage(type); 
 		if (bNCol) {
-			thePage.setColNum(Integer.parseInt(new String(ch, start, length)));
+			parametersController.setColNum(Integer.parseInt(new String(ch, start, length)));
 		} 
 		else if (bNRow) {
-			thePage.setRowNum(Integer.parseInt(new String(ch, start, length)));
+			parametersController.setRowNum(Integer.parseInt(new String(ch, start, length)));
 		}
 		else if (bDefault){
-			thePage.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));
+			parametersController.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));
 		}
 		else if (bCol){
 			col = Integer.parseInt(new String(ch, start, length));
@@ -174,16 +161,13 @@ public class XMLParser extends DefaultHandler{
 			percentage = Double.parseDouble(new String(ch, start, length));
 		}
 		else if (bSpeed) {
-			thePage.setSpeed(Double.parseDouble(new String(ch, start, length)));
+			parametersController.setSpeed(Double.parseDouble(new String(ch, start, length)));
 		}
 		else if (bProb){
-			thePage.setProb(Double.parseDouble(new String(ch, start, length)));
+			parametersController.setProb(Double.parseDouble(new String(ch, start, length)));
 		}
 		else if (bSatisfaction){
-			thePage.setSatisfaction(Double.parseDouble(new String(ch, start, length)));
-		}
-		else if (bAnimal){
-			animal = new String(ch, start, length);
+			parametersController.setSatisfaction(Double.parseDouble(new String(ch, start, length)));
 		}
 		else if (bTurnover){
 			turnover = Double.parseDouble(new String(ch, start, length));

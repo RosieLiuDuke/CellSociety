@@ -6,6 +6,7 @@ import java.util.List;
 import cell.Cell;
 import cellSociety.CellSociety;
 import page.PagePredator;
+import page.Parameters;
 
 public class AnimationPredator extends Animation{
 	
@@ -36,8 +37,8 @@ public class AnimationPredator extends Animation{
 	
 	
 
-	public AnimationPredator(CellSociety c) {
-		super(c);
+	public AnimationPredator(CellSociety c, Parameters p) {
+		super(c, p);
 		firstTime = true;
 	}
 	

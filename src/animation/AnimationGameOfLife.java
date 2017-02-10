@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import cellSociety.CellSociety;
 import page.PageGameOfLife;
+import page.Parameters;
 
 public class AnimationGameOfLife extends Animation {
 	
@@ -10,8 +11,8 @@ public class AnimationGameOfLife extends Animation {
 	private static final int OFFVALUE = 0;
 	
 	
-	public AnimationGameOfLife(CellSociety c) {
-		super(c);
+	public AnimationGameOfLife(CellSociety c, Parameters p) {
+		super(c, p);
 	}
 	
 	public void calculateMove() {

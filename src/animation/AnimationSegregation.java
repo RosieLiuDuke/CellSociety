@@ -3,9 +3,10 @@ package animation;
 import java.util.ArrayList;
 
 import cellSociety.CellSociety;
-import page.GamePage;
+import page.Page;
 import page.PageGameOfLife;
 import page.PageSegregation;
+import page.Parameters;
 
 public class AnimationSegregation extends Animation{
 	
@@ -32,14 +33,14 @@ public class AnimationSegregation extends Animation{
 		}
 	}
 
-	public AnimationSegregation(CellSociety c) {
-		super(c);
+	public AnimationSegregation(CellSociety c, Parameters p) {
+		super(c, p);
 	}
 
 	public void calculateMove() {
 		String type = this.getCellSociety().getCurrentType();
-		GamePage page = (GamePage) this.getCellSociety().getPage(type);
-		neededNeighbors = page.getSatisfaction();
+		Page page = (Page) this.getCellSociety().getPage(type);
+		neededNeighbors = this.getParametersController().getSatisfaction();
 		
 		int [][] grid = getArray("Segregation");
 		boolean [][] shouldChange = new boolean[grid.length][grid[0].length];
