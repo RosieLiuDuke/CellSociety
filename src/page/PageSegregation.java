@@ -77,9 +77,9 @@ public class PageSegregation extends UIsetup {
 	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
-		String myText = getText() + getMyResources().getString("SatisfactionParameter") + getSatisfaction() + " | ";
+		String myText = getText() + getMyResources().getString("SatisfactionParameter") + getSatisfaction() + "\n";
 		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + " | ";
+		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + "\n";
 		}
 		this.getParameters().setText(myText);
 

@@ -117,7 +117,7 @@ public class PagePredator extends UIsetup {
 		super.updateTextInfo();
 		String myText = getText();
 		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + " | ";
+		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + "\n";
 		}
 		this.getParameters().setText(myText);
 

@@ -6,9 +6,7 @@ import cell.Indices;
 import cellSociety.CellSociety;
 import javafx.event.ActionEvent;
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 
 /**
@@ -269,11 +267,6 @@ public abstract class GamePage extends Page {
 			this.getCellSociety().setNextStep(true);
 			this.getCellSociety().beginGameLoop();
 		}	
-	}
-	
-	private void displayAlert(String prompt){
-		Alert alert = new Alert(AlertType.ERROR, prompt);
-		alert.showAndWait();
 	}
 	
 }

@@ -5,6 +5,7 @@
  *@author Harry Liu
  **/
 
+
 #title {
     -fx-font: 50px Avenir;
     -fx-fill: white;
@@ -12,9 +13,24 @@
     -fx-stroke-width: 1;
 }
 
+#pBox {
+	-fx-background-color: linear-gradient(#808080 0%, #c0c0c0 100%);
+	-fx-padding: 10 20 10 20;
+}
+
+#cBox {
+	-fx-background-color: linear-gradient(#c0c0c0 0%, #808080 100%);
+	-fx-padding: 20 10 20 10;
+}
+
+#gameTitle {
+    -fx-font: 50px Avenir;
+    -fx-fill: black;
+}
+
 #parameters {
     -fx-font: 18px Avenir;
-    -fx-fill: blue;
+    -fx-fill: white;
     -fx-stroke-width: 1;
 }
 

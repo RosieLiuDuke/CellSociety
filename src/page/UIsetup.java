@@ -18,9 +18,9 @@ public class UIsetup extends GamePage {
 
 	private List<String> myOptions;
 	private ComboBox<String> layoutChoice;
-	private Slider speedChoice;
 	private String text;
 	private Text parameters;
+	private Text gameTitle;
 	
 	public UIsetup(CellSociety cs, String l) {
 		super(cs, l);
@@ -53,34 +53,48 @@ public class UIsetup extends GamePage {
 		layoutChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
 		layoutChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
 		
+		gameTitle = new Text(this.getCellSociety().getCurrentType());
+		gameTitle.setId("gameTitle");
+		
 		parameters = new Text();
 		parameters.setId("parameters");
-		parameters.setWrappingWidth(getWidth());
 		parameters.setTextAlignment(TextAlignment.CENTER);
+		parameters.setWrappingWidth(getWidth()/3);
 		
-		parametersBox.getChildren().addAll(parameters, layoutChoice);
-		parametersBox.setAlignment(Pos.CENTER);
+		VBox slidersBox = new VBox(15);
+		Slider speed = createSlider(1, 5, 1, true);
+		speed.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
+		slidersBox.getChildren().addAll(new Text(getMyResources().getString("StepParameter")), speed);
 		
-		speedChoice = new Slider(1, 5, getSpeed());
-		speedChoice.setShowTickLabels(true);
-		speedChoice.setShowTickMarks(true);
-		speedChoice.setMajorTickUnit(1);
-		speedChoice.setBlockIncrement(1);
-		speedChoice.setValue(3);
-		speedChoice.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
+		parametersBox.getChildren().addAll(parameters,layoutChoice, slidersBox);
+		parametersBox.setMaxWidth(getWidth()/3);
+		parametersBox.setId("pBox");
 		
 		VBox controlBox = new VBox(15);
-		controlBox.getChildren().addAll(speedChoice, addButtons());
+		controlBox.getChildren().addAll(addButtons());
+		controlBox.setId("cBox");
+		
+		VBox left = new VBox(10);
+		left.getChildren().addAll(gameTitle,this.getGrid());
+		left.setAlignment(Pos.CENTER);
 		
 		updateTextInfo();
-		
-		this.getRoot().setTop(parametersBox);
-		this.getRoot().setCenter(this.getGrid());
-		this.getRoot().setBottom(controlBox);
+		this.getRoot().setCenter(left);
+		this.getRoot().setRight(parametersBox);
+		this.getRoot().setBottom(controlBox);;
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
-		
 		this.getCellSociety().setDelay(getSpeed());
 		this.getCellSociety().setupGameLoop();
+	}
+	
+	private Slider createSlider(int min, int max, int increment, boolean showTick){
+		Slider speedChoice;
+		speedChoice = new Slider(min, max, getSpeed());
+		speedChoice.setShowTickLabels(showTick);
+		speedChoice.setShowTickMarks(showTick);
+		speedChoice.setMajorTickUnit(increment);
+		speedChoice.setBlockIncrement(increment);
+		return speedChoice;
 	}
 	
 	/**
@@ -98,13 +112,13 @@ public class UIsetup extends GamePage {
 	 * The method that updates the parameters displayed at the top of the UI Screen
 	 */
 	public void updateTextInfo() {
-		text = getMyResources().getString("TitleParameter") + this.getCellSociety().getCurrentType() 
-				+ "\n\n" + getMyResources().getString("RowParameter") + getRow() + " | " 
-				+ getMyResources().getString("ColParameter") + getCol() + " | "
-				+ getMyResources().getString("GridWidthParameter") + gridWidth + " | "
-				+ getMyResources().getString("GridHeightParameter") + gridHeight + " | "
-				+ getMyResources().getString("StepParameter") + getSpeed() + " | " 
-				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ " | ";
+		text =  
+				getMyResources().getString("RowParameter") + getRow() + "\n" 
+				+ getMyResources().getString("ColParameter") + getCol() + "\n"
+				+ getMyResources().getString("GridWidthParameter") + gridWidth + "\n"
+				+ getMyResources().getString("GridHeightParameter") + gridHeight + "\n"
+				+ getMyResources().getString("StepParameter") + getSpeed() + "\n"
+				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ "\n";
 		this.getParameters().setText(text);
 	}
 	

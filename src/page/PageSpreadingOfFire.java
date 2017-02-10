@@ -42,7 +42,7 @@ public class PageSpreadingOfFire extends UIsetup {
 	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
-		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + " | ";
+		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + "\n";
 		this.getParameters().setText(myText);
 	}	
 }
