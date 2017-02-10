@@ -92,6 +92,10 @@ public class Page {
 		return WIDTH;
 	}
 	
+	public int getHeight(){
+		return HEIGHT;
+	}
+	
 	public void changeLanguage(String newLang){
 		setMyResources(newLang);
 	}

@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
@@ -17,77 +19,92 @@ import javafx.scene.text.TextAlignment;
 public class UIsetup extends GamePage {
 
 	private List<String> myOptions;
-	private ComboBox<String> layoutChoice;
+	private ComboBox<String> simulationChoice;
 	private String text;
 	private Text parameters;
 	private Text gameTitle;
-	
-	public UIsetup(CellSociety cs, String l) {
-		super(cs, l);
+	private VBox slidersBox;
+
+	public UIsetup(CellSociety cs, String language) {
+		super(cs, language);
 		myOptions = new ArrayList<String>();
 	}
-	
+
 	public List<String> getOptions(){
 		return myOptions;
 	}
-	
+
 	public Text getParameters(){
 		return parameters;
 	}
-	
+
 	public String getText(){
 		return text;
 	}
-
 	
+	public VBox getSliderBox(){
+		return slidersBox;
+	}
+
 	/**
 	 * The method to set up required components in the scene.
 	 * Abstract.
 	 */
 	protected void setupComponents(){
-		VBox parametersBox = new VBox(15);
-		myOptions.add("Input");
-		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
-		layoutChoice = new ComboBox<String>(options);
-		layoutChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
-		layoutChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
-		layoutChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
-		
-		gameTitle = new Text(this.getCellSociety().getCurrentType());
-		gameTitle.setId("gameTitle");
-		
 		parameters = new Text();
 		parameters.setId("parameters");
 		parameters.setTextAlignment(TextAlignment.CENTER);
-		parameters.setWrappingWidth(getWidth()/3);
 		
-		VBox slidersBox = new VBox(15);
+		myOptions.add("Input");
+		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
+		simulationChoice = new ComboBox<String>(options);
+		simulationChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
+		simulationChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
+		simulationChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
+		
+		slidersBox = new VBox(15);
 		Slider speed = createSlider(1, 5, 1, true);
 		speed.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
 		slidersBox.getChildren().addAll(new Text(getMyResources().getString("StepParameter")), speed);
 		
-		parametersBox.getChildren().addAll(parameters,layoutChoice, slidersBox);
-		parametersBox.setMaxWidth(getWidth()/3);
-		parametersBox.setId("pBox");
+		updateSliders();
 		
-		VBox controlBox = new VBox(15);
-		controlBox.getChildren().addAll(addButtons());
-		controlBox.setId("cBox");
+		VBox parametersBox = new VBox(15);
+		parametersBox.getChildren().addAll(parameters,simulationChoice,addButtons(), slidersBox);
+		
+		ScrollPane sp = new ScrollPane();
+		sp.setContent(parametersBox);
+		sp.setHbarPolicy(ScrollBarPolicy.NEVER);
+		sp.setId("rightpanel");
+		
+		gameTitle = new Text(this.getCellSociety().getCurrentType());
+		gameTitle.setId("gameTitle");
 		
 		VBox left = new VBox(10);
 		left.getChildren().addAll(gameTitle,this.getGrid());
 		left.setAlignment(Pos.CENTER);
+		parametersBox.setAlignment(Pos.CENTER);
+		left.setPrefWidth(getWidth()*0.6);
+		sp.setPrefWidth(getWidth()*0.4);
 		
 		updateTextInfo();
-		this.getRoot().setCenter(left);
-		this.getRoot().setRight(parametersBox);
-		this.getRoot().setBottom(controlBox);;
+		
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
+		this.getRoot().setLeft(left);
+		this.getRoot().setRight(sp);
+		
 		this.getCellSociety().setDelay(getSpeed());
 		this.getCellSociety().setupGameLoop();
 	}
-	
-	private Slider createSlider(int min, int max, int increment, boolean showTick){
+
+	/**
+	 * The method to create a slider for the right side of the UI Screen
+	 * @param min
+	 * @param max
+	 * @param increment
+	 * @param showTick
+	 */
+	public Slider createSlider(int min, int max, double increment, boolean showTick){
 		Slider speedChoice;
 		speedChoice = new Slider(min, max, getSpeed());
 		speedChoice.setShowTickLabels(showTick);
@@ -97,23 +114,25 @@ public class UIsetup extends GamePage {
 		return speedChoice;
 	}
 	
+	public void updateSliders(){
+		//Used if additional sliders are needed.
+	}
+
 	/**
 	 * The method to add Buttons to the bottom of the UI Screen
 	 */
-	private HBox addButtons(){
-		HBox buttonBox = new HBox(5);
-		buttonBox.getChildren().addAll(this.getBack(), this.getStart(), this.getStop(), this.getStep());
+	private VBox addButtons(){
+		VBox buttonBox = new VBox(5);
+		buttonBox.getChildren().addAll(this.getStart(), this.getStop(), this.getStep(), this.getBack());
 		buttonBox.setAlignment(Pos.CENTER);
 		return buttonBox;		
 	}
-	
-	
+
 	/**
 	 * The method that updates the parameters displayed at the top of the UI Screen
 	 */
 	public void updateTextInfo() {
-		text =  
-				getMyResources().getString("RowParameter") + getRow() + "\n" 
+		text =  getMyResources().getString("RowParameter") + getRow() + "\n" 
 				+ getMyResources().getString("ColParameter") + getCol() + "\n"
 				+ getMyResources().getString("GridWidthParameter") + gridWidth + "\n"
 				+ getMyResources().getString("GridHeightParameter") + gridHeight + "\n"
@@ -121,7 +140,7 @@ public class UIsetup extends GamePage {
 				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ "\n";
 		this.getParameters().setText(text);
 	}
-	
+
 	/**
 	 * When the slider is updated, change the speed of simulation by having a new timeline.
 	 * @param nVal
