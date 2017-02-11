@@ -13,7 +13,7 @@ public class AnimationPredator extends Animation{
 	private final static int FISHNUMBER = 1;
 	private final static int SHARKNUMBER = 2;
 	
-	private final static int sharkLife = 2;
+	private final static int sharkLife = 4;
 	private final static int fishLife = 1;
 	private boolean firstTime;
 	private int [][] lives;
@@ -165,5 +165,5 @@ public class AnimationPredator extends Animation{
 	private int getRandomForList (int size) {
 		return (int)((Math.random() * size) - .001);
 	}
-	
+
 }
