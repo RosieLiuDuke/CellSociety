@@ -14,8 +14,8 @@
 }
 
 .scroll-pane{
-	-fx-background-color: linear-gradient(#c0c0c0 0%, #808080 100%);
-	-fx-padding: 10px;
+	-fx-background-color:linear-gradient(#FFFBD0 0%, #f9a425 100%);
+	-fx-padding: 15px;
 }
 
 .scroll-pane > .viewport {
@@ -29,13 +29,13 @@
 
 #parameters {
     -fx-font: 18px Avenir;
-    -fx-fill: white;
+    -fx-fill: black;
     -fx-stroke-width: 1;
 }
 
 .combo-box {
 	-fx-font-size:20px;
-    -fx-text-fill:black;
+    -fx-text-fill: black;
     -fx-font-family:"Arial";
     -fx-background-color: #FFD700;
     -fx-max-width:275;

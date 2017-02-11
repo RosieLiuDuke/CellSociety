@@ -9,10 +9,10 @@ import javafx.scene.paint.Color;
 
 /**
  * The subclass Page to hold the Scene for the Segregation simulation.
- * @author Harry Liu
+ * 
  */
 
-public class PagePredator extends UIsetup {
+public class PagePredator extends withProbability {
 	private Map<Map<Integer,String>, Double> seaItems;
 	private Map<Integer, Double> percentage;
 	
@@ -93,6 +93,11 @@ public class PagePredator extends UIsetup {
 	@Override
 	public void setPercentage(int type, double value){
 		percentage.put(type, value);
+	}
+	
+	@Override
+	public void updateSliders(){
+		addProbability(percentage);
 	}
 	
 	@Override

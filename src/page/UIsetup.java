@@ -11,10 +11,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class UIsetup extends GamePage {
 
@@ -53,7 +51,6 @@ public class UIsetup extends GamePage {
 	protected void setupComponents(){
 		parameters = new Text();
 		parameters.setId("parameters");
-		parameters.setTextAlignment(TextAlignment.CENTER);
 		
 		myOptions.add("Input");
 		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
@@ -70,7 +67,7 @@ public class UIsetup extends GamePage {
 		updateSliders();
 		
 		VBox parametersBox = new VBox(15);
-		parametersBox.getChildren().addAll(parameters,simulationChoice,addButtons(), slidersBox);
+		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), parameters);
 		
 		ScrollPane sp = new ScrollPane();
 		sp.setContent(parametersBox);
@@ -83,15 +80,14 @@ public class UIsetup extends GamePage {
 		VBox left = new VBox(10);
 		left.getChildren().addAll(gameTitle,this.getGrid());
 		left.setAlignment(Pos.CENTER);
-		parametersBox.setAlignment(Pos.CENTER);
-		left.setPrefWidth(getWidth()*0.6);
-		sp.setPrefWidth(getWidth()*0.4);
 		
 		updateTextInfo();
 		
 		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
 		this.getRoot().setLeft(left);
 		this.getRoot().setRight(sp);
+		left.setPrefWidth(getWidth()*0.6);
+		sp.setPrefWidth(getWidth()*0.4);
 		
 		this.getCellSociety().setDelay(getSpeed());
 		this.getCellSociety().setupGameLoop();
@@ -105,13 +101,14 @@ public class UIsetup extends GamePage {
 	 * @param showTick
 	 */
 	public Slider createSlider(int min, int max, double increment, boolean showTick){
-		Slider speedChoice;
-		speedChoice = new Slider(min, max, getSpeed());
-		speedChoice.setShowTickLabels(showTick);
-		speedChoice.setShowTickMarks(showTick);
-		speedChoice.setMajorTickUnit(increment);
-		speedChoice.setBlockIncrement(increment);
-		return speedChoice;
+		Slider newSlider;
+		newSlider = new Slider(min, max, getSpeed());
+		newSlider.setShowTickLabels(showTick);
+		newSlider.setShowTickMarks(showTick);
+		newSlider.setMajorTickUnit(increment);
+		newSlider.setBlockIncrement(increment);
+		newSlider.setSnapToTicks(true);
+		return newSlider;
 	}
 	
 	public void updateSliders(){
@@ -127,7 +124,7 @@ public class UIsetup extends GamePage {
 		buttonBox.setAlignment(Pos.CENTER);
 		return buttonBox;		
 	}
-
+	
 	/**
 	 * The method that updates the parameters displayed at the top of the UI Screen
 	 */

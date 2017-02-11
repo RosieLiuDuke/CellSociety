@@ -3,9 +3,7 @@ package page;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
-
 import cellSociety.CellSociety;
-import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 
 /**
@@ -13,7 +11,7 @@ import javafx.scene.paint.Color;
  * @author Harry Liu
  */
 
-public class PageSegregation extends UIsetup {
+public class PageSegregation extends withProbability {
 	
 	private double satisfaction;
 	private Map<Integer, Double> percentage;
@@ -76,19 +74,7 @@ public class PageSegregation extends UIsetup {
 	
 	@Override
 	public void updateSliders(){
-		for (int size = 0; size<percentage.size(); size++){
-			int index = size;
-			Slider prob = createSlider(0, 1, 0.25, true);
-			prob.setValue(getPercentage(index));
-			prob.valueProperty().addListener((obs,oVal,nVal) -> changeParameter(index, nVal.doubleValue()));
-			getSliderBox().getChildren().add(prob);
-		}
-	}
-	
-	private void changeParameter(int index, double percent){
-		setPercentage(index, percent);
-		this.getCellSociety().setDelay(percent);
-		this.getCellSociety().stopGameLoop();
+		addProbability(percentage);
 	}
 	
 	@Override
