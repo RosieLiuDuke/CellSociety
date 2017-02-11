@@ -32,7 +32,7 @@ import util.XMLParser;
 public class WelcomePage extends Page {	
 	
 	private Text TITLE;
-	private String BACKGROUND = "splash_bg.jpg";
+	private String BACKGROUND = "bg.png";
 	private int SPACING = 10;
 	private List<String> myLanguages;
 	private ComboBox<String> languageChoice;
