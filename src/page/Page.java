@@ -4,7 +4,9 @@ import cellSociety.CellSociety;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import util.XMLReader;
@@ -24,21 +26,22 @@ public class Page {
 	private Scene scene;
 	private XMLReader xmlReader;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	private ResourceBundle myResources;
-	private String language = "Spanish";
-	
+	private String myLanguage;
+	private ResourceBundle myResourceBundle;
+
 	/**
 	 * The constructor of the Page class. 
 	 * @param cs
 	 */
-	public Page (CellSociety cs){
+	public Page (CellSociety cs, String language){
 		theCellSociety = cs;
 		stage = cs.getStage();	
 		stage.setTitle(TITLE);
 		root = new BorderPane();
 		scene = new Scene(root, WIDTH, HEIGHT);
 		xmlReader = new XMLReader(theCellSociety);
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+		myLanguage = language;
+		myResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
 	}
 	
 	/**
@@ -69,20 +72,32 @@ public class Page {
 		return xmlReader;
 	}
 	
+	public String getLanguage(){
+		return myLanguage;
+	}
+	
 	public ResourceBundle getResourceBundle(){
 		return getMyResources();
 	}
 	
-	public ResourceBundle getMyResources() {
-		return myResources;
+	public void setMyResources(String newLang) {
+		myLanguage = newLang;
 	}
-
-	public void setMyResources(ResourceBundle myResources) {
-		this.myResources = myResources;
+	
+	public ResourceBundle getMyResources() {
+		return myResourceBundle;
 	}
 	
 	public int getWidth(){
 		return WIDTH;
+	}
+	
+	public int getHeight(){
+		return HEIGHT;
+	}
+	
+	public void changeLanguage(String newLang){
+		setMyResources(newLang);
 	}
 	
 	/**
@@ -95,5 +110,10 @@ public class Page {
 		Button newButton = new Button(name);
 		newButton.setOnAction(handler);
 		return newButton;
+	}
+	
+	public void displayAlert(String prompt){
+		Alert alert = new Alert(AlertType.ERROR, prompt);
+		alert.showAndWait();
 	}
 }

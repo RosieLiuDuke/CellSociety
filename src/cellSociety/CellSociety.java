@@ -6,7 +6,6 @@ import animation.Animation;
 import animation.AnimationGameOfLife;
 import animation.AnimationPredator;
 import animation.AnimationSegregation;
-//import animation.AnimationSegregation;
 import animation.AnimationSpreadingOfFire;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -101,31 +100,30 @@ public class CellSociety {
 	public void initializePage(String type){
 		currentType = type;
 		if (type.equals("Welcome")){
-			Page newWelcomePage = new WelcomePage(this);
+			Page newWelcomePage = new WelcomePage(this, "English");
 			pages.put(type, newWelcomePage);
 			newWelcomePage.showPage();
 		}
 		else if (type.equals("Game of Life")){
-			Page newGameOfLifePage = new PageGameOfLife(this);
+			Page newGameOfLifePage = new PageGameOfLife(this, pages.get("Welcome").getLanguage());
 			pages.put(type, newGameOfLifePage);
 			Animation newGameOfLifeAnimation = new AnimationGameOfLife(this);
 			animations.put(type, newGameOfLifeAnimation);
 		}
 		else if (type.equals("Segregation")){
-			Page newSegregationPage = new PageSegregation(this);
+			Page newSegregationPage = new PageSegregation(this, pages.get("Welcome").getLanguage());
 			pages.put(type, newSegregationPage);
-			// TODO
 			Animation newSegregationAnimation = new AnimationSegregation(this); 
 			animations.put(type, newSegregationAnimation);
 		}
 		else if (type.equals("Fire")){
-			Page newFirePage = new PageSpreadingOfFire(this);
+			Page newFirePage = new PageSpreadingOfFire(this, pages.get("Welcome").getLanguage());
 			pages.put(type, newFirePage);
 			Animation newFireAnimation = new AnimationSpreadingOfFire(this);
 			animations.put(type, newFireAnimation);
 		}
 		else if (type.equals("Predator")){
-			Page newPredatorPage = new PagePredator(this);
+			Page newPredatorPage = new PagePredator(this, pages.get("Welcome").getLanguage());
 			pages.put(type, newPredatorPage);
 			Animation newPredatorAnimation = new AnimationPredator(this);
 			animations.put(type, newPredatorAnimation);
