@@ -6,12 +6,9 @@ import java.util.Map;
 import cell.Cell;
 import cell.Indices;
 import cellSociety.CellSociety;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -20,7 +17,6 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
@@ -49,7 +45,7 @@ public abstract class GamePage extends Page {
 	private NumberAxis xAxis;
 	private CategoryAxis yAxis;
 	private List<Color> colorKey;
-
+	private Boolean chartCreated = false;
 
 	public GamePage (CellSociety cs, String language) {
 		super(cs, language);
@@ -200,11 +196,13 @@ public abstract class GamePage extends Page {
 	public void inputSeaItem(int state, String name, double turnover) {
 
 	}	
-
+	
+	public abstract void addinGrid(String newValue);
+	
+	public abstract void updateTextInfo();
 
 	/**
-	 * The method to set up the grid layout in the scene.
-	 * Abstract.
+	 * Sets up the grid layout in the scene.
 	 * @param newValue
 	 */
 	protected void setupGrid(String newValue){
@@ -229,17 +227,22 @@ public abstract class GamePage extends Page {
 				}
 			}
 		}
+		addinGrid(newValue);
 		quantityMap();
-		createChart();
+		if (!chartCreated){
+			createChart();
+		}
 	}
 
-	public abstract void updateTextInfo();
-
+	/**
+	 * Creates Map which tracks the color quantities 
+	 * @param newValue
+	 */
 	public void quantityMap () {
-		int i, j;
-		for (i = 0; i < getRow(); i++) {
-			for (j = 0; j < getCol(); j++) {
-				Color color = this.getColorMap().get(getCell(i,j).getStatus());
+		int rowCell, colCell;
+		for (rowCell = 0; rowCell < getRow(); rowCell++) {
+			for (colCell = 0; colCell < getCol(); colCell++) {
+				Color color = this.getColorMap().get(getCell(rowCell,colCell).getStatus());
 				if (!quantityMap.containsKey(color)){
 					quantityMap.put(color, 1);
 				}
@@ -251,10 +254,10 @@ public abstract class GamePage extends Page {
 	}
 
 	/**
-	 * The method to update the color on each step.
+	 * Updates the color and the display of the Bar Graph on each step.
 	 * Abstract.
 	 */
-	public void updateColor () {
+	public void updateColorandData () {
 		int i, j;
 		for (i = 0; i < getRow(); i++) {
 			for (j = 0; j < getCol(); j++) {
@@ -263,14 +266,39 @@ public abstract class GamePage extends Page {
 				this.quantityMap.put(color, this.quantityMap.get(color)+1);	
 			}	
 		}
-		updateData();
-		refreshQuantityMap();
-	}
-
-	public void refreshQuantityMap(){
+		updateChartDisplay();
 		quantityMap.replaceAll((k,v) -> 0);;
 	}
 
+	public void createChart(){
+		chartCreated=true;
+		xAxis.setLabel("Quantity"); 
+		yAxis.setLabel("Colors");
+
+		XYChart.Series<Number, String> populationSeries = new Series<Number, String>();
+
+		colorKey = new ArrayList<Color>(quantityMap.keySet());
+
+		for (int x = 0; x<quantityMap.keySet().size(); x++){
+			String color = colorKey.get(x).toString();
+			Number quantity = quantityMap.get(colorKey.get(x));
+			populationSeries.getData().add(new Data<Number, String>(quantity, color));
+		}
+		populationChart.getData().add(populationSeries);
+		populationChart.setLegendVisible(false);
+	}
+
+	public void updateChartDisplay(){		
+		for (Series<Number, String> series : populationChart.getData()) {
+			for (int x = 0; x<series.getData().size(); x++) {
+				XYChart.Data<Number, String> data = series.getData().get(x);
+				Node node = data.getNode();
+				node.setStyle("-fx-bar-fill:" + "#" + colorKey.get(x).toString().substring(2));
+				data.setXValue(quantityMap.get(colorKey.get(x)));
+			}
+		}
+	}
+	
 	/**
 	 * The handler of the "BACK" button.
 	 * When the button is pressed, the game will return to the splash screen.
@@ -319,35 +347,6 @@ public abstract class GamePage extends Page {
 			this.getCellSociety().setNextStep(true);
 			this.getCellSociety().beginGameLoop();
 		}	
-	}
-
-	public void createChart(){
-
-		populationChart.setTitle("Population Levels");
-		xAxis.setLabel("Quantity"); 
-		yAxis.setLabel("Colors");
-
-		XYChart.Series<Number, String> populationSeries = new Series<Number, String>();
-		populationSeries.setName("Population");
-
-		colorKey = new ArrayList<Color>(quantityMap.keySet());
-
-		for (int x = 0; x<quantityMap.keySet().size(); x++){
-			String color = colorKey.get(x).toString();
-			Number quantity = quantityMap.get(colorKey.get(x));
-			populationSeries.getData().add(new Data<Number, String>(quantity, color));
-		}
-		System.out.println(populationSeries.getData());
-		populationChart.getData().add(populationSeries);
-	}
-
-	public void updateData(){
-		for (Series<Number, String> series : populationChart.getData()) {
-			for (int x = 0; x<populationChart.getData().size(); x++) {
-				XYChart.Data<Number, String> data = series.getData().get(x);
-				data.setXValue(quantityMap.get(colorKey.get(x)));
-			}
-		}
 	}
 
 }

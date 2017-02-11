@@ -166,7 +166,7 @@ public class CellSociety {
 		if (!isStep){
 			animations.get(currentType).calculateMove();
 			((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
-			((GamePage) pages.get(currentType)).updateColor();
+			((GamePage) pages.get(currentType)).updateColorandData();
 			((GamePage) pages.get(currentType)).updateTextInfo();
 		}
 		// if the current mode is simulation step by step
@@ -174,7 +174,7 @@ public class CellSociety {
 			if (nextStep){
 				animations.get(currentType).calculateMove();
 				((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
-				((GamePage) pages.get(currentType)).updateColor();
+				((GamePage) pages.get(currentType)).updateColorandData();
 				((GamePage) pages.get(currentType)).updateTextInfo();
 				nextStep = false;
 			}

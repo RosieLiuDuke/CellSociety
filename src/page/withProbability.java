@@ -6,12 +6,21 @@ import cellSociety.CellSociety;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 
+/**
+* This is a class which contains methods adding in probability values for pages that have probability
+* @author Harry Liu
+**/
+
 public class withProbability extends UIsetup {
 
 	public withProbability(CellSociety cs, String language) {
 		super(cs, language);
 	}
 
+	/**
+	* Adds a slider for each probability value. Adds sliders to VBox on the UIsetup page
+	* @param percentage
+	**/
 	public void addProbability(Map<Integer, Double> percentage){
 		getSliderBox().getChildren().add(new Text(getMyResources().getString("ProbabilityParameter")));
 		for (int size = 0; size<percentage.size(); size++){
@@ -23,6 +32,11 @@ public class withProbability extends UIsetup {
 		}
 	}
 	
+	/**
+	* Adjust percentage values when sliders are manipulated.
+	* @param index
+	* @param percent
+	**/
 	private void changeParameter(int index, double percent){
 		setPercentage(index, percent);
 		this.getCellSociety().setDelay(percent);

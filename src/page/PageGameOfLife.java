@@ -11,7 +11,7 @@ public class PageGameOfLife extends UIsetup {
 		
 	public PageGameOfLife(CellSociety cs, String language) {
 		super(cs, language);
-		this.getColorMap().put(0, Color.TRANSPARENT);
+		this.getColorMap().put(0, Color.WHITE);
 		this.getColorMap().put(1, Color.BLACK);
 	}
 	
@@ -22,8 +22,7 @@ public class PageGameOfLife extends UIsetup {
 	}
 	
 	@Override
-	protected void setupGrid(String newValue){
-		super.setupGrid(newValue);
+	public void addinGrid(String newValue){
 		
 		double width = gridWidth / getCol();
 		double height = gridHeight / getCol();

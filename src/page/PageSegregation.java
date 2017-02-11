@@ -56,7 +56,7 @@ public class PageSegregation extends withProbability {
 	public PageSegregation(CellSociety cs, String language) {
 		super(cs, language);
 		this.getColorMap().clear();
-		this.getColorMap().put(0, Color.TRANSPARENT);
+		this.getColorMap().put(0, Color.WHITE);
 		this.getColorMap().put(1, Color.RED);
 		this.getColorMap().put(2, Color.BLUE);
 		percentage = new LinkedHashMap<Integer, Double>();
