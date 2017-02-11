@@ -7,7 +7,7 @@ import cellSociety.CellSociety;
  * @author Harry Liu, Yilin Gao
  *
  */
-public class PageSpreadingOfFire extends GamePage {
+public class PageSpreadingOfFire extends UIsetup {
 	
 	private double probCatch; 
 	
@@ -21,8 +21,8 @@ public class PageSpreadingOfFire extends GamePage {
 		probCatch = p;
 	}
 	
-	public PageSpreadingOfFire(CellSociety cs) {
-		super(cs);
+	public PageSpreadingOfFire(CellSociety cs, String language) {
+		super(cs, language);
 		getColorMap().put(0, Color.YELLOW);
 		getColorMap().put(1, Color.GREEN);
 		getColorMap().put(2, Color.RED);
@@ -30,7 +30,6 @@ public class PageSpreadingOfFire extends GamePage {
 	
 	@Override
 	protected void setupComponents() {
-		this.getOptions().add("Input");
 		super.setupComponents();
 	}
 	
@@ -43,7 +42,7 @@ public class PageSpreadingOfFire extends GamePage {
 	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
-		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + " | ";
+		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + "\n";
 		this.getParameters().setText(myText);
 	}	
 }

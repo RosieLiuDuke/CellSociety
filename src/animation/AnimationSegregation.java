@@ -15,22 +15,7 @@ public class AnimationSegregation extends Animation{
 	
 	private double neededNeighbors;
 	
-	private class Coord {
-		int x;
-		int y;
-		
-		private Coord (int w, int z) {
-			x  = w;
-			y = z;
-		}
-		
-		private int getX () {
-			return x;
-		}
-		private int getY() {
-			return y;
-		}
-	}
+	
 
 	public AnimationSegregation(CellSociety c) {
 		super(c);

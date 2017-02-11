@@ -3,7 +3,6 @@ package page;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
-
 import cellSociety.CellSociety;
 import javafx.scene.paint.Color;
 
@@ -12,7 +11,7 @@ import javafx.scene.paint.Color;
  * @author Harry Liu
  */
 
-public class PageSegregation extends GamePage {
+public class PageSegregation extends withProbability {
 	
 	private double satisfaction;
 	private Map<Integer, Double> percentage;
@@ -54,8 +53,8 @@ public class PageSegregation extends GamePage {
 		percentage.put(state, value);
 	}
 	
-	public PageSegregation(CellSociety cs) {
-		super(cs);
+	public PageSegregation(CellSociety cs, String language) {
+		super(cs, language);
 		this.getColorMap().clear();
 		this.getColorMap().put(0, Color.TRANSPARENT);
 		this.getColorMap().put(1, Color.RED);
@@ -65,22 +64,25 @@ public class PageSegregation extends GamePage {
 	
 	@Override
 	protected void setupComponents(){
-		this.getOptions().add("Input");
 		super.setupComponents();
 	}
 	
 	@Override
 	protected void setupGrid(String newValue){
 		super.setupGrid(newValue);
-		
+	}
+	
+	@Override
+	public void updateSliders(){
+		addProbability(percentage);
 	}
 	
 	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
-		String myText = getText() + getMyResources().getString("SatisfactionParameter") + getSatisfaction() + " | ";
+		String myText = getText() + getMyResources().getString("SatisfactionParameter") + getSatisfaction() + "\n";
 		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + " | ";
+		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + "\n";
 		}
 		this.getParameters().setText(myText);
 

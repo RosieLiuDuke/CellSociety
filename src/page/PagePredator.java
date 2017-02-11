@@ -9,10 +9,10 @@ import javafx.scene.paint.Color;
 
 /**
  * The subclass Page to hold the Scene for the Segregation simulation.
- * @author Harry Liu
+ * 
  */
 
-public class PagePredator extends GamePage {
+public class PagePredator extends withProbability {
 	private Map<Map<Integer,String>, Double> seaItems;
 	private Map<Integer, Double> percentage;
 	
@@ -65,8 +65,8 @@ public class PagePredator extends GamePage {
 		seaItems.put(stateName, turnover);
 	}
 	
-	public PagePredator(CellSociety cs) {
-		super(cs);
+	public PagePredator(CellSociety cs, String language) {
+		super(cs, language);
 		this.getColorMap().clear();
 		this.getColorMap().put(0, Color.BLUE);
 		this.getColorMap().put(1, Color.CORAL);
@@ -77,7 +77,6 @@ public class PagePredator extends GamePage {
 	
 	@Override
 	protected void setupComponents(){
-		this.getOptions().add("Input");
 		super.setupComponents();
 	}
 	
@@ -94,6 +93,11 @@ public class PagePredator extends GamePage {
 	@Override
 	public void setPercentage(int type, double value){
 		percentage.put(type, value);
+	}
+	
+	@Override
+	public void updateSliders(){
+		addProbability(percentage);
 	}
 	
 	@Override
@@ -118,7 +122,7 @@ public class PagePredator extends GamePage {
 		super.updateTextInfo();
 		String myText = getText();
 		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + " | ";
+		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + "\n";
 		}
 		this.getParameters().setText(myText);
 
