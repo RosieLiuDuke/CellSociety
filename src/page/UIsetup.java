@@ -78,7 +78,7 @@ public class UIsetup extends GamePage {
 		gameTitle.setId("gameTitle");
 		
 		VBox left = new VBox(10);
-		left.getChildren().addAll(gameTitle,this.getGrid());
+		left.getChildren().addAll(gameTitle, this.getChart(), this.getGrid());
 		left.setAlignment(Pos.CENTER);
 		
 		updateTextInfo();
