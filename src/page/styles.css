@@ -14,7 +14,7 @@
 }
 
 .scroll-pane{
-	-fx-background-color:linear-gradient(#FFFBD0 0%, #f9a425 100%);
+	-fx-background-color:linear-gradient(#FFFBD0 0%, #FFF44F 100%);
 	-fx-padding: 15px;
 }
 
@@ -37,7 +37,7 @@
 	-fx-font-size:20px;
     -fx-text-fill: black;
     -fx-font-family:"Arial";
-    -fx-background-color: #FFD700;
+    -fx-background-color: #FFBF00;
     -fx-max-width:275;
 }
 
@@ -45,7 +45,7 @@
 	-fx-font-size:20px;
     -fx-text-fill:black;
     -fx-font-family:"Arial";
-    -fx-background-color: #FFD700;
+    -fx-background-color: #FFBF00;
     -fx-pref-width: 275;
 }
 
