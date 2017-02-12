@@ -3,6 +3,7 @@
 		<nCol>30</nCol>
 		<nRow>30</nRow>
 		<size>10</size>		
+		<total>3</total>
 		<state value = "0">
 			<percentage>0.1</percentage>
 		</state>

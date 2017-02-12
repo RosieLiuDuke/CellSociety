@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -134,7 +135,9 @@ public abstract class UIsetup extends GamePage {
 					double xPosition = col * width;
 					double yPosition = row * height;
 					int cellStatus = this.getCellStatus(col, row);
-					addCell(col,row, new Cell(xPosition, yPosition, width, height, cellStatus));
+					Cell newCell = new Cell(xPosition, yPosition, width, height, cellStatus);
+					newCell.getRectangle().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
+					addCell(col,row, newCell);
 					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
 					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
 				}
@@ -142,6 +145,22 @@ public abstract class UIsetup extends GamePage {
 		}
 		quantityMap();
 		createPopulationChart();
+	}
+
+	private void updateCellStatusOnMouseReleased(Cell cell) {
+		int oldStatus = cell.getStatus();
+		int newStatus;
+		if (oldStatus < this.getParametersController().getNumberOfStatus() - 1){
+			newStatus = oldStatus + 1;
+			cell.changeStatus(newStatus);
+		}
+		else{
+			newStatus = 0;
+			cell.changeStatus(newStatus);
+		}
+		cell.changeColor(this.getParametersController().getColor(cell.getStatus()));
+		updateTextInfo();
+		updateColorandData();
 	}
 
 	/**

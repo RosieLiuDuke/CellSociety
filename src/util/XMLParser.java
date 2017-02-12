@@ -26,6 +26,7 @@ public class XMLParser extends DefaultHandler{
 	boolean bName = false;
 	boolean bNCol = false;
 	boolean bNRow = false;
+	boolean bTotal = false;
 	boolean bDefault = false;
 	boolean bState = false;
 	boolean bCol = false;
@@ -68,6 +69,9 @@ public class XMLParser extends DefaultHandler{
 			} 
 			else if (qName.equals("nRow")) {
 				bNRow = true;
+			}
+			else if (qName.equals("total")){
+				bTotal = true;
 			}
 			else if (qName.equals("default")){
 				bDefault = true;
@@ -114,6 +118,9 @@ public class XMLParser extends DefaultHandler{
 		else if (qName.equals("nRow")) {
 			bNRow = false;
 		}
+		else if (qName.equals("total")){
+			bTotal = false;
+		}
 		else if (qName.equals("default")){
 			bDefault = false;
 		}
@@ -158,6 +165,9 @@ public class XMLParser extends DefaultHandler{
 			} 
 			else if (bNRow) {
 				inputController.setRow(Integer.parseInt(new String(ch, start, length)));
+			}
+			else if (bTotal) {
+				inputController.setTotal(Integer.parseInt(new String(ch, start, length)));
 			}
 			else if (bDefault){
 				inputController.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));
