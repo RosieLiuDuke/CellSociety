@@ -19,6 +19,7 @@ import page.PageGameOfLife;
 import page.PagePredator;
 import page.PageSegregation;
 import page.PageSpreadingOfFire;
+import page.Parameters;
 import page.WelcomePage;
 
 /**
@@ -29,6 +30,9 @@ import page.WelcomePage;
 public class CellSociety {
 	private Stage stage;
 	private File inputFile;
+	/**
+	 * pages (name of the simulation, the Page instance of the simulation)
+	 */
 	private Hashtable<String, Page> pages = new Hashtable<>();
 	private Hashtable<String, Animation> animations = new Hashtable<>();
 	private String currentType = "";
@@ -105,27 +109,35 @@ public class CellSociety {
 			newWelcomePage.showPage();
 		}
 		else if (type.equals("Game of Life")){
-			Page newGameOfLifePage = new PageGameOfLife(this, pages.get("Welcome").getLanguage());
+			String language = pages.get("Welcome").getLanguage();
+			Parameters parametersController = pages.get("Welcome").getParametersController();
+			Page newGameOfLifePage = new PageGameOfLife(this, language, parametersController);
 			pages.put(type, newGameOfLifePage);
-			Animation newGameOfLifeAnimation = new AnimationGameOfLife(this);
+			Animation newGameOfLifeAnimation = new AnimationGameOfLife(this, parametersController);
 			animations.put(type, newGameOfLifeAnimation);
 		}
 		else if (type.equals("Segregation")){
-			Page newSegregationPage = new PageSegregation(this, pages.get("Welcome").getLanguage());
+			String language = pages.get("Welcome").getLanguage();
+			Parameters parametersController = pages.get("Welcome").getParametersController();
+			Page newSegregationPage = new PageSegregation(this, language, parametersController);
 			pages.put(type, newSegregationPage);
-			Animation newSegregationAnimation = new AnimationSegregation(this); 
+			Animation newSegregationAnimation = new AnimationSegregation(this, parametersController); 
 			animations.put(type, newSegregationAnimation);
 		}
 		else if (type.equals("Fire")){
-			Page newFirePage = new PageSpreadingOfFire(this, pages.get("Welcome").getLanguage());
+			String language = pages.get("Welcome").getLanguage();
+			Parameters parametersController = pages.get("Welcome").getParametersController();
+			Page newFirePage = new PageSpreadingOfFire(this, language, parametersController);
 			pages.put(type, newFirePage);
-			Animation newFireAnimation = new AnimationSpreadingOfFire(this);
+			Animation newFireAnimation = new AnimationSpreadingOfFire(this, parametersController);
 			animations.put(type, newFireAnimation);
 		}
 		else if (type.equals("Predator")){
-			Page newPredatorPage = new PagePredator(this, pages.get("Welcome").getLanguage());
+			String language = pages.get("Welcome").getLanguage();
+			Parameters parametersController = pages.get("Welcome").getParametersController();
+			Page newPredatorPage = new PagePredator(this, language, parametersController);
 			pages.put(type, newPredatorPage);
-			Animation newPredatorAnimation = new AnimationPredator(this);
+			Animation newPredatorAnimation = new AnimationPredator(this, parametersController);
 			animations.put(type, newPredatorAnimation);
 		}
 	}
@@ -164,20 +176,21 @@ public class CellSociety {
 	private void actionsPerFrame() {
 		// if the current mode is consecutive simulation
 		if (!isStep){
-			animations.get(currentType).calculateMove();
-			((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
-			((GamePage) pages.get(currentType)).updateColor();
-			((GamePage) pages.get(currentType)).updateTextInfo();
+			detailedActions();
 		}
 		// if the current mode is simulation step by step
 		else {
 			if (nextStep){
-				animations.get(currentType).calculateMove();
-				((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
-				((GamePage) pages.get(currentType)).updateColor();
-				((GamePage) pages.get(currentType)).updateTextInfo();
+				detailedActions();
 				nextStep = false;
 			}
 		}
+	}
+
+	private void detailedActions() {
+		animations.get(currentType).calculateMove();
+		((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
+		((GamePage) pages.get(currentType)).updateColor();
+		((GamePage) pages.get(currentType)).updateTextInfo();
 	}
 }

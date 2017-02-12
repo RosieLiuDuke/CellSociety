@@ -1,5 +1,4 @@
 package page;
-
 import java.util.ArrayList;
 import java.util.List;
 import cellSociety.CellSociety;
@@ -15,27 +14,22 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class UIsetup extends GamePage {
-
 	private List<String> myOptions;
 	private ComboBox<String> simulationChoice;
 	private String text;
 	private Text parameters;
 	private Text gameTitle;
 	private VBox slidersBox;
-
-	public UIsetup(CellSociety cs, String language) {
-		super(cs, language);
+	public UIsetup(CellSociety cs, String language, Parameters p) {
+		super(cs, language, p);
 		myOptions = new ArrayList<String>();
 	}
-
 	public List<String> getOptions(){
 		return myOptions;
 	}
-
 	public Text getParameters(){
 		return parameters;
 	}
-
 	public String getText(){
 		return text;
 	}
@@ -43,7 +37,6 @@ public class UIsetup extends GamePage {
 	public VBox getSliderBox(){
 		return slidersBox;
 	}
-
 	/**
 	 * The method to set up required components in the scene.
 	 * Abstract.
@@ -92,7 +85,6 @@ public class UIsetup extends GamePage {
 		this.getCellSociety().setDelay(getSpeed());
 		this.getCellSociety().setupGameLoop();
 	}
-
 	/**
 	 * The method to create a slider for the right side of the UI Screen
 	 * @param min
@@ -114,7 +106,6 @@ public class UIsetup extends GamePage {
 	public void updateSliders(){
 		//Used if additional sliders are needed.
 	}
-
 	/**
 	 * The method to add Buttons to the bottom of the UI Screen
 	 */
@@ -137,7 +128,6 @@ public class UIsetup extends GamePage {
 				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ "\n";
 		this.getParameters().setText(text);
 	}
-
 	/**
 	 * When the slider is updated, change the speed of simulation by having a new timeline.
 	 * @param nVal

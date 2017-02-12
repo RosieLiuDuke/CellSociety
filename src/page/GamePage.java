@@ -1,89 +1,69 @@
 package page;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import cell.Cell;
 import cell.Indices;
 import cellSociety.CellSociety;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
-
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
  * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
-public abstract class GamePage extends Page {
-	protected static final int gridWidth = 300;
-	protected static final int gridHeight = 300;
+public class GamePage extends Page {
 	private Group grid;
 	private Map<Indices, Cell> cells;
-	private Map<Indices, Integer> cellsStatus;
-	private Map <Integer, Color> colorMap;	
-	private int colNum;
-	private int rowNum;
-	private double speed;	
 	private int currentStep;
-	private int defaultStatus;
 	private Boolean simulationSelected = false;
 	private Button back;
 	private Button start;
 	private Button stop;
-	private Button step;
+	private Button step;	
+	private List<String> myOptions;
+	private ComboBox<String> simulationChoice;
+	private String text;
+	private Text gameInfo;
+	private Text gameTitle;
+	private VBox slidersBox;
+	private Slider speed;
+	private VBox parametersBox;
 	
-	public GamePage (CellSociety cs, String language) {
+	public GamePage (CellSociety cs, String language, Parameters p) {
 		super(cs, language);
+		this.setParametersController(p);
 		grid = new Group();
 		cells = new HashMap<Indices, Cell>();
-		cellsStatus = new HashMap<Indices, Integer>();
 		back = createButton(getMyResources().getString("BackCommand"), event-> backButton(event));
 		start = createButton(getMyResources().getString("StartCommand"), event-> startButton(event));
 		stop = createButton(getMyResources().getString("StopCommand"), event-> stopButton(event));
 		step = createButton(getMyResources().getString("StepCommand"), event-> stepButton(event));
-		
-		colorMap = new HashMap<Integer, Color>();
+		myOptions = new ArrayList<String>();	
 	}
 	
 	public Group getGrid(){
 		return grid;
 	}
 	
-	public int getCol(){
-		return colNum;
-	}
-	
-	public int getRow(){
-		return rowNum;
-	}
-	
 	public Cell getCell(int col, int row){
 		return cells.get(new Indices(col, row));
 	}
 	
-	protected int getCellStatus(int col, int row){
-		if (cellsStatus.containsKey(new Indices(col, row))){
-			return cellsStatus.get(new Indices(col, row));
-		}
-		else{
-			return defaultStatus;
-		}
-	}
-	
-	protected int getDefaultStatus(){
-		return defaultStatus;
-	}
-	
-	protected double getSpeed () {
-		return speed;
-	}
-	
 	public int getCurrentStep () {
 		return currentStep;
-	}
-	
-	public double getProb(){
-		return 0;
 	}
 	
 	public Button getStart(){
@@ -101,78 +81,89 @@ public abstract class GamePage extends Page {
 	public Button getBack(){
 		return back;
 	}
-	
-	public Map<Integer, Color> getColorMap(){
-		return colorMap;
+		
+	protected int getCellStatus(int col, int row){
+		return this.getParametersController().getDefaultStatus();
 	}
 	
-	public void setColNum (int c) {
-		colNum = c;
-	}
-	
-	public void setRowNum (int r) {
-		rowNum = r;
-	}
-	
-	public void setDefaultStatus(int s){
-		defaultStatus = s;
-	}
-	
-	public void setSpeed (double s) {
-		speed = s;
-	}
-	
-	protected void setCell(int col, int row, Cell c) {
+	protected void addCell(int col, int row, Cell c) {
 		Indices newKey = new Indices(col, row);
 		cells.put(newKey, c);
 	}
 	
-	public void setCellStatus(int col, int row, int state){
-		Indices newKey = new Indices(col, row);
-		cellsStatus.put(newKey, state);
-	}
-	
-	public void setCurrentStep(int cs) {
-		currentStep = cs;
-	}
-	
-	public void setProb(double p){
-//		prob = p;
-	}
-	
-	public double getSatisfaction(){
-		return 0;
-	}
-	
-	public double getPercentage(int state){
-		return 0;
-	}
-	
-	public void setSatisfaction(double value){
-	}
-	
-	public void setPercentage(int type, double value){
-	}
-	
-	public String getItemName(int state) {
-		return null;
+	public void setCurrentStep(int step){
+		currentStep = step;
 	}
 
-	public int getItemState(String name) {
-		return 0;
+	public List<String> getOptions(){
+		return myOptions;
 	}
 
-	public double getItemTurnover(int state) {
-		return 0;
+	public Text getInfo(){
+		return gameInfo;
 	}
 
-	public double getItemTurnOver(String name) {
-		return 0;
+	public String getText(){
+		return text;
 	}
-
-	public void inputSeaItem(int state, String name, double turnover) {
+	
+	public VBox getSliderBox(){
+		return slidersBox;
+	}
+	
+	/**
+	 * The method to set up required components in the scene.
+	 * Abstract.
+	 */
+	protected void setupComponents(){
+		gameInfo = new Text();
+		gameInfo.setId("parameters");
 		
-	}	
+		myOptions.add("Input");
+		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
+		simulationChoice = new ComboBox<String>(options);
+		simulationChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
+		simulationChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
+		simulationChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
+		
+		slidersBox = new VBox(15);
+		speed = createSlider(1, 5, this.getParametersController().getSpeed(), 1, true);
+		speed.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
+		slidersBox.getChildren().addAll(new Text(getMyResources().getString("SpeedAdjustor")), speed);
+		
+		// updateSliders();
+
+		parametersBox = new VBox(15);
+		updateParameterBox();
+		
+		ScrollPane sp = new ScrollPane();
+		sp.setContent(parametersBox);
+		sp.setHbarPolicy(ScrollBarPolicy.NEVER);
+		sp.setId("rightpanel");
+		
+		gameTitle = new Text(this.getCellSociety().getCurrentType());
+		gameTitle.setId("gameTitle");
+		
+		VBox left = new VBox(10);
+		left.getChildren().addAll(gameTitle,grid);
+		left.setAlignment(Pos.CENTER);
+		
+		updateTextInfo();
+		
+		this.getScene().getStylesheets().add(Page.class.getResource("styles.css").toExternalForm());
+		this.getRoot().setLeft(left);
+		this.getRoot().setRight(sp);
+		left.setPrefWidth(getWidth()*0.6);
+		sp.setPrefWidth(getWidth()*0.4);
+		
+		this.getCellSociety().setDelay(this.getParametersController().getSpeed());
+		this.getCellSociety().setupGameLoop();
+	}
+
+	protected void updateParameterBox() {
+		parametersBox.getChildren().clear();
+		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), gameInfo);
+	}
 	
 
 	/**
@@ -188,23 +179,78 @@ public abstract class GamePage extends Page {
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
-		double width = gridWidth / getCol();
-		double height = gridHeight / getCol();
-
+		double width = Parameters.gridWidth / this.getParametersController().getCol();
+		double height = Parameters.gridHeight / this.getParametersController().getCol();
 		if (newValue.equals("Input")){
-			for (int col = 0; col < getCol(); col ++){  // x position - col
-				for (int row = 0; row < getRow(); row++){  // y position - row
+			for (int col = 0; col < this.getParametersController().getCol(); col ++){  // x position - col
+				for (int row = 0; row < this.getParametersController().getRow(); row++){  // y position - row
 					double xPosition = col * width;
 					double yPosition = row * height;
-					setCell(col,row, new Cell(xPosition, yPosition, width, height, getCellStatus(col, row)));
-					getCell(col,row).changeColor(this.getColorMap().get(getCell(col,row).getStatus()));
+					int cellStatus = this.getCellStatus(col, row);
+					addCell(col,row, new Cell(xPosition, yPosition, width, height, cellStatus));
+					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
 					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
 				}
 			}
 		}
 	}
+
+	/**
+	 * The method to create a slider for the right side of the UI Screen
+	 * @param min
+	 * @param max
+	 * @param increment
+	 * @param showTick
+	 */
+	public Slider createSlider(double min, double max, double current, double increment, boolean showTick){
+		Slider newSlider;
+		newSlider = new Slider(min, max, current);
+		newSlider.setShowTickLabels(showTick);
+		newSlider.setShowTickMarks(showTick);
+		newSlider.setMajorTickUnit(increment);
+		newSlider.setBlockIncrement(increment);
+		newSlider.setSnapToTicks(true);
+		return newSlider;
+	}
 	
-	public abstract void updateTextInfo();
+	public void updateSliders(){
+		//Used if additional sliders are needed.
+	}
+
+	/**
+	 * The method to add Buttons to the bottom of the UI Screen
+	 */
+	private VBox addButtons(){
+		VBox buttonBox = new VBox(5);
+		buttonBox.getChildren().addAll(this.getStart(), this.getStop(), this.getStep(), this.getBack());
+		buttonBox.setAlignment(Pos.CENTER);
+		return buttonBox;		
+	}
+	
+	/**
+	 * The method that updates the parameters displayed at the top of the UI Screen
+	 */
+	public void updateTextInfo() {
+		text =  getMyResources().getString("RowParameter") + this.getParametersController().getRow() + "\n" 
+				+ getMyResources().getString("ColParameter") + this.getParametersController().getCol() + "\n"
+				+ getMyResources().getString("GridWidthParameter") + Parameters.gridWidth + "\n"
+				+ getMyResources().getString("GridHeightParameter") + Parameters.gridHeight + "\n"
+				+ getMyResources().getString("StepParameter") + this.getParametersController().getSpeed() + "\n"
+				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ "\n";
+		this.getInfo().setText(text);
+	}
+
+	/**
+	 * When the slider is updated, change the speed of simulation by having a new timeline.
+	 * @param nVal
+	 */
+	private void updateSpeed(int nVal) {
+		this.getParametersController().setSpeed(nVal);
+		this.getCellSociety().setDelay(nVal);
+		this.getCellSociety().stopGameLoop();
+		this.getCellSociety().setupGameLoop();
+		this.updateTextInfo();
+	}
 	
 	/**
 	 * The method to update the color on each step.
@@ -212,9 +258,9 @@ public abstract class GamePage extends Page {
 	 */
 	public void updateColor () {
 		int i, j;
-		for (i = 0; i < getRow(); i++) {
-			for (j = 0; j < getCol(); j++) {
-				getCell(i,j).changeColor(this.getColorMap().get(getCell(i,j).getStatus()));
+		for (i = 0; i < this.getParametersController().getRow(); i++) {
+			for (j = 0; j < this.getParametersController().getCol(); j++) {
+				getCell(i,j).changeColor(this.getParametersController().getColor(getCell(i,j).getStatus()));
 			}
 		}
 	}

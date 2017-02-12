@@ -84,7 +84,7 @@ public class WelcomePage extends Page {
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			XMLParser userhandler = new XMLParser(this);
+			XMLParser userhandler = new XMLParser(this.getParametersController());
 			if (this.getCellSociety().getFile() != null){
 				saxParser.parse(this.getCellSociety().getFile(), userhandler);  
 			}
@@ -100,14 +100,16 @@ public class WelcomePage extends Page {
 	 * @param event
 	 */
 	private void handleMouseReleasedStart(Event event) {
-		String type = this.getCellSociety().getNextType();
-		UIsetup thePage = (UIsetup)this.getCellSociety().getPage(type);
+		String type = this.getParametersController().getType();
+		this.getCellSociety().setNextType(type);
+		this.getCellSociety().initializePage(type);
+		GamePage thePage = (GamePage)this.getCellSociety().getPage(type);
 		if (thePage != null){
 			thePage.setupComponents();
 			thePage.showPage();
 		}
 		else{
-			displayAlert(getMyResources().getString("UploadCommand"));
+			displayAlert("UploadCommand");
 		}
 	}
 }
