@@ -1,9 +1,16 @@
 package util;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import cell.Indices;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import page.Parameters;
+import javafx.scene.control.Label;
 
 /**
  * The handler to parse XML file with Java SAX package.
@@ -13,10 +20,10 @@ import page.Parameters;
 public class XMLParser extends DefaultHandler{
 	
 	Parameters parametersController;
+	XMLParametersController inputController;
 	
 	boolean bSimulation = false;
 	boolean bName = false;
-	boolean bGrid = false;
 	boolean bNCol = false;
 	boolean bNRow = false;
 	boolean bDefault = false;
@@ -34,6 +41,10 @@ public class XMLParser extends DefaultHandler{
 	int row = 0;
 	int col = 0;
 	double percentage;
+	Map<String, Object> parameterMap = new HashMap<>();
+	Map<Integer, Double> statePercentage = new HashMap<>();
+	Map<Integer, Double> stateTurnover = new HashMap<>();
+	Map<Indices, Integer> cellPositionState = new HashMap<>();
 	
 	/**
 	 * The constructor of the XMLParser class.
@@ -42,51 +53,53 @@ public class XMLParser extends DefaultHandler{
 	 */
 	public XMLParser(Parameters p){
 		parametersController = p;
+		inputController = new XMLParametersController(parametersController, parameterMap);
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		if (qName.equals("Simulation")) {
-			bSimulation = true;
-			type = attributes.getValue("name");
-			parametersController.setType(type);
-		} 
-		else if (qName.equals("grid")) {
-			bGrid = true;
-		}  
-		else if (qName.equals("nCol")) {
-			bNCol = true;
-		} 
-		else if (qName.equals("nRow")) {
-			bNRow = true;
+		try{
+			if (qName.equals("Simulation")) {
+				bSimulation = true;
+				inputController.setType(attributes.getValue("name"));
+			}
+			else if (qName.equals("nCol")) {
+				bNCol = true;
+			} 
+			else if (qName.equals("nRow")) {
+				bNRow = true;
+			}
+			else if (qName.equals("default")){
+				bDefault = true;
+			}
+			else if (qName.equals("state")){
+				bState = true;
+				state = Integer.parseInt(attributes.getValue("value"));
+			}
+			else if (qName.equals("column")){
+				bCol = true;
+			}
+			else if (qName.equals("row")){
+				bRow = true;
+			}
+			else if (qName.equals("percentage")){
+				bPercentage = true;
+			}
+			else if (qName.equals("speed")){
+				bSpeed = true;
+			}
+			else if (qName.equals("prob")){
+				bProb = true;
+			}
+			else if (qName.equals("satisfaction")){
+				bSatisfaction = true;
+			}
+			else if (qName.equals("turnover")){
+				bTurnover = true;
+			}
 		}
-		else if (qName.equals("default")){
-			bDefault = true;
-		}
-		else if (qName.equals("state")){
-			bState = true;
-			state = Integer.parseInt(attributes.getValue("value"));
-		}
-		else if (qName.equals("column")){
-			bCol = true;
-		}
-		else if (qName.equals("row")){
-			bRow = true;
-		}
-		else if (qName.equals("percentage")){
-			bPercentage = true;
-		}
-		else if (qName.equals("speed")){
-			bSpeed = true;
-		}
-		else if (qName.equals("prob")){
-			bProb = true;
-		}
-		else if (qName.equals("satisfaction")){
-			bSatisfaction = true;
-		}
-		else if (qName.equals("turnover")){
-			bTurnover = true;
+		catch(Exception e){
+			displayAlert(e);
 		}
 	}
 
@@ -94,9 +107,6 @@ public class XMLParser extends DefaultHandler{
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equals("Simulation")) {
 			bSimulation = false;
-		} 
-		else if (qName.equals("grid")) {
-			bGrid = false;
 		}  
 		else if (qName.equals("nCol")) {
 			bNCol = false;
@@ -108,9 +118,9 @@ public class XMLParser extends DefaultHandler{
 			bDefault = false;
 		}
 		else if (qName.equals("state")){
-			parametersController.setCellStatus(col, row, state);
-			parametersController.setStatusPercentage(state, percentage);
-			parametersController.addSeaItem(state, turnover);
+			inputController.setCellStatus(col, row, state);
+			inputController.setStatusPercentage(state, percentage);
+			inputController.setSeaItemTurnover(state, turnover);
 			row = col = 0;
 			state = 0;
 			percentage = 0;
@@ -142,36 +152,48 @@ public class XMLParser extends DefaultHandler{
 
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
-		if (bNCol) {
-			parametersController.setColNum(Integer.parseInt(new String(ch, start, length)));
-		} 
-		else if (bNRow) {
-			parametersController.setRowNum(Integer.parseInt(new String(ch, start, length)));
+		try{
+			if (bNCol) {
+				inputController.setCol(Integer.parseInt(new String(ch, start, length)));
+			} 
+			else if (bNRow) {
+				inputController.setRow(Integer.parseInt(new String(ch, start, length)));
+			}
+			else if (bDefault){
+				inputController.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));
+			}
+			else if (bCol){
+				col = Integer.parseInt(new String(ch, start, length));
+			}
+			else if (bRow){
+				row = Integer.parseInt(new String(ch, start, length));
+			} 
+			else if (bPercentage){
+				percentage = Double.parseDouble(new String(ch, start, length));
+			}
+			else if (bSpeed) {
+				inputController.setSpeed(Double.parseDouble(new String(ch, start, length)));
+			}
+			else if (bProb){
+				inputController.setProbability(Double.parseDouble(new String(ch, start, length)));
+			}
+			else if (bSatisfaction){
+				inputController.setSatisfaction(Double.parseDouble(new String(ch, start, length)));
+			}
+			else if (bTurnover){
+				turnover = Double.parseDouble(new String(ch, start, length));
+			}
 		}
-		else if (bDefault){
-			parametersController.setDefaultStatus(Integer.parseInt(new String(ch, start, length)));
-		}
-		else if (bCol){
-			col = Integer.parseInt(new String(ch, start, length));
-		}
-		else if (bRow){
-			row = Integer.parseInt(new String(ch, start, length));
-		} 
-		else if (bPercentage){
-			percentage = Double.parseDouble(new String(ch, start, length));
-		}
-		else if (bSpeed) {
-			parametersController.setSpeed(Double.parseDouble(new String(ch, start, length)));
-		}
-		else if (bProb){
-			parametersController.setProb(Double.parseDouble(new String(ch, start, length)));
-		}
-		else if (bSatisfaction){
-			parametersController.setSatisfaction(Double.parseDouble(new String(ch, start, length)));
-		}
-		else if (bTurnover){
-			turnover = Double.parseDouble(new String(ch, start, length));
+		catch(Exception e){
+			displayAlert(e);
 		}
 	}	
 
+	private void displayAlert(Exception e){
+		Alert alert = new Alert(AlertType.ERROR);
+		Label label = new Label(e.getMessage());
+		label.setWrapText(true);
+		alert.getDialogPane().setContent(label);
+		alert.showAndWait();
+	}
 }

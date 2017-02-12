@@ -2,7 +2,7 @@
 	<grid>
 		<nCol>30</nCol>
 		<nRow>30</nRow>
-		<size>10</size>
+		<size>10</size>		
 		<state value = "0">
 			<percentage>0.1</percentage>
 		</state>
