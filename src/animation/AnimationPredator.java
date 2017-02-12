@@ -1,7 +1,11 @@
 package animation;
 
 import java.util.ArrayList;
+
+import cell.Indices;
 import cellSociety.CellSociety;
+import grid.Grid;
+import grid.SquareGrid;
 import page.PagePredator;
 import page.Parameters;
 
@@ -11,15 +15,17 @@ public class AnimationPredator extends Animation{
 	private final static int FISHNUMBER = 1;
 	private final static int SHARKNUMBER = 2;
 	
-	private final static int sharkLife = 4;
-	private final static int fishLife = 1;
+	private double sharkLife;
+	private double fishLife;
 	private boolean firstTime;
-	private int [][] lives;
+	private double [][] lives;
 	
 
 	public AnimationPredator(CellSociety c, Parameters p) {
 		super(c, p);
 		firstTime = true;
+		sharkLife = p.getItemTurnover(SHARKNUMBER);
+		fishLife = p.getItemTurnover(FISHNUMBER);
 	}
 	
 	public void calculateMove() {
@@ -27,7 +33,7 @@ public class AnimationPredator extends Animation{
 		
 		
 		if (firstTime) {
-			lives = new int[grid.length][grid[0].length];
+			lives = new double[grid.length][grid[0].length];
 			createLives(grid);
 		}
 		
@@ -126,19 +132,19 @@ public class AnimationPredator extends Animation{
 		}
 	}
 	
-	private ArrayList <Coord> checkFor(int i, int j, int [][] grid, int type) {
+	private ArrayList <Indices> checkFor(int i, int j, int [][] grid, int type) {
 		Grid g = new SquareGrid();
-		ArrayList <Coord> returnList = new ArrayList<Coord>();
-		ArrayList <Coord> neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
+		ArrayList <Indices> returnList = new ArrayList<Indices>();
+		ArrayList <Indices> neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
 		
 		for (int k = 0; k < neighbors.size(); k++) {
 			checkSpot(neighbors.get(k).getX(), neighbors.get(k).getY(), returnList, grid, type);
 		}
 		return returnList;
 	}
-	private void checkSpot (int x, int y, ArrayList <Coord> returnList, int [][] grid, int type) {
+	private void checkSpot (int x, int y, ArrayList <Indices> returnList, int [][] grid, int type) {
 			if (grid[x][y] == type) {
-				returnList.add(new Coord(x, y));
+				returnList.add(new Indices(x, y));
 			}
 	}
 	
