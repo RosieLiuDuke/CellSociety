@@ -21,25 +21,6 @@ public class PageSegregation extends UIsetupWithPercentage {
 		this.getParametersController().addColor(2, Color.BLUE);
 	}
 	
-	// use percentage distribution to generate status for each cell
-	@Override
-	protected int getCellStatus(int col, int row){
-		int status = 0;
-		Random rn = new Random();
-		double indicator = rn.nextDouble();
-		int numberOfStates = this.getParametersController().getNumberOfStatus();
-		double prevStateProb = 0, nextStateProb = 0;
-		for (int i = 0; i < numberOfStates; i++){
-			nextStateProb += this.getParametersController().getStatusPercentage(i);
-			if (indicator >= prevStateProb && indicator < nextStateProb){
-				status = i;
-				break;
-			}
-			prevStateProb += this.getParametersController().getStatusPercentage(i);
-		}
-		return status;
-	}
-	
 	protected void setupComponents(){
 		super.setupComponents();
 		// add a special slider to adjust satisfaction
@@ -69,10 +50,6 @@ public class PageSegregation extends UIsetupWithPercentage {
 		String myText = getText() 
 				+ getMyResources().getString("SatisfactionParameter") 
 				+ this.getParametersController().getSatisfaction() + "\n";
-		for (int i = 0; i < this.getParametersController().getNumberOfStatus(); i++){
-			myText += getMyResources().getString("PercentageParameter") 
-		    		+ i + ": " + this.getParametersController().getStatusPercentage(i) + "\n";
-		}
 		this.getInfo().setText(myText);
 	}	
 }
