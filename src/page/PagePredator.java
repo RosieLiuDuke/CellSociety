@@ -50,23 +50,6 @@ public class PagePredator extends UIsetupWithPercentage {
 	}
 	
 	@Override
-	protected int getCellStatus(int col, int row){
-		int status = 0;
-		Random rn = new Random();
-		double indicator = rn.nextDouble();
-		int numberOfStates = this.getParametersController().getNumberOfStatus();
-		double prevStateProb = 0, nextStateProb = 0;
-		for (int i = 0; i < numberOfStates; i++){
-			nextStateProb += this.getParametersController().getStatusPercentage(i);
-			if (indicator >= prevStateProb && indicator < nextStateProb){
-				status = i;
-				break;
-			}
-			prevStateProb += this.getParametersController().getStatusPercentage(i);
-		}
-		return status;
-	}
-	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
 		String myText = getText();
@@ -74,11 +57,6 @@ public class PagePredator extends UIsetupWithPercentage {
 			 myText += getMyResources().getString("ReproductionParameter")
 					+ i + ": " + this.getParametersController().getItemTurnover(i) + "\n";
 		}
-		for (int i = 0; i < this.getParametersController().getNumberOfStatus(); i++){
-			myText += getMyResources().getString("PercentageParameter") 
-		    		+ i + ": " + this.getParametersController().getStatusPercentage(i) + "\n";
-		}
 		this.getInfo().setText(myText);
-
 	}	
 }
