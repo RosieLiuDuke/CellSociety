@@ -1,0 +1,17 @@
+<Simulation name="Slime">
+	<grid>
+		<nCol>30</nCol>
+		<nRow>30</nRow>
+		<total>3</total>
+		<total>2</total>
+		<state value = "0">
+			<animal>empty</animal>
+			<percentage>0.8</percentage>
+		</state>
+		<state value = "3">
+			<animal>slime</animal>
+			<percentage>0.2</percentage>
+		</state>
+	</grid>
+	<speed>3</speed>
+</Simulation>

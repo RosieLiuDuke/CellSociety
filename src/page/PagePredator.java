@@ -1,7 +1,5 @@
 package page;
 
-import java.util.Random;
-
 import cellSociety.CellSociety;
 import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;

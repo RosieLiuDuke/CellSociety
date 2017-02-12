@@ -2,6 +2,8 @@ package page;
 import java.util.ArrayList;
 import java.util.List;
 import cell.Cell;
+import cell.HexagonCell;
+import cell.SquareCell;
 import cellSociety.CellSociety;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -128,19 +130,24 @@ public abstract class UIsetup extends GamePage {
 		this.setCurrentStep(0);
 		updateTextInfo();
 		double width = Parameters.gridWidth / this.getParametersController().getCol();
-		double height = Parameters.gridHeight / this.getParametersController().getCol();
+		double height = Parameters.gridHeight / this.getParametersController().getRow();
 		if (newValue.equals("Input")){
+			double xPosition = 0;
 			for (int col = 0; col < this.getParametersController().getCol(); col ++){  // x position - col
+				double yPosition = 0;
+				if (col % 2 == 1) {yPosition += height / 2;}
 				for (int row = 0; row < this.getParametersController().getRow(); row++){  // y position - row
-					double xPosition = col * width;
-					double yPosition = row * height;
 					int cellStatus = this.getCellStatus(col, row);
-					Cell newCell = new Cell(xPosition, yPosition, width, height, cellStatus);
-					newCell.getRectangle().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
+					// TODO only for square cell
+					HexagonCell newCell = new HexagonCell(xPosition, yPosition, width/2, height/2, cellStatus);
+//					SquareCell newCell = new SquareCell(xPosition, yPosition, width, height, cellStatus);
+					newCell.getShape().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
 					addCell(col,row, newCell);
 					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
-					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
+					this.getGrid().getChildren().add(getCell(col,row).getShape());
+					yPosition += height; 
 				}
+				xPosition += width;
 			}
 		}
 		quantityMap();
