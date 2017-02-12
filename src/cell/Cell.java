@@ -23,13 +23,7 @@ public class Cell {
 		this.status = status;
 		rectangle = new Rectangle(xPosition, yPosition, width, height);
 		rectangle.setStroke(Color.BLACK);
-		// only for game of life
-		//rectangle.setOnMouseReleased(e -> handleMouseRelease(e));
 	}
-
-//	private void handleMouseRelease(MouseEvent e) {
-//		status *= -1;
-//	}
 
 	/**
 	* Create and return the rectangle variable for the cell to be added to scene in class Page

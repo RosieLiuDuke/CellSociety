@@ -26,8 +26,8 @@ import util.XMLParser;
 /**
  * The WelcomePage class for splash screen.
  * Parallel to the GamePage class.
+ * 
  * @author Harry Liu, Yilin Gao
- *
  */
 public class WelcomePage extends Page {	
 	
@@ -90,7 +90,7 @@ public class WelcomePage extends Page {
 				saxParser.parse(this.getCellSociety().getFile(), userhandler);  
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			displayAlert(getMyResources().getString("UploadCommand"));
 		}
 	}
 	

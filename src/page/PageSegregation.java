@@ -16,7 +16,7 @@ public class PageSegregation extends UIsetupWithPercentage {
 	
 	public PageSegregation(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
-		this.getParametersController().addColor(0, Color.TRANSPARENT);
+		this.getParametersController().addColor(0, Color.WHITE);
 		this.getParametersController().addColor(1, Color.RED);
 		this.getParametersController().addColor(2, Color.BLUE);
 	}

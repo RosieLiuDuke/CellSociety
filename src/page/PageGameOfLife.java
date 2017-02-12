@@ -8,10 +8,10 @@ import javafx.scene.paint.Color;
  * @author Yilin Gao, Harry Liu
  */
 public class PageGameOfLife extends UIsetup {
-		
+
 	public PageGameOfLife(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
-		this.getParametersController().addColor(0, Color.TRANSPARENT);
+		this.getParametersController().addColor(0, Color.WHITE);
 		this.getParametersController().addColor(1, Color.BLACK);
 	}
 	
@@ -37,5 +37,5 @@ public class PageGameOfLife extends UIsetup {
 	public void updateTextInfo() {
 		super.updateTextInfo();
 		// do nothing here
-	}	
+	}
 }

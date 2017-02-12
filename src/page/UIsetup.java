@@ -14,7 +14,13 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class UIsetup extends GamePage {
+/**
+ * The subclass UIsetup sets up the layout of every GamePage (simulation) that will be run.
+ * (Simulation of Front-End)
+ * 
+ * @author Harry Liu
+ */
+public abstract class UIsetup extends GamePage {
 
 	private Text gameInfo;
 	private List<String> myOptions;
@@ -87,7 +93,7 @@ public class UIsetup extends GamePage {
 		gameTitle.setId("gameTitle");
 		
 		VBox left = new VBox(10);
-		left.getChildren().addAll(gameTitle,this.getGrid());
+		left.getChildren().addAll(gameTitle,this.getGrid(), this.getChart());
 		left.setAlignment(Pos.CENTER);
 		
 		updateTextInfo();
@@ -134,6 +140,8 @@ public class UIsetup extends GamePage {
 				}
 			}
 		}
+		quantityMap();
+		createPopulationChart();
 	}
 
 	/**
@@ -159,7 +167,6 @@ public class UIsetup extends GamePage {
 	 */
 	@Override
 	public void updateTextInfo() {
-		super.updateTextInfo();
 		text =  getMyResources().getString("RowParameter") + this.getParametersController().getRow() + "\n" 
 				+ getMyResources().getString("ColParameter") + this.getParametersController().getCol() + "\n"
 				+ getMyResources().getString("GridWidthParameter") + Parameters.gridWidth + "\n"
@@ -170,7 +177,7 @@ public class UIsetup extends GamePage {
 	}
 	
 	/**
-	 * When the slider is updated, change the speed of simulation by having a new timeline.
+	 * Change the speed of simulation by having a new timeline when the slider is manipulated.
 	 * @param nVal
 	 */
 	public void updateSpeed(int nVal) {
@@ -180,4 +187,5 @@ public class UIsetup extends GamePage {
 		this.getCellSociety().setupGameLoop();
 		this.updateTextInfo();
 	}
+	
 }
