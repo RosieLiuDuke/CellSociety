@@ -140,23 +140,6 @@ public abstract class GamePage extends Page {
 		quantityMap.replaceAll((k,v) -> 0);;
 	}
 
-	public void createPopulationChart(){
-		xAxis.setLabel("Quantity"); 
-		yAxis.setLabel("Colors");
-
-		XYChart.Series<Number, String> populationSeries = new Series<Number, String>();
-
-		colorKey = new ArrayList<Color>(quantityMap.keySet());
-
-		for (int x = 0; x<quantityMap.keySet().size(); x++){
-			String color = colorKey.get(x).toString();
-			Number quantity = quantityMap.get(colorKey.get(x));
-			populationSeries.getData().add(new Data<Number, String>(quantity, color));
-		}
-		populationChart.getData().add(populationSeries);
-		populationChart.setLegendVisible(false);
-	}
-
 	public void updateChartDisplay(){		
 		for (Series<Number, String> series : populationChart.getData()) {
 			for (int x = 0; x<series.getData().size(); x++) {
@@ -164,9 +147,26 @@ public abstract class GamePage extends Page {
 				Node node = data.getNode();
 				node.setStyle("-fx-bar-fill:" + "#" + colorKey.get(x).toString().substring(2));
 				data.setXValue(quantityMap.get(colorKey.get(x)));
-
 			}
 		}
+	}
+
+	public void createPopulationChart(){
+		xAxis.setLabel("Quantity"); 
+		yAxis.setLabel("Colors");
+
+		XYChart.Series<Number, String> populationSeries = new Series<Number, String>();
+
+		colorKey = new ArrayList<Color>(quantityMap.keySet());
+		
+		for (int x = 0; x<quantityMap.keySet().size(); x++){
+			String color = colorKey.get(x).toString();
+			Number quantity = quantityMap.get(colorKey.get(x));
+			populationSeries.getData().add(new Data<Number, String>(quantity, color));
+		}
+		populationChart.getData().clear();
+		populationChart.getData().add(populationSeries);
+		populationChart.setLegendVisible(false);
 	}
 
 	/**
