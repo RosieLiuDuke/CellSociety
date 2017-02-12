@@ -2,8 +2,8 @@ package animation;
 
 public class Coord {
 
-		int x;
-		int y;
+		private int x;
+		private int y;
 		
 		public Coord (int w, int z) {
 			x  = w;
