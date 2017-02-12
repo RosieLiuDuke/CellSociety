@@ -65,7 +65,7 @@ public class AnimationPredator extends Animation{
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				if (grid[i][j] == SHARKNUMBER) {
-					if (lives[i][j] == 0) {
+					if (lives[i][j] <= 0) {
 						grid[i][j] = EMPTYNUMBER;
 					}
 					else if (checkFor(i, j, grid, FISHNUMBER).size() > 0) {
