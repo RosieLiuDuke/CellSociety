@@ -3,6 +3,7 @@
 		<nCol>100</nCol>
 		<nRow>100</nRow>
 		<size>10</size>
+		<total>3</total>
 		<state value = "0">
 			<animal>water</animal>
 			<turnover>0</turnover>

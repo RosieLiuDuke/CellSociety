@@ -3,6 +3,7 @@
 		<nCol>30</nCol>
 		<nRow>30</nRow>
 		<size>10</size>
+		<total>2</total>
 		<default>0</default>
 		<state value = "1">
 			<column>15</column>

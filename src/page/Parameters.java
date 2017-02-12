@@ -11,6 +11,7 @@ public class Parameters {
 	protected static final int gridHeight = 300;
 	private String type;
 	private int defaultStatus;
+	private int numberOfStatus;
 	// 1 default status, (n-1) other status
 	private Map<Integer, Double> statusPercentage;  // store the percentage of cell of each status
 	private Map<Indices, Integer> statusDistribution; // store specific locations and status of cells
@@ -58,8 +59,8 @@ public class Parameters {
 		return speed;
 	}
 	
-	public int getNumberOfStates(){
-		return statusPercentage.size();
+	public int getNumberOfStatus(){
+		return numberOfStatus;
 	}
 	
 	public double getStatusPercentage(int state){
@@ -96,6 +97,10 @@ public class Parameters {
 	
 	public void setRowNum (int r) {
 		rowNum = r;
+	}
+	
+	public void setNumberOfStatus(int t){
+		numberOfStatus = t;
 	}
 	
 	public void setDefaultStatus(int s){

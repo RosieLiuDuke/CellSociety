@@ -44,6 +44,15 @@ public class XMLParametersController {
 		}
 	}
 	
+	public void setTotal(int total){
+		if (total <= 0){
+			throwException("Please enter number of status larger than 0!");
+		}
+		else{
+			parametersController.setNumberOfStatus(total);
+		}
+	}
+	
 	public void setDefaultStatus(int status){
 		if (status < 0){
 			throwException("Please enter a non-negative default status!");

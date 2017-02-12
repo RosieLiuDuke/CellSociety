@@ -12,7 +12,7 @@ public class UIsetupWithPercentage extends UIsetup {
 	
 	public void addPercentageSlider(Map<Integer, Double> percentage){
 		getSliderBox().getChildren().add(new Text(getMyResources().getString("PercentageAdjustor")));
-		for (int size = 0; size<this.getParametersController().getNumberOfStates(); size++){
+		for (int size = 0; size<this.getParametersController().getNumberOfStatus(); size++){
 			int index = size;
 			Slider prob = createSlider(0, 1, this.getParametersController().getStatusPercentage(size), 0.25, true);
 			prob.valueProperty().addListener((obs,oVal,nVal) -> updatePercentage(index, nVal.doubleValue()));
