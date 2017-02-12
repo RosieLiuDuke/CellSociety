@@ -9,8 +9,12 @@
 			<row>15</row>
 		</state>
 		<state value = "1">
+			<column>14</column>
+			<row>15</row>
+		</state>
+		<state value = "1">
 			<column>16</column>
-			<row>16</row>
+			<row>15</row>
 		</state>
 	</grid>
 	<speed>3</speed>

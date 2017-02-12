@@ -1,7 +1,8 @@
 package animation;
 import cellSociety.CellSociety;
-import page.GamePage;
+import page.Page;
 import page.PageSpreadingOfFire;
+import page.Parameters;
 
 public class AnimationSpreadingOfFire extends Animation {
 	private final static int BURNINGVALUE = 2;
@@ -12,15 +13,13 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	
 	
-	public AnimationSpreadingOfFire(CellSociety c) {
-		super(c);
+	public AnimationSpreadingOfFire(CellSociety c, Parameters p) {
+		super(c, p);
 	}
 	
 	public void calculateMove () {
 		
-		String type = this.getCellSociety().getCurrentType();
-		GamePage page = (GamePage) this.getCellSociety().getPage(type);
-		probCatch = page.getProb();
+		probCatch = this.getParametersController().getProb();
 		
 		boolean [][] shouldChange;
 		int [][] grid= getArray("Fire");
