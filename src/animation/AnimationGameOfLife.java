@@ -1,7 +1,10 @@
 package animation;
 import java.util.ArrayList;
 
+import cell.Indices;
 import cellSociety.CellSociety;
+import grid.Grid;
+import grid.SquareGrid;
 import page.PageGameOfLife;
 import page.Parameters;
 
@@ -23,7 +26,7 @@ public class AnimationGameOfLife extends Animation {
 		
 		checkChange(shouldChange, grid);
 		
-		changegrid(shouldChange, grid);
+		changeGrid(shouldChange, grid);
 		
 		setCells(grid, (PageGameOfLife) getNeededPage("Game of Life"));
 	}
@@ -31,7 +34,7 @@ public class AnimationGameOfLife extends Animation {
 	private void checkChange(boolean [][] shouldChange, int [][] grid) {
 		int i, j, k, total;
 		Grid g = new SquareGrid();
-		ArrayList <Coord> neighbors;
+		ArrayList <Indices> neighbors;
 		
 		System.out.println("xMax: " + grid.length);
 		System.out.println("yMax: " + grid[0].length);
@@ -50,7 +53,7 @@ public class AnimationGameOfLife extends Animation {
 		}
 	}
 	
-	private void changegrid(boolean [][] shouldChange, int [][] grid) {
+	private void changeGrid(boolean [][] shouldChange, int [][] grid) {
 		int i, j;
 		
 		for (i = 0; i < grid.length; i++) {
