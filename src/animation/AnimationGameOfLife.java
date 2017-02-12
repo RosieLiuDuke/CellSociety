@@ -9,22 +9,16 @@ public class AnimationGameOfLife extends Animation {
 	
 	private static final int ONVALUE = 1;
 	private static final int OFFVALUE = 0;
-	private int [][] grid;
-	private boolean firstTime;
-	
 	
 	public AnimationGameOfLife(CellSociety c, Parameters p) {
 		super(c, p);
-		firstTime = true;
 	}
 	
 	public void calculateMove() {
 		boolean [][] shouldChange;
 		
-		if (firstTime) {
-			grid = getArray("Game of Life");
-			firstTime = false;
-		}
+		int [][] grid = getArray("Game of Life");
+			
 		shouldChange = new boolean[grid.length][grid[0].length];
 		
 		checkChange(shouldChange, grid);
