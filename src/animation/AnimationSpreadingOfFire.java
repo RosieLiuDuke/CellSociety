@@ -1,7 +1,10 @@
 package animation;
 import java.util.ArrayList;
 
+import cell.Indices;
 import cellSociety.CellSociety;
+import grid.Grid;
+import grid.SquareGrid;
 import page.Page;
 import page.PageSpreadingOfFire;
 import page.Parameters;
@@ -38,7 +41,7 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	private void checkChange(boolean [][] shouldChange, int [][] grid) {
 		int i, j, k;
-		ArrayList <Coord> neighbors;
+		ArrayList <Indices> neighbors;
 		Grid g = new SquareGrid();
 		
 		for (i = 0; i < grid.length; i++) {
@@ -63,7 +66,7 @@ public class AnimationSpreadingOfFire extends Animation {
 	private boolean figureShouldChange(int i, int j, boolean [][] shouldChange, int [][] grid) {
 		if (!shouldChange[i][j]) {
 			return ((grid[i][j] == UNBURNEDVALUE) &&
-				(Math.random() >= probCatch));
+				(Math.random() <= probCatch));
 		}
 		return true;
 	}

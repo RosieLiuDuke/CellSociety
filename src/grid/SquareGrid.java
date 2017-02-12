@@ -1,42 +1,44 @@
-package animation;
+package grid;
 
 import java.util.ArrayList;
 
+import cell.Indices;
+
 public class SquareGrid implements Grid {
 	
-	public ArrayList<Coord> getImmediateNeighbors(int x, int y, int xMax, int yMax) {
-		ArrayList <Coord> ret = new ArrayList<Coord>();
+	public ArrayList<Indices> getImmediateNeighbors(int x, int y, int xMax, int yMax) {
+		ArrayList <Indices> ret = new ArrayList<Indices>();
 		
 		if (x > 0) {
-			ret.add(new Coord(x-1, y));
+			ret.add(new Indices(x-1, y));
 		}
 		if (y > 0) {
-			ret.add(new Coord(x, y-1));
+			ret.add(new Indices(x, y-1));
 		}
 		if (x < (xMax-1)) {
-			ret.add(new Coord(x+1, y));
+			ret.add(new Indices(x+1, y));
 		}
 		if (y < (yMax -1)) {
-			ret.add(new Coord(x, y+1));
+			ret.add(new Indices(x, y+1));
 		}
 		return ret;
 	}
 
 	
-	public ArrayList<Coord> getAllNeighbors(int x, int y, int xMax, int yMax) {
-		ArrayList<Coord> ret = getImmediateNeighbors(x, y, xMax, yMax);
+	public ArrayList<Indices> getAllNeighbors(int x, int y, int xMax, int yMax) {
+		ArrayList<Indices> ret = getImmediateNeighbors(x, y, xMax, yMax);
 		
 		if ((x > 0) && (y > 0)) {
-			ret.add(new Coord(x-1,y-1));
+			ret.add(new Indices(x-1,y-1));
 		}
 		if ((x > 0) && (y < (yMax-1))) {
-			ret.add(new Coord(x-1,y+1));
+			ret.add(new Indices(x-1,y+1));
 		}
 		if ((x < (xMax -1)) && (y > 0)) {
-			ret.add(new Coord(x+1, y -1));
+			ret.add(new Indices(x+1, y -1));
 		}
 		if ((x < (xMax -1)) && (y < (yMax -1))) {
-			ret.add(new Coord(x+1,y+1));
+			ret.add(new Indices(x+1,y+1));
 		}
 		return ret;
 	}

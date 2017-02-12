@@ -30,4 +30,11 @@ public class Indices {
         result = 31 * result + row;
         return result;
     }
+    
+    public int getX() {
+		return col;
+	}
+	public int getY() {
+		return row;
+	}
 }

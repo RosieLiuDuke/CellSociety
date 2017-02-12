@@ -2,7 +2,10 @@ package animation;
 
 import java.util.ArrayList;
 
+import cell.Indices;
 import cellSociety.CellSociety;
+import grid.Grid;
+import grid.SquareGrid;
 import page.Page;
 import page.PageGameOfLife;
 import page.PageSegregation;
@@ -36,7 +39,7 @@ public class AnimationSegregation extends Animation {
 	private void checkSurrounding(boolean[][] shouldChange, int[][] grid) {
 		int i, j, k;
 		double agree = 0, disagree = 0;
-		ArrayList<Coord> neighbors;
+		ArrayList<Indices> neighbors;
 		Grid g = new SquareGrid();
 
 		for (i = 1; i < grid.length; i++) {
@@ -60,14 +63,14 @@ public class AnimationSegregation extends Animation {
 
 	private void changeCells(boolean[][] shouldChange, int[][] grid) {
 		int i, j, a, b, rand;
-		ArrayList<Coord> emptyCells = new ArrayList<Coord>();
-		ArrayList<Coord> changeCells = new ArrayList<Coord>();
+		ArrayList<Indices> emptyCells = new ArrayList<Indices>();
+		ArrayList<Indices> changeCells = new ArrayList<Indices>();
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				if (grid[i][j] == NOVALUE)
-					emptyCells.add(new Coord(i, j));
+					emptyCells.add(new Indices(i, j));
 				if (shouldChange[i][j])
-					changeCells.add(new Coord(i, j));
+					changeCells.add(new Indices(i, j));
 			}
 		}
 
@@ -82,7 +85,7 @@ public class AnimationSegregation extends Animation {
 			grid[a][b] = grid[i][j];
 			grid[i][j] = NOVALUE;
 			emptyCells.remove(rand);
-			emptyCells.add(new Coord(i, j));
+			emptyCells.add(new Indices(i, j));
 			changeCells.remove(0);
 		}
 	}

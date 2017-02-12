@@ -6,6 +6,7 @@ import animation.Animation;
 import animation.AnimationGameOfLife;
 import animation.AnimationPredator;
 import animation.AnimationSegregation;
+import animation.AnimationSlime;
 import animation.AnimationSpreadingOfFire;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,6 +19,7 @@ import page.Page;
 import page.PageGameOfLife;
 import page.PagePredator;
 import page.PageSegregation;
+import page.PageSlime;
 import page.PageSpreadingOfFire;
 import page.Parameters;
 import page.WelcomePage;
@@ -139,6 +141,14 @@ public class CellSociety {
 			pages.put(type, newPredatorPage);
 			Animation newPredatorAnimation = new AnimationPredator(this, parametersController);
 			animations.put(type, newPredatorAnimation);
+		}
+		else if (type.equals("Slime")) {
+			String language = pages.get("Welcome").getLanguage();
+			Parameters parametersController = pages.get("Welcome").getParametersController();
+			Page newSlimePage = new PageSlime(this, language, parametersController);
+			pages.put(type, newSlimePage);
+			Animation newSlimeAnimation = new AnimationSlime(this, parametersController);
+			animations.put(type, newSlimeAnimation);
 		}
 	}
 	
