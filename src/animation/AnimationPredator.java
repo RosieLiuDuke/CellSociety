@@ -11,9 +11,10 @@ public class AnimationPredator extends Animation{
 	private final static int FISHNUMBER = 1;
 	private final static int SHARKNUMBER = 2;
 	
-	private final static int sharkLife = 3;
-	private final static int fishLife = 3;
+	private final static int sharkLife = 4;
+	private final static int fishLife = 1;
 	private boolean firstTime;
+	private int [][] lives;
 	
 
 	public AnimationPredator(CellSociety c, Parameters p) {
@@ -23,18 +24,20 @@ public class AnimationPredator extends Animation{
 	
 	public void calculateMove() {
 		int [][] grid = getArray("Predator");
-		int [][] lives = new int[grid.length][grid[0].length];
 		
 		
-		if (firstTime)
-			createLives(grid, lives);
+		if (firstTime) {
+			lives = new int[grid.length][grid[0].length];
+			createLives(grid);
+		}
 		
-		progressThrough(grid, lives);
+		progressThrough(grid);
 		setCells(grid, (PagePredator)getNeededPage("Predator"));
 	}
 	
-	private void createLives(int [][] grid, int [][] lives) {
+	private void createLives(int [][] grid) {
 		int i,j;
+		firstTime = false;
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				if (grid[i][j] == FISHNUMBER) {
@@ -50,13 +53,12 @@ public class AnimationPredator extends Animation{
 		}
 	}
 	
-	private void progressThrough(int [][] grid, int [][] lives) {
-		
-		sharkProgress(grid, lives);
-		fishProgress(grid, lives);
+	private void progressThrough(int [][] grid) {
+		sharkProgress(grid);
+		fishProgress(grid);
 	}
 	
-	private void sharkProgress (int [][] grid, int [][] lives) {
+	private void sharkProgress (int [][] grid) {
 		int i, j, rand, x, y;
 		
 		
@@ -90,7 +92,7 @@ public class AnimationPredator extends Animation{
 			}
 		}
 	}
-	private void fishProgress(int [][] grid, int [][] lives) {
+	private void fishProgress(int [][] grid) {
 		int i, j, rand, x, y;
 		
 		for (i = 0; i < grid.length; i++) {
@@ -125,23 +127,23 @@ public class AnimationPredator extends Animation{
 	}
 	
 	private ArrayList <Coord> checkFor(int i, int j, int [][] grid, int type) {
+		Grid g = new SquareGrid();
 		ArrayList <Coord> returnList = new ArrayList<Coord>();
-		checkSpot(i-1, j,returnList, grid, type);
-		checkSpot(i + 1, j, returnList, grid, type);
-		checkSpot(i, j - 1, returnList, grid, type);
-		checkSpot(i, j + 1, returnList, grid, type);
+		ArrayList <Coord> neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
+		
+		for (int k = 0; k < neighbors.size(); k++) {
+			checkSpot(neighbors.get(k).getX(), neighbors.get(k).getY(), returnList, grid, type);
+		}
 		return returnList;
 	}
 	private void checkSpot (int x, int y, ArrayList <Coord> returnList, int [][] grid, int type) {
-		if ((x >= 0) && (y>= 0) && (x < grid.length) && (y < grid[0].length)) {
 			if (grid[x][y] == type) {
 				returnList.add(new Coord(x, y));
 			}
-		}
 	}
 	
 	private int getRandomForList (int size) {
 		return (int)((Math.random() * size) - .001);
 	}
-	
+
 }
