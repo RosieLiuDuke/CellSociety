@@ -89,7 +89,7 @@ public class WelcomePage extends Page {
 				saxParser.parse(this.getCellSociety().getFile(), userhandler);  
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			displayAlert(getMyResources().getString("UploadCommand"));
 		}
 	}
 	
