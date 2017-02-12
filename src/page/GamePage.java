@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
  * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
+
 public abstract class GamePage extends Page {
 	protected static final int gridWidth = 300;
 	protected static final int gridHeight = 300;
@@ -230,7 +231,7 @@ public abstract class GamePage extends Page {
 		addinGrid(newValue);
 		quantityMap();
 		if (!chartCreated){
-			createChart();
+			createPopulationChart();
 		}
 	}
 
@@ -270,7 +271,7 @@ public abstract class GamePage extends Page {
 		quantityMap.replaceAll((k,v) -> 0);;
 	}
 
-	public void createChart(){
+	public void createPopulationChart(){
 		chartCreated=true;
 		xAxis.setLabel("Quantity"); 
 		yAxis.setLabel("Colors");

@@ -73,7 +73,7 @@ public class PageSegregation extends withProbability {
 	}
 	
 	@Override
-	public void updateSliders(){
+	public void addSliders(){
 		addProbability(percentage);
 	}
 	

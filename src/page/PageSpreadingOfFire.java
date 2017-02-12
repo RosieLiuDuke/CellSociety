@@ -44,5 +44,10 @@ public class PageSpreadingOfFire extends UIsetup {
 		super.updateTextInfo();
 		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + "\n";
 		this.getParameters().setText(myText);
+	}
+
+	@Override
+	public void addSliders() {
+		// This page does not contain sliders;
 	}	
 }

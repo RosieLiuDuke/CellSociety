@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
  * 
  * @author Harry Liu
  */
-public class UIsetup extends GamePage {
+public abstract class UIsetup extends GamePage {
 
 	private List<String> myOptions;
 	private ComboBox<String> simulationChoice;
@@ -105,12 +105,10 @@ public class UIsetup extends GamePage {
 	
 	@Override
 	public void addinGrid(String newValue) {
-		// To Be Implemented per page basis
+		// Necessary only if additional grids are added in
 	}
 	
-	public void updateSliders(){
-		//Used if additional sliders are needed.
-	}
+	public abstract void addSliders();
 	
 	/**
 	 * Sets up required components in the scene.
@@ -131,7 +129,7 @@ public class UIsetup extends GamePage {
 		speed.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
 		slidersBox.getChildren().addAll(new Text(getMyResources().getString("StepParameter")), speed);
 		
-		updateSliders();
+		addSliders();
 		
 		VBox parametersBox = new VBox(15);
 		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), parameters);

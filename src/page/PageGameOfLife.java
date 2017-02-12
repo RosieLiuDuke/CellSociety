@@ -52,4 +52,10 @@ public class PageGameOfLife extends UIsetup {
 			}
 		}
 	}
+
+	@Override
+	public void addSliders() {
+		// This page does not need additional sliders
+		
+	}
 }

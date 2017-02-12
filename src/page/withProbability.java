@@ -42,5 +42,11 @@ public class withProbability extends UIsetup {
 		this.getCellSociety().setDelay(percent);
 		this.getCellSociety().stopGameLoop();
 	}
+
+	@Override
+	public void addSliders() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
