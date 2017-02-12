@@ -127,19 +127,19 @@ public class AnimationPredator extends Animation{
 	}
 	
 	private ArrayList <Coord> checkFor(int i, int j, int [][] grid, int type) {
+		Grid g = new SquareGrid();
 		ArrayList <Coord> returnList = new ArrayList<Coord>();
-		checkSpot(i-1, j,returnList, grid, type);
-		checkSpot(i + 1, j, returnList, grid, type);
-		checkSpot(i, j - 1, returnList, grid, type);
-		checkSpot(i, j + 1, returnList, grid, type);
+		ArrayList <Coord> neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
+		
+		for (int k = 0; k < neighbors.size(); k++) {
+			checkSpot(neighbors.get(k).getX(), neighbors.get(k).getY(), returnList, grid, type);
+		}
 		return returnList;
 	}
 	private void checkSpot (int x, int y, ArrayList <Coord> returnList, int [][] grid, int type) {
-		if ((x >= 0) && (y>= 0) && (x < grid.length) && (y < grid[0].length)) {
 			if (grid[x][y] == type) {
 				returnList.add(new Coord(x, y));
 			}
-		}
 	}
 	
 	private int getRandomForList (int size) {
