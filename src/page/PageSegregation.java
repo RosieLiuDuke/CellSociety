@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
  * @author Harry Liu
  */
 
-public class PageSegregation extends withProbability {
+public class PageSegregation extends UIsetupWithPercentage {
 	
 	
 	public PageSegregation(CellSociety cs, String language, Parameters p) {
@@ -46,22 +46,8 @@ public class PageSegregation extends withProbability {
 		Slider satisfactionAdjustor = createSlider(0, 1, this.getParametersController().getSatisfaction(), 1, true);
 		satisfactionAdjustor.valueProperty().addListener((obs,oVal,nVal) -> updateSatisfaction(nVal.doubleValue()));
 		this.getSliderBox().getChildren().addAll(new Text(getMyResources().getString("SatisfactionAdjustor")), satisfactionAdjustor);
-		// add special sliders to adjust percentage TODO
-		getSliderBox().getChildren().add(new Text(getMyResources().getString("PercentageAdjustor")));
-		for (int size = 0; size<this.getParametersController().getNumberOfStates(); size++){
-			int index = size;
-			Slider prob = createSlider(0, 1, this.getParametersController().getStatusPercentage(size), 0.25, true);
-			prob.valueProperty().addListener((obs,oVal,nVal) -> updatePercentage(index, nVal.doubleValue()));
-			getSliderBox().getChildren().add(prob);
-		}
-		updateParameterBox();
-	}
-	
-	private void updatePercentage(int index, double value) {
-		value = Math.round(value * 100);
-		value /= 100;
-		this.getParametersController().setStatusPercentage(index, value);
-		this.setupGrid(this.getOptions().get(0));
+		// add sliders to adjust percentage
+		addPercentageSlider(this.getParametersController().getStatusPercentageMap());
 	}
 
 	private void updateSatisfaction(double value) {
@@ -76,7 +62,6 @@ public class PageSegregation extends withProbability {
 		super.setupGrid(newValue);
 		// can add other choices of layouts
 	}
-
 	
 	@Override
 	public void updateTextInfo() {

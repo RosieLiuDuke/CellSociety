@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
  * The subclass Page to hold the Scene for the Game of Life simulation.
  * @author Yilin Gao, Harry Liu
  */
-public class PageGameOfLife extends GamePage {
+public class PageGameOfLife extends UIsetup {
 		
 	public PageGameOfLife(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);

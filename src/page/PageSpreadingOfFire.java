@@ -9,7 +9,7 @@ import cellSociety.CellSociety;
  * @author Harry Liu, Yilin Gao
  *
  */
-public class PageSpreadingOfFire extends GamePage {
+public class PageSpreadingOfFire extends UIsetup {
 	Slider probAdjustor;
 	
 	public PageSpreadingOfFire(CellSociety cs, String language, Parameters p) {

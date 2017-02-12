@@ -80,6 +80,7 @@ public class WelcomePage extends Page {
 	 * @param event
 	 */
 	private void handleMouseReleasedUpload(Event event){
+		this.initializeParameterController();
 		this.getXMLReader().chooseFile();
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -105,7 +106,6 @@ public class WelcomePage extends Page {
 		this.getCellSociety().initializePage(type);
 		GamePage thePage = (GamePage)this.getCellSociety().getPage(type);
 		if (thePage != null){
-			thePage.setupComponents();
 			thePage.showPage();
 		}
 		else{
