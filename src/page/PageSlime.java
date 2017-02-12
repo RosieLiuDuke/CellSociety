@@ -3,8 +3,8 @@ package page;
 import cellSociety.CellSociety;
 import javafx.scene.paint.Color;
 
-public class PageSlime extends GamePage {
-
+public class PageSlime extends UIsetup{
+	
 	public PageSlime(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
 		this.getParametersController().addColor(0, Color.BLACK);
@@ -16,7 +16,7 @@ public class PageSlime extends GamePage {
 	@Override
 	public void updateTextInfo() {
 		// TODO Auto-generated method stub
-		
+		super.updateTextInfo();
 	}
 
 }
