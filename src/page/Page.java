@@ -43,7 +43,11 @@ public class Page {
 		xmlReader = new XMLReader(theCellSociety);
 		myLanguage = language;
 		myResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+	}
+	
+	public Parameters initializeParameterController(){
 		parametersController = new Parameters();
+		return parametersController;
 	}
 
 	public Parameters getParametersController(){

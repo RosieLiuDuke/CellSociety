@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
  * 
  */
 
-public class PagePredator extends withProbability {
+public class PagePredator extends UIsetupWithPercentage {
 	
 	public PagePredator(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
@@ -29,30 +29,18 @@ public class PagePredator extends withProbability {
 		for (int size = 1; size<this.getParametersController().getNumberOfStates(); size++){
 			int index = size;
 			Slider rep = createSlider(1, 5, this.getParametersController().getItemTurnover(size), 1, true);
-			rep.valueProperty().addListener((obs,oVal,nVal) -> updateReproduction(index, nVal.intValue()));
+			rep.valueProperty().addListener((obs,oVal,nVal) -> updateReproduction(index, nVal.doubleValue()));
 			getSliderBox().getChildren().add(rep);
 		}
-		// add special sliders to adjust percentage TODO
-		getSliderBox().getChildren().add(new Text(getMyResources().getString("PercentageAdjustor")));
-		for (int size = 0; size<this.getParametersController().getNumberOfStates(); size++){
-			int index = size;
-			Slider prob = createSlider(0, 1, this.getParametersController().getStatusPercentage(size), 0.25, true);
-			prob.valueProperty().addListener((obs,oVal,nVal) -> updatePercentage(index, nVal.doubleValue()));
-			getSliderBox().getChildren().add(prob);
-		}
-		updateParameterBox();
+		// add sliders to adjust percentage
+		addPercentageSlider(this.getParametersController().getStatusPercentageMap());
 	}
 	
-	private void updateReproduction(int index, int value) {
-		this.getCellSociety().stopGameLoop();
-		this.getParametersController().updateReproductionRate(index, value);
-	}
-
-	private void updatePercentage(int index, double value) {
+	private void updateReproduction(int index, double value) {
 		value = Math.round(value * 100);
 		value /= 100;
-		this.getParametersController().setStatusPercentage(index, value);
-		this.setupGrid(this.getOptions().get(0));
+		this.getCellSociety().stopGameLoop();
+		this.getParametersController().updateReproductionRate(index, value);
 	}
 	
 	@Override
