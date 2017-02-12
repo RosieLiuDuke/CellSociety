@@ -190,7 +190,7 @@ public class CellSociety {
 	private void detailedActions() {
 		animations.get(currentType).calculateMove();
 		((GamePage)pages.get(currentType)).setCurrentStep(((GamePage)pages.get(currentType)).getCurrentStep() + 1);
-		((GamePage) pages.get(currentType)).updateColor();
+		((GamePage) pages.get(currentType)).updateColorandData();
 		((GamePage) pages.get(currentType)).updateTextInfo();
 	}
 }

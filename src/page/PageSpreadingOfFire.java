@@ -53,5 +53,6 @@ public class PageSpreadingOfFire extends UIsetup {
 				+ getMyResources().getString("ProbabilityParameter") 
 				+ this.getParametersController().getProb() + "\n";
 		this.getInfo().setText(myText);
-	}	
+	}
+
 }

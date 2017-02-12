@@ -26,8 +26,8 @@ import util.XMLParser;
 /**
  * The WelcomePage class for splash screen.
  * Parallel to the GamePage class.
+ * 
  * @author Harry Liu, Yilin Gao
- *
  */
 public class WelcomePage extends Page {	
 	
