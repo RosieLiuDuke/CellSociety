@@ -126,27 +126,6 @@ public abstract class GamePage extends Page {
 
 	/**
 	 * Updates the color and the display of the Bar Graph on each step.
-	 * Abstract.
-
-	protected int getCellStatus(int col, int row){
-		return this.getParametersController().getDefaultStatus();
-	}
-
-	protected void addCell(int col, int row, Cell c) {
-		Indices newKey = new Indices(col, row);
-		cells.put(newKey, c);
-	}
-
-	public void setCurrentStep(int step){
-		currentStep = step;
-	}	
-
-	protected void setSimulationSelected(boolean value){
-		simulationSelected = value;
-	}
-
-	/**
-	 * The method to update the color on each step.
 	 */
 	public void updateColorandData () {
 		int i, j;
