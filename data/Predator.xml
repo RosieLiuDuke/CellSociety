@@ -1,7 +1,7 @@
 <Simulation name="Predator">
 	<grid>
-		<nCol>30</nCol>
-		<nRow>30</nRow>
+		<nCol>100</nCol>
+		<nRow>100</nRow>
 		<size>10</size>
 		<state value = "0">
 			<animal>water</animal>

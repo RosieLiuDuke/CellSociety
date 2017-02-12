@@ -1,7 +1,7 @@
 package page;
-
 import java.util.ArrayList;
 import java.util.List;
+import cell.Cell;
 import cellSociety.CellSociety;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,54 +22,38 @@ import javafx.scene.text.Text;
  */
 public abstract class UIsetup extends GamePage {
 
+	private Text gameInfo;
 	private List<String> myOptions;
 	private ComboBox<String> simulationChoice;
 	private String text;
-	private Text parameters;
 	private Text gameTitle;
 	private VBox slidersBox;
-
-	public UIsetup(CellSociety cs, String language) {
-		super(cs, language);
+	private Slider speed;
+	private VBox parametersBox;
+	
+	public UIsetup(CellSociety cs, String language, Parameters p) {
+		super(cs, language, p);
 		myOptions = new ArrayList<String>();
+		setupComponents();
 	}
-
+	
 	public List<String> getOptions(){
 		return myOptions;
-	}
-
-	public Text getParameters(){
-		return parameters;
 	}
 
 	public String getText(){
 		return text;
 	}
 	
+	public Text getInfo(){
+		return gameInfo;
+	}
+	
 	public VBox getSliderBox(){
 		return slidersBox;
 	}
-
 	/**
-	 * Creates a slider for the right side of the UI Screen
-	 * @param min
-	 * @param max
-	 * @param increment
-	 * @param showTick
-	 */
-	public Slider createSlider(int min, int max, double increment, boolean showTick){
-		Slider newSlider;
-		newSlider = new Slider(min, max, getSpeed());
-		newSlider.setShowTickLabels(showTick);
-		newSlider.setShowTickMarks(showTick);
-		newSlider.setMajorTickUnit(increment);
-		newSlider.setBlockIncrement(increment);
-		newSlider.setSnapToTicks(true);
-		return newSlider;
-	}
-
-	/**
-	 * Adds Buttons to the bottom of the UI Screen
+	 * The method to add Buttons to the bottom of the UI Screen
 	 */
 	private VBox addButtons(){
 		VBox buttonBox = new VBox(5);
@@ -79,43 +63,11 @@ public abstract class UIsetup extends GamePage {
 	}
 	
 	/**
-	 * Updates the parameters displayed at the top of the UI Screen
-	 */
-	public void updateTextInfo() {
-		text =  getMyResources().getString("RowParameter") + getRow() + "\n" 
-				+ getMyResources().getString("ColParameter") + getCol() + "\n"
-				+ getMyResources().getString("GridWidthParameter") + gridWidth + "\n"
-				+ getMyResources().getString("GridHeightParameter") + gridHeight + "\n"
-				+ getMyResources().getString("StepParameter") + getSpeed() + "\n"
-				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ "\n";
-		this.getParameters().setText(text);
-	}
-
-	/**
-	 * Change the speed of simulation by having a new timeline when the slider is manipulated.
-	 * @param nVal
-	 */
-	private void updateSpeed(int nVal) {
-		setSpeed(nVal);
-		this.getCellSociety().setDelay(nVal);
-		this.getCellSociety().stopGameLoop();
-		this.getCellSociety().setupGameLoop();
-		this.updateTextInfo();
-	}
-	
-	@Override
-	public void addinGrid(String newValue) {
-		// Necessary only if additional grids are added in
-	}
-	
-	public abstract void addSliders();
-	
-	/**
-	 * Sets up required components in the scene.
+	 * The method to set up required components in the scene.
 	 */
 	protected void setupComponents(){
-		parameters = new Text();
-		parameters.setId("parameters");
+		gameInfo = new Text();
+		gameInfo.setId("parameters");
 		
 		myOptions.add("Input");
 		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
@@ -125,14 +77,12 @@ public abstract class UIsetup extends GamePage {
 		simulationChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
 		
 		slidersBox = new VBox(15);
-		Slider speed = createSlider(1, 5, 1, true);
+		speed = createSlider(1, 5, this.getParametersController().getSpeed(), 1, true);
 		speed.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
-		slidersBox.getChildren().addAll(new Text(getMyResources().getString("StepParameter")), speed);
-		
-		addSliders();
-		
-		VBox parametersBox = new VBox(15);
-		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), parameters);
+		slidersBox.getChildren().addAll(new Text(getMyResources().getString("SpeedAdjustor")), speed);
+
+		parametersBox = new VBox(15);
+		updateParameterBox();
 		
 		ScrollPane sp = new ScrollPane();
 		sp.setContent(parametersBox);
@@ -143,7 +93,7 @@ public abstract class UIsetup extends GamePage {
 		gameTitle.setId("gameTitle");
 		
 		VBox left = new VBox(10);
-		left.getChildren().addAll(gameTitle, this.getGrid(), this.getChart());
+		left.getChildren().addAll(gameTitle,this.getGrid(), this.getChart());
 		left.setAlignment(Pos.CENTER);
 		
 		updateTextInfo();
@@ -154,8 +104,88 @@ public abstract class UIsetup extends GamePage {
 		left.setPrefWidth(getWidth()*0.6);
 		sp.setPrefWidth(getWidth()*0.4);
 		
-		this.getCellSociety().setDelay(getSpeed());
+		this.getCellSociety().setDelay(this.getParametersController().getSpeed());
 		this.getCellSociety().setupGameLoop();
+	}
+
+	protected void updateParameterBox() {
+		parametersBox.getChildren().clear();
+		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), gameInfo);
+	}
+
+	/**
+	 * The method to set up the grid layout in the scene.
+	 * Abstract.
+	 * @param newValue
+	 */
+	protected void setupGrid(String newValue){
+		if (newValue!=null){
+			this.setSimulationSelected(true); 
+		}
+		this.getCellSociety().stopGameLoop();
+		this.getGrid().getChildren().clear();
+		this.setCurrentStep(0);
+		updateTextInfo();
+		double width = Parameters.gridWidth / this.getParametersController().getCol();
+		double height = Parameters.gridHeight / this.getParametersController().getCol();
+		if (newValue.equals("Input")){
+			for (int col = 0; col < this.getParametersController().getCol(); col ++){  // x position - col
+				for (int row = 0; row < this.getParametersController().getRow(); row++){  // y position - row
+					double xPosition = col * width;
+					double yPosition = row * height;
+					int cellStatus = this.getCellStatus(col, row);
+					addCell(col,row, new Cell(xPosition, yPosition, width, height, cellStatus));
+					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
+					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
+				}
+			}
+		}
+		quantityMap();
+		createPopulationChart();
+	}
+
+	/**
+	 * The method to create a slider for the right side of the UI Screen
+	 * @param min
+	 * @param max
+	 * @param increment
+	 * @param showTick
+	 */
+	protected Slider createSlider(double min, double max, double current, double increment, boolean showTick){
+		Slider newSlider;
+		newSlider = new Slider(min, max, current);
+		newSlider.setShowTickLabels(showTick);
+		newSlider.setShowTickMarks(showTick);
+		newSlider.setMajorTickUnit(increment);
+		newSlider.setBlockIncrement(increment);
+		newSlider.setSnapToTicks(true);
+		return newSlider;
+	}
+
+	/**
+	 * The method that updates the parameters displayed at the top of the UI Screen
+	 */
+	@Override
+	public void updateTextInfo() {
+		text =  getMyResources().getString("RowParameter") + this.getParametersController().getRow() + "\n" 
+				+ getMyResources().getString("ColParameter") + this.getParametersController().getCol() + "\n"
+				+ getMyResources().getString("GridWidthParameter") + Parameters.gridWidth + "\n"
+				+ getMyResources().getString("GridHeightParameter") + Parameters.gridHeight + "\n"
+				+ getMyResources().getString("StepParameter") + this.getParametersController().getSpeed() + "\n"
+				+ getMyResources().getString("CurrentStepParameter") + getCurrentStep()+ "\n";
+		this.getInfo().setText(text);
+	}
+	
+	/**
+	 * Change the speed of simulation by having a new timeline when the slider is manipulated.
+	 * @param nVal
+	 */
+	public void updateSpeed(int nVal) {
+		this.getParametersController().setSpeed(nVal);
+		this.getCellSociety().setDelay(nVal);
+		this.getCellSociety().stopGameLoop();
+		this.getCellSociety().setupGameLoop();
+		this.updateTextInfo();
 	}
 	
 }

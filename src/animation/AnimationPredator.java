@@ -3,6 +3,7 @@ package animation;
 import java.util.ArrayList;
 import cellSociety.CellSociety;
 import page.PagePredator;
+import page.Parameters;
 
 public class AnimationPredator extends Animation{
 	
@@ -15,8 +16,8 @@ public class AnimationPredator extends Animation{
 	private boolean firstTime;
 	
 
-	public AnimationPredator(CellSociety c) {
-		super(c);
+	public AnimationPredator(CellSociety c, Parameters p) {
+		super(c, p);
 		firstTime = true;
 	}
 	
