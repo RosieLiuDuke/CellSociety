@@ -1,5 +1,7 @@
 package page;
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import cellSociety.CellSociety;
 
 /**
@@ -8,41 +10,49 @@ import cellSociety.CellSociety;
  *
  */
 public class PageSpreadingOfFire extends UIsetup {
+	Slider probAdjustor;
 	
-	private double probCatch; 
-	
-	@Override
-	public double getProb(){
-		return probCatch;
+	public PageSpreadingOfFire(CellSociety cs, String language, Parameters p) {
+		super(cs, language, p);
+		this.getParametersController().addColor(0, Color.YELLOW);
+		this.getParametersController().addColor(1, Color.GREEN);
+		this.getParametersController().addColor(2, Color.RED);
 	}
 	
 	@Override
-	public void setProb(double p){
-		probCatch = p;
-	}
-	
-	public PageSpreadingOfFire(CellSociety cs, String language) {
-		super(cs, language);
-		getColorMap().put(0, Color.YELLOW);
-		getColorMap().put(1, Color.GREEN);
-		getColorMap().put(2, Color.RED);
+	protected int getCellStatus(int col, int row){
+		return this.getParametersController().getStatusDistribution(col, row);
 	}
 	
 	@Override
 	protected void setupComponents() {
 		super.setupComponents();
+		// add a special slider to adjust speed
+		probAdjustor = createSlider(0, 1, this.getParametersController().getProb(), 0.2, true);
+		probAdjustor.valueProperty().addListener((obs,oVal,nVal) -> updateProb(nVal.doubleValue()));
+		this.getSliderBox().getChildren().addAll(new Text(getMyResources().getString("ProbabilityAdjustor")), probAdjustor);
+		updateParameterBox();
 	}
 	
+	private void updateProb(double value) {
+		value = Math.round(value * 100);
+		value /= 100;
+		this.getParametersController().setProb(value);
+		this.getCellSociety().stopGameLoop();
+	}
+
 	@Override
 	protected void setupGrid(String newValue){
 		super.setupGrid(newValue);
-		// can add other grid layouts
 	}
 	
 	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
-		String myText = getText() + getMyResources().getString("ProbabilityParameter") + getProb() + "\n";
-		this.getParameters().setText(myText);
-	}	
+		String myText = getText() 
+				+ getMyResources().getString("ProbabilityParameter") 
+				+ this.getParametersController().getProb() + "\n";
+		this.getInfo().setText(myText);
+	}
+
 }

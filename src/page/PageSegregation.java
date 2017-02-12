@@ -1,90 +1,78 @@
 package page;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Random;
 import cellSociety.CellSociety;
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 /**
  * The subclass Page to hold the Scene for the Segregation simulation.
  * @author Harry Liu
  */
 
-public class PageSegregation extends withProbability {
+public class PageSegregation extends UIsetupWithPercentage {
 	
-	private double satisfaction;
-	private Map<Integer, Double> percentage;
 	
-	@Override
-	public double getSatisfaction(){
-		return satisfaction;
+	public PageSegregation(CellSociety cs, String language, Parameters p) {
+		super(cs, language, p);
+		this.getParametersController().addColor(0, Color.WHITE);
+		this.getParametersController().addColor(1, Color.RED);
+		this.getParametersController().addColor(2, Color.BLUE);
 	}
 	
-	@Override
-	public double getPercentage(int state){
-		return percentage.get(state);
-	}
-	
+	// use percentage distribution to generate status for each cell
 	@Override
 	protected int getCellStatus(int col, int row){
 		int status = 0;
 		Random rn = new Random();
 		double indicator = rn.nextDouble();
-		int numberOfStates = percentage.size();
+		int numberOfStates = this.getParametersController().getNumberOfStates();
 		double prevStateProb = 0, nextStateProb = 0;
 		for (int i = 0; i < numberOfStates; i++){
-			nextStateProb += percentage.get(i);
+			nextStateProb += this.getParametersController().getStatusPercentage(i);
 			if (indicator >= prevStateProb && indicator < nextStateProb){
 				status = i;
+				break;
 			}
-			prevStateProb += percentage.get(i);
+			prevStateProb += this.getParametersController().getStatusPercentage(i);
 		}
 		return status;
 	}
 	
-	@Override
-	public void setSatisfaction(double value){
-		satisfaction = value;
-	}
-	
-	@Override
-	public void setPercentage(int state, double value){
-		percentage.put(state, value);
-	}
-	
-	public PageSegregation(CellSociety cs, String language) {
-		super(cs, language);
-		this.getColorMap().clear();
-		this.getColorMap().put(0, Color.TRANSPARENT);
-		this.getColorMap().put(1, Color.RED);
-		this.getColorMap().put(2, Color.BLUE);
-		percentage = new LinkedHashMap<Integer, Double>();
-	}
-	
-	@Override
 	protected void setupComponents(){
 		super.setupComponents();
+		// add a special slider to adjust satisfaction
+		Slider satisfactionAdjustor = createSlider(0, 1, this.getParametersController().getSatisfaction(), 1, true);
+		satisfactionAdjustor.valueProperty().addListener((obs,oVal,nVal) -> updateSatisfaction(nVal.doubleValue()));
+		this.getSliderBox().getChildren().addAll(new Text(getMyResources().getString("SatisfactionAdjustor")), satisfactionAdjustor);
+		// add sliders to adjust percentage
+		addPercentageSlider(this.getParametersController().getStatusPercentageMap());
 	}
-	
+
+	private void updateSatisfaction(double value) {
+		value = Math.round(value * 100);
+		value /= 100;
+		this.getParametersController().setSatisfaction(value);
+		this.getCellSociety().stopGameLoop();
+	}
+
 	@Override
 	protected void setupGrid(String newValue){
 		super.setupGrid(newValue);
-	}
-	
-	@Override
-	public void updateSliders(){
-		addProbability(percentage);
+		// can add other choices of layouts
 	}
 	
 	@Override
 	public void updateTextInfo() {
 		super.updateTextInfo();
-		String myText = getText() + getMyResources().getString("SatisfactionParameter") + getSatisfaction() + "\n";
-		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + "\n";
+		String myText = getText() 
+				+ getMyResources().getString("SatisfactionParameter") 
+				+ this.getParametersController().getSatisfaction() + "\n";
+		for (int i = 0; i < this.getParametersController().getNumberOfStates(); i++){
+			myText += getMyResources().getString("PercentageParameter") 
+		    		+ i + ": " + this.getParametersController().getStatusPercentage(i) + "\n";
 		}
-		this.getParameters().setText(myText);
-
+		this.getInfo().setText(myText);
 	}	
 }

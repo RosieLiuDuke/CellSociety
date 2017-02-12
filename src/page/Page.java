@@ -28,7 +28,8 @@ public class Page {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private String myLanguage;
 	private ResourceBundle myResourceBundle;
-
+	private Parameters parametersController;
+	
 	/**
 	 * The constructor of the Page class. 
 	 * @param cs
@@ -42,6 +43,19 @@ public class Page {
 		xmlReader = new XMLReader(theCellSociety);
 		myLanguage = language;
 		myResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+	}
+	
+	public Parameters initializeParameterController(){
+		parametersController = new Parameters();
+		return parametersController;
+	}
+
+	public Parameters getParametersController(){
+		return parametersController;
+	}
+	
+	public void setParametersController(Parameters p){
+		parametersController = p;
 	}
 	
 	/**

@@ -1,22 +1,26 @@
 package animation;
 import cellSociety.CellSociety;
 import page.GamePage;
-import page.Page;
-import page.PageSegregation;
-import page.PageSpreadingOfFire;
+import page.Parameters;
 
 public abstract class Animation {
 	
 	private CellSociety cellSociety;
+	private Parameters parametersController;
 	
-	public Animation(CellSociety c) {
+	public Animation(CellSociety c, Parameters p) {
 		cellSociety = c;
+		parametersController = p;
 	}
 	
 	public abstract void calculateMove();
 	
 	public CellSociety getCellSociety() {
 		return cellSociety;
+	}
+	
+	public Parameters getParametersController(){
+		return parametersController;
 	}
 	
 	/**
@@ -28,7 +32,7 @@ public abstract class Animation {
 	public int [][] getArray(String s) {
 		int i, j;
 		GamePage p = getNeededPage(s);
-		int [][] intArray = new int[ p.getRow()][p.getCol()];
+		int [][] intArray = new int[ parametersController.getRow()][parametersController.getCol()];
 		
 		for (i = 0; i < intArray.length; i++) {
 			for (j = 0; j < intArray[0].length; j++) {

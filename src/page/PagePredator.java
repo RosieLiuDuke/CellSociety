@@ -1,103 +1,52 @@
 package page;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import cellSociety.CellSociety;
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 /**
  * The subclass Page to hold the Scene for the Segregation simulation.
  * 
  */
 
-public class PagePredator extends withProbability {
-	private Map<Map<Integer,String>, Double> seaItems;
-	private Map<Integer, Double> percentage;
+public class PagePredator extends UIsetupWithPercentage {
 	
-	@Override
-	public String getItemName(int state){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			if (entry.getKey().containsKey(state)){
-				return entry.getKey().get(state);
-			}
-		}
-		return null;
-	}
-	@Override
-	public int getItemState(String name){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			for (Map.Entry<Integer, String> newEntry: entry.getKey().entrySet()){
-				if (newEntry.getValue().equals(name)){
-					return newEntry.getKey();
-				}
-			}
-		}
-		return 0;
-	}
-	@Override
-	public double getItemTurnover(int state){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			for (Map.Entry<Integer, String> newEntry: entry.getKey().entrySet()){
-				if (newEntry.getKey() == state){
-					return entry.getValue();
-				}
-			}
-		}
-		return 0;
-	}
-	@Override
-	public double getItemTurnOver(String name){
-		for (Map.Entry<Map<Integer, String>, Double> entry: seaItems.entrySet()){
-			for (Map.Entry<Integer, String> newEntry: entry.getKey().entrySet()){
-				if (newEntry.getValue().equals(name)){
-					return entry.getValue();
-				}
-			}
-		}
-		return 0;
-	}
-	@Override
-	public void inputSeaItem(int state, String name, double turnover){
-		Map<Integer, String> stateName = new HashMap<>();
-		stateName.put(state, name);
-		seaItems.put(stateName, turnover);
-	}
-	
-	public PagePredator(CellSociety cs, String language) {
-		super(cs, language);
-		this.getColorMap().clear();
-		this.getColorMap().put(0, Color.BLUE);
-		this.getColorMap().put(1, Color.CORAL);
-		this.getColorMap().put(2, Color.CHARTREUSE);
-		seaItems = new HashMap<Map<Integer,String>, Double>();
-		percentage = new HashMap<Integer, Double>();
+	public PagePredator(CellSociety cs, String language, Parameters p) {
+		super(cs, language, p);
+		this.getParametersController().addColor(0, Color.BLUE);
+		this.getParametersController().addColor(1, Color.CORAL);
+		this.getParametersController().addColor(2, Color.CHARTREUSE);
 	}
 	
 	@Override
 	protected void setupComponents(){
 		super.setupComponents();
+		// add special sliders to adjust reproduction rate
+		getSliderBox().getChildren().add(new Text(getMyResources().getString("ReproductionAdjustor")));
+		for (int size = 1; size<this.getParametersController().getNumberOfStates(); size++){
+			int index = size;
+			Slider rep = createSlider(1, 5, this.getParametersController().getItemTurnover(size), 1, true);
+			rep.valueProperty().addListener((obs,oVal,nVal) -> updateReproduction(index, nVal.doubleValue()));
+			getSliderBox().getChildren().add(rep);
+		}
+		// add sliders to adjust percentage
+		addPercentageSlider(this.getParametersController().getStatusPercentageMap());
+	}
+	
+	private void updateReproduction(int index, double value) {
+		value = Math.round(value * 100);
+		value /= 100;
+		this.getCellSociety().stopGameLoop();
+		this.getParametersController().updateReproductionRate(index, value);
 	}
 	
 	@Override
 	protected void setupGrid(String newValue){
-		super.setupGrid(newValue);
-	}
-	
-	@Override
-	public double getPercentage(int state){
-		return percentage.get(state);
-	}
-	
-	@Override
-	public void setPercentage(int type, double value){
-		percentage.put(type, value);
-	}
-	
-	@Override
-	public void updateSliders(){
-		addProbability(percentage);
+		super.setupGrid(newValue);		
+		// can add other grid layouts
 	}
 	
 	@Override
@@ -105,15 +54,15 @@ public class PagePredator extends withProbability {
 		int status = 0;
 		Random rn = new Random();
 		double indicator = rn.nextDouble();
-		int numberOfStates = percentage.size();
+		int numberOfStates = this.getParametersController().getNumberOfStates();
 		double prevStateProb = 0, nextStateProb = 0;
 		for (int i = 0; i < numberOfStates; i++){
-			nextStateProb += percentage.get(i);
+			nextStateProb += this.getParametersController().getStatusPercentage(i);
 			if (indicator >= prevStateProb && indicator < nextStateProb){
 				status = i;
 				break;
 			}
-			prevStateProb += percentage.get(i);
+			prevStateProb += this.getParametersController().getStatusPercentage(i);
 		}
 		return status;
 	}
@@ -121,10 +70,15 @@ public class PagePredator extends withProbability {
 	public void updateTextInfo() {
 		super.updateTextInfo();
 		String myText = getText();
-		for (Map.Entry<Integer, Double> entry : percentage.entrySet()){
-		    myText += getMyResources().getString("PercentageParameter") + entry.getKey() + ": " + entry.getValue() + "\n";
+		for (int i = 1; i < this.getParametersController().getNumberOfStates(); i++){
+			 myText += getMyResources().getString("ReproductionParameter")
+					+ i + ": " + this.getParametersController().getItemTurnover(i) + "\n";
 		}
-		this.getParameters().setText(myText);
+		for (int i = 0; i < this.getParametersController().getNumberOfStates(); i++){
+			myText += getMyResources().getString("PercentageParameter") 
+		    		+ i + ": " + this.getParametersController().getStatusPercentage(i) + "\n";
+		}
+		this.getInfo().setText(myText);
 
 	}	
 }
