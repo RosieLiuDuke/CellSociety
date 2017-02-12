@@ -8,101 +8,77 @@ import page.PageGameOfLife;
 import page.PageSegregation;
 import page.Parameters;
 
-public class AnimationSegregation extends Animation{
-	
+public class AnimationSegregation extends Animation {
+
 	private final static int NOVALUE = 0;
 	private final static int FIRSTVALUE = 1;
 	private final static int SECONDVALUE = 2;
-	
+
 	private double neededNeighbors;
-	
-	
 
 	public AnimationSegregation(CellSociety c, Parameters p) {
 		super(c, p);
 	}
 
 	public void calculateMove() {
-		String type = this.getCellSociety().getCurrentType();
-		Page page = (Page) this.getCellSociety().getPage(type);
 		neededNeighbors = this.getParametersController().getSatisfaction();
-		
-		int [][] grid = getArray("Segregation");
-		boolean [][] shouldChange = new boolean[grid.length][grid[0].length];
-		
+
+		int[][] grid = getArray("Segregation");
+		boolean[][] shouldChange = new boolean[grid.length][grid[0].length];
+
 		checkSurrounding(shouldChange, grid);
-		
-		changeCells(shouldChange,grid);
-		
+
+		changeCells(shouldChange, grid);
+
 		setCells(grid, (PageSegregation) getNeededPage("Segregation"));
 	}
 
-	private void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
-		int i, j, k, l;
+	private void checkSurrounding(boolean[][] shouldChange, int[][] grid) {
+		int i, j, k;
 		double agree = 0, disagree = 0;
-		
-		int [][] borderArray = new int[grid.length +2][grid[0].length+2];
-		
-		for (i = 1; i < grid.length+1; i++) {
-			for (j = 1; j < grid[0].length+1; j++) {
-				borderArray[i][j] = grid[i-1][j-1];
-			}
-		}
-		for (i = 0; i < borderArray.length; i++) {
-			borderArray[i][0] = NOVALUE;
-			borderArray[i][borderArray[0].length -1] = NOVALUE;
-		}
-		for (i = 0; i < borderArray[0].length; i++) {
-			borderArray[0][i] = NOVALUE;
-			borderArray[borderArray.length - 1][i] = NOVALUE;
-		}
-		
-		for (i = 1; i < borderArray.length - 1; i++) {
-			for (j = 1; j < borderArray.length -1; j++) {
+		ArrayList<Coord> neighbors;
+		Grid g = new SquareGrid();
+
+		for (i = 1; i < grid.length; i++) {
+			for (j = 1; j < grid[0].length; j++) {
+				neighbors = g.getAllNeighbors(i, j, grid.length, grid[0].length);
 				
-				for (k = i -1; k < i+2; k++) {
-					for (l = j -1; l < j+2; l++) {
-						if (borderArray[i][j] == borderArray[k][l]) {
-							agree += 1;
-						}
-						else if (borderArray[k][l] != NOVALUE) {
-							disagree += 1;
-						}
+				for (k = 0; k < neighbors.size(); k++) {
+					if (grid[i][j] == grid[neighbors.get(k).getX()][neighbors.get(k).getY()]) {
+						agree += 1;
+					} else if (grid[neighbors.get(k).getX()][neighbors.get(k).getY()] != NOVALUE) {
+						disagree += 1;
 					}
+
 				}
-				
-				agree -= 1;
-				
-				
-				shouldChange[i-1][j-1] = ((agree / disagree) <= neededNeighbors);
-				
-				
-				agree = 0; disagree = 0;
+				shouldChange[i][j] = ((agree / disagree) <= neededNeighbors);
+				agree = 0;
+				disagree = 0;
 			}
 		}
 	}
-	
-	private void changeCells(boolean [][] shouldChange, int [][] grid) {
+
+	private void changeCells(boolean[][] shouldChange, int[][] grid) {
 		int i, j, a, b, rand;
-		ArrayList <Coord> emptyCells = new ArrayList<Coord>();
-		ArrayList <Coord> changeCells = new ArrayList<Coord>();
+		ArrayList<Coord> emptyCells = new ArrayList<Coord>();
+		ArrayList<Coord> changeCells = new ArrayList<Coord>();
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
-				if (grid[i][j] == NOVALUE) 
+				if (grid[i][j] == NOVALUE)
 					emptyCells.add(new Coord(i, j));
 				if (shouldChange[i][j])
 					changeCells.add(new Coord(i, j));
 			}
 		}
-		
+
 		while (changeCells.size() > 0) {
 			i = changeCells.get(0).getX();
 			j = changeCells.get(0).getY();
-			
+
 			rand = (int) Math.random() * (emptyCells.size() - 1);
 			a = emptyCells.get(rand).getX();
 			b = emptyCells.get(rand).getY();
-			
+
 			grid[a][b] = grid[i][j];
 			grid[i][j] = NOVALUE;
 			emptyCells.remove(rand);
