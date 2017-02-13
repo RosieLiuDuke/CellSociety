@@ -32,7 +32,7 @@ import page.WelcomePage;
 public class CellSociety {
 	private Stage stage;
 	private File inputFile;
-	private File configurationFile = new File("Overall Configuration.xml");
+	File configurationFile = new File(getClass().getClassLoader().getResource("OverallConfiguration.xml").getFile());
 	/**
 	 * pages (name of the simulation, the Page instance of the simulation)
 	 */

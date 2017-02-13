@@ -1,4 +1,4 @@
 <configuration>
 	<shape>rectangle</shape>
-	<visible>true</visible>
+	<visible>false</visible>
 </configuration>
