@@ -1,0 +1,123 @@
+<Simulation name="Game of Life">
+	<grid>
+		<nCol>30</nCol>
+		<nRow>30</nRow>
+		<size>10</size>
+		<total>2</total>
+		<default>0</default>
+		<state value = "0">
+			<color>WHITE</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>19</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>15</column>
+			<row>19</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>19</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>18</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>18</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>17</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>15</column>
+			<row>17</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>17</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>16</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>15</column>
+			<row>16</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>16</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>15</column>
+			<row>15</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>15</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>15</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>14</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>15</column>
+			<row>14</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>14</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>13</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>13</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>14</column>
+			<row>12</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>15</column>
+			<row>12</row>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<column>16</column>
+			<row>12</row>
+			<color>BLACK</color>
+		</state>
+	</grid>
+	<speed>3</speed>
+</Simulation>

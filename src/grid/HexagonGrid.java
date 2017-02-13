@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import cell.Indices;
 
-public class HexagonGrid implements Grid{
+public class HexagonGrid extends ShapeGrid implements Grid{
+
+	public HexagonGrid(boolean t) {
+		super(t);
+	}
 
 	@Override
 	public ArrayList<Indices> getImmediateNeighbors(int x, int y, int xMax, int yMax) {
