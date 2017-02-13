@@ -139,7 +139,7 @@ public class Parameters {
 	public void setCellShape(String cs){
 		cellShape = cs;
 		if (cs.equals("Square")){
-			theGrid = new SquareGrid(false);
+			theGrid = new SquareGrid(true);
 		}
 		else if (cs.equals("Hexagon")){
 			theGrid = new HexagonGrid(false);
