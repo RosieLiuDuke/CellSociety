@@ -131,14 +131,20 @@ public abstract class UIsetup extends GamePage {
 	}
 
 	/**
-	 * The method to update the VBox on the left side of the panel.
+	 * Adds the listeners to the ComboBox which will be displayed on the right pane of the UI
 	 */
 	private void createComboBox(){
 		ObservableList<String> options = FXCollections.observableArrayList(mySimulations);
 		simulationChoice = initializeComboBox(options, getMyResources().getString("SelectCommand"), getMyResources().getString("ChoicesCommand"));
 		simulationChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
 	}
-
+	
+	/**
+	 * Creates a generic Combo Box with a specified ToolTip and prompt text
+	 * @param observable
+	 * @param ToolTip
+	 * @param Prompt
+	 */
 	private ComboBox<String> initializeComboBox(ObservableList<String> observable, String ToolTip, String Prompt){
 		ComboBox<String> comboBox = new ComboBox<String>(observable);
 		comboBox.setTooltip(new Tooltip (ToolTip));
@@ -146,6 +152,9 @@ public abstract class UIsetup extends GamePage {
 		return comboBox;
 	}
 	
+	/**
+	 * Adds to the right side of the BorderPane, the different elements that make up the menu
+	 */
 	protected void updateParameterBox() {
 		parametersBox.getChildren().clear();
 		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), gameInfo);
