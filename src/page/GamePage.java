@@ -140,6 +140,9 @@ public abstract class GamePage extends Page {
 		quantityMap.replaceAll((k,v) -> 0);;
 	}
 
+	/**
+	 * Create new BarChart and add in initial data points based off color map
+	 */
 	public void createPopulationChart(){
 		xAxis.setLabel("Quantity"); 
 		yAxis.setLabel("Colors");
@@ -157,6 +160,9 @@ public abstract class GamePage extends Page {
 		populationChart.setLegendVisible(false);
 	}
 
+	/**
+	 * Update graph as quantity map changes over time to reflect accurate count of colors
+	 */
 	public void updateChartDisplay(){		
 		for (Series<Number, String> series : populationChart.getData()) {
 			for (int x = 0; x<series.getData().size(); x++) {
