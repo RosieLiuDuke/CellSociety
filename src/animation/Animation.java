@@ -1,5 +1,6 @@
 package animation;
 import cellSociety.CellSociety;
+import grid.Grid;
 import page.GamePage;
 import page.Parameters;
 
@@ -7,10 +8,12 @@ public abstract class Animation {
 	
 	private CellSociety cellSociety;
 	private Parameters parametersController;
+	private Grid g;
 	
-	public Animation(CellSociety c, Parameters p) {
+	public Animation(CellSociety c, Parameters p, Grid gridType) {
 		cellSociety = c;
 		parametersController = p;
+		g = gridType;
 	}
 	
 	public abstract void calculateMove();
@@ -61,4 +64,7 @@ public abstract class Animation {
 		}
 	}
 	
+	protected Grid getGrid () {
+		return g;
+	}
 }

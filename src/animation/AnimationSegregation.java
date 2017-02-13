@@ -19,8 +19,8 @@ public class AnimationSegregation extends Animation {
 
 	private double neededNeighbors;
 
-	public AnimationSegregation(CellSociety c, Parameters p) {
-		super(c, p);
+	public AnimationSegregation(CellSociety c, Parameters p, Grid g) {
+		super(c, p, g);
 	}
 
 	public void calculateMove() {
@@ -40,11 +40,10 @@ public class AnimationSegregation extends Animation {
 		int i, j, k;
 		double agree = 0, disagree = 0;
 		ArrayList<Indices> neighbors;
-		Grid g = new SquareGrid();
 
 		for (i = 1; i < grid.length; i++) {
 			for (j = 1; j < grid[0].length; j++) {
-				neighbors = g.getAllNeighbors(i, j, grid.length, grid[0].length);
+				neighbors = getGrid().getAllNeighbors(i, j, grid.length, grid[0].length);
 				
 				for (k = 0; k < neighbors.size(); k++) {
 					if (grid[i][j] == grid[neighbors.get(k).getX()][neighbors.get(k).getY()]) {

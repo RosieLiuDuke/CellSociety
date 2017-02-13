@@ -4,8 +4,13 @@ import java.util.ArrayList;
 
 import cell.Indices;
 
-public class SquareGrid implements Grid {
+public class SquareGrid extends ShapeGrid implements Grid {
 	
+	public SquareGrid(boolean t) {
+		super(t);
+	}
+
+
 	public ArrayList<Indices> getImmediateNeighbors(int x, int y, int xMax, int yMax) {
 		ArrayList <Indices> ret = new ArrayList<Indices>();
 		

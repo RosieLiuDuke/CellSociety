@@ -13,8 +13,8 @@ public class AnimationGameOfLife extends Animation {
 	private static final int ONVALUE = 1;
 	private static final int OFFVALUE = 0;
 	
-	public AnimationGameOfLife(CellSociety c, Parameters p) {
-		super(c, p);
+	public AnimationGameOfLife(CellSociety c, Parameters p, Grid g) {
+		super(c, p, g);
 	}
 	
 	public void calculateMove() {
@@ -33,16 +33,13 @@ public class AnimationGameOfLife extends Animation {
 	
 	private void checkChange(boolean [][] shouldChange, int [][] grid) {
 		int i, j, k, total;
-		Grid g = new SquareGrid();
-		ArrayList <Indices> neighbors;
 		
-		System.out.println("xMax: " + grid.length);
-		System.out.println("yMax: " + grid[0].length);
+		ArrayList <Indices> neighbors;
 		
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				total = 0;
-				neighbors = g.getAllNeighbors(i, j, grid.length, grid[0].length);
+				neighbors = getGrid().getAllNeighbors(i, j, grid.length, grid[0].length);
 				
 				for (k = 0; k < neighbors.size(); k++) {
 					total += grid[neighbors.get(k).getX()][neighbors.get(k).getY()];

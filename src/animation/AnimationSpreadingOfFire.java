@@ -18,8 +18,8 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	
 	
-	public AnimationSpreadingOfFire(CellSociety c, Parameters p) {
-		super(c, p);
+	public AnimationSpreadingOfFire(CellSociety c, Parameters p, Grid g) {
+		super(c, p, g);
 	}
 	
 	public void calculateMove () {
@@ -42,7 +42,6 @@ public class AnimationSpreadingOfFire extends Animation {
 	private void checkChange(boolean [][] shouldChange, int [][] grid) {
 		int i, j, k;
 		ArrayList <Indices> neighbors;
-		Grid g = new SquareGrid();
 		
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
@@ -50,7 +49,7 @@ public class AnimationSpreadingOfFire extends Animation {
 					shouldChange[i][j] = (grid[i][j] == BURNINGVALUE);
 				
 				if (grid[i][j] == BURNINGVALUE) {
-					neighbors = g.getImmediateNeighbors(i,j,grid.length, grid[0].length);
+					neighbors = getGrid().getImmediateNeighbors(i,j,grid.length, grid[0].length);
 					
 					for (k = 0; k < neighbors.size(); k++) {
 						shouldChange[neighbors.get(k).getX()][neighbors.get(k).getY()] = 
