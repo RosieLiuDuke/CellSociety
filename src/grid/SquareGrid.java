@@ -10,7 +10,6 @@ public class SquareGrid extends ShapeGrid implements Grid {
 		super(t);
 	}
 
-
 	public ArrayList<Indices> getImmediateNeighbors(int x, int y, int xMax, int yMax) {
 		ArrayList <Indices> ret = new ArrayList<Indices>();
 		

@@ -8,6 +8,10 @@ public abstract class ShapeGrid {
 		toroidal = t;
 	}
 	
+	/**
+	 * Allows subclasses to see the value of toroidal
+	 * @return a boolean telling whether the program should work toroidally
+	 */
 	protected boolean getToroidal () {
 		return toroidal;
 	}
