@@ -15,8 +15,8 @@ public class AnimationSlime extends Animation {
 	private static int MEDIUMCAMP = 1;
 	private static int HIGHCAMP = 2;
 	private static int SLIME = 3;
-	private static double HIGHMULTIPLIER = 1.33;
-	private static double LOWMULTIPLIER = .67;
+	private static double HIGHMULTIPLIER = 1.1;
+	private static double LOWMULTIPLIER = .9;
 	
 	private int [][] cAMP;
 	private boolean firstTime;
