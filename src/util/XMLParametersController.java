@@ -143,7 +143,6 @@ public class XMLParametersController {
 	}
 	
 	public void setSlimeLevel(String s, double level){
-		System.out.println(s);
 		parametersController.addSlimeLevel(s, level);
 	}
 	

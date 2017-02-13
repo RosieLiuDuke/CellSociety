@@ -151,10 +151,10 @@ public class XMLInputParser extends DefaultHandler{
 			bTurnover = false;
 		}
 		else if (qName.equals("upper")){
-			bUpper = true;
+			bUpper = false;
 		}
 		else if (qName.equals("lower")){
-			bLower = true;
+			bLower = false;
 		}
 	}
 
