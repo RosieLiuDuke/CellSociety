@@ -14,10 +14,12 @@ public class SquareCell extends Cell {
 	* @param size
 	* @param status
 	**/
-	public SquareCell (double xPosition, double yPosition, double width, double height, int status){
-		super(status);
-		rectangle = new Rectangle(xPosition, yPosition, width, height);
-		rectangle.setStroke(Color.BLACK);
+	public SquareCell (double centerX, double centerY, double sideX, double sideY, int status, boolean visible){
+		super(status);		
+		rectangle = new Rectangle(centerX - sideX / 2, centerY - sideY / 2, sideX, sideY);
+		if (visible){
+			rectangle.setStroke(Color.BLACK);
+		}
 	}
 
 	@Override

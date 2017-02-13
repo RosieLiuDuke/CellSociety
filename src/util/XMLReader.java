@@ -2,7 +2,6 @@ package util;
 import java.io.File;
 
 import cellSociety.CellSociety;
-import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -30,10 +29,7 @@ public class XMLReader{
     public void chooseFile () {
         File dataFile = myChooser.showOpenDialog(theCellSociety.getStage());
         if (dataFile != null) {
-        	 theCellSociety.setFile(dataFile);
-        }
-        else {
-            Platform.exit();
+        	 theCellSociety.setInputFile(dataFile);
         }
     }
 

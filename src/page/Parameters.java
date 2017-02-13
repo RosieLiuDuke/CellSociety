@@ -1,5 +1,6 @@
 package page;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,8 @@ public class Parameters {
 	private double probability; // Fire
 	private double satisfaction;   // segregation 
 	private Map<Integer, Double> seaItems; // reproduction rate of each item in predator simulation
+	private String cellShape;
+	private boolean gridVisible;
 	
 	public Parameters() {
 		statusPercentage = new HashMap<Integer, Double>();
@@ -75,8 +78,37 @@ public class Parameters {
 		return colorMap.get(state);
 	}
 	
+	public Collection<Color> getColorSet(){
+		return colorMap.values();
+	}
+	
+	public int getColorStatus(Color color){
+		for (int i: colorMap.keySet()){
+			if (colorMap.get(i).equals(color)){
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 	public double getSatisfaction(){
 		return satisfaction;
+	}
+	
+	public String getCellShape(){
+		return cellShape;
+	}
+	
+	public void setCellShape(String cs){
+		cellShape = cs;
+	}
+	
+	public boolean isGridVisible(){
+		return gridVisible;
+	}
+	
+	public void setGridVisible(boolean v){
+		gridVisible = v;
 	}
 	
 	public void setType(String theType){

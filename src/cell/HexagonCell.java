@@ -7,7 +7,7 @@ public class HexagonCell extends Cell {
 	
 	private Polygon hexagon;
 
-	public HexagonCell(double centerX, double centerY, double sideX, double sideY, int status) {
+	public HexagonCell(double centerX, double centerY, double sideX, double sideY, int status, boolean visible) {
 		super(status);
 		hexagon = new Polygon();
 		Double[] points = new Double[12];
@@ -24,7 +24,9 @@ public class HexagonCell extends Cell {
 		points[10] = centerX - sideX;
 		points[11] = centerY;
 		hexagon.getPoints().addAll(points);
-		hexagon.setStroke(Color.BLACK);
+		if (visible){
+			hexagon.setStroke(Color.BLACK);
+		}
 	}
 
 	@Override

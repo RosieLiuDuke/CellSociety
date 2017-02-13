@@ -7,10 +7,15 @@
 		<state value = "0">
 			<column>15</column>
 			<row>15</row>
+			<color>YELLOW</color>
+		</state>
+		<state value = "1">
+			<color>GREEN</color>
 		</state>
 		<state value = "2">
 			<column>16</column>
 			<row>16</row>
+			<color>RED</color>
 		</state>
 	</grid>
 	<prob>0.5</prob>

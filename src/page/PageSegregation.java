@@ -1,9 +1,7 @@
 package page;
 
-import java.util.Random;
 import cellSociety.CellSociety;
 import javafx.scene.control.Slider;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -16,9 +14,6 @@ public class PageSegregation extends UIsetupWithPercentage {
 	
 	public PageSegregation(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
-		this.getParametersController().addColor(0, Color.WHITE);
-		this.getParametersController().addColor(1, Color.RED);
-		this.getParametersController().addColor(2, Color.BLUE);
 	}
 	
 	protected void setupComponents(){

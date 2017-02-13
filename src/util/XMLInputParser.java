@@ -1,67 +1,51 @@
 package util;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import cell.Indices;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import page.Parameters;
-import javafx.scene.control.Label;
 
 /**
  * The handler to parse XML file with Java SAX package.
  * @author Yilin Gao
  *
  */
-public class XMLParser extends DefaultHandler{
+public class XMLInputParser extends DefaultHandler{
 	
-	Parameters parametersController;
 	XMLParametersController inputController;
 	
-	boolean bSimulation = false;
-	boolean bName = false;
-	boolean bNCol = false;
-	boolean bNRow = false;
-	boolean bTotal = false;
-	boolean bDefault = false;
-	boolean bState = false;
-	boolean bCol = false;
-	boolean bRow = false;
-	boolean bPercentage = false;
-	boolean bSpeed = false;
-	boolean bProb = false;
-	boolean bSatisfaction = false;
-	boolean bTurnover = false;
-	String type = "";
-	double turnover = 0;
-	int state = 0;
-	int row = 0;
-	int col = 0;
-	double percentage;
-	Map<String, Object> parameterMap = new HashMap<>();
-	Map<Integer, Double> statePercentage = new HashMap<>();
-	Map<Integer, Double> stateTurnover = new HashMap<>();
-	Map<Indices, Integer> cellPositionState = new HashMap<>();
+	private boolean bNCol = false;
+	private boolean bNRow = false;
+	private boolean bTotal = false;
+	private boolean bDefault = false;
+	private boolean bCol = false;
+	private boolean bRow = false;
+	private boolean bPercentage = false;
+	private boolean bColor = false;
+	private boolean bSpeed = false;
+	private boolean bProb = false;
+	private boolean bSatisfaction = false;
+	private boolean bTurnover = false;
+	private double turnover = 0;
+	private int state = 0;
+	private int row = 0;
+	private int col = 0;
+	private double percentage;
+	private String color;
 	
 	/**
 	 * The constructor of the XMLParser class.
 	 * All the class requires is the current WelcomePage.
 	 * @param p
 	 */
-	public XMLParser(Parameters p){
-		parametersController = p;
-		inputController = new XMLParametersController(parametersController, parameterMap);
+	public XMLInputParser(Parameters p){
+		inputController = new XMLParametersController(p);
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		try{
 			if (qName.equals("Simulation")) {
-				bSimulation = true;
 				inputController.setType(attributes.getValue("name"));
 			}
 			else if (qName.equals("nCol")) {
@@ -77,7 +61,6 @@ public class XMLParser extends DefaultHandler{
 				bDefault = true;
 			}
 			else if (qName.equals("state")){
-				bState = true;
 				state = Integer.parseInt(attributes.getValue("value"));
 			}
 			else if (qName.equals("column")){
@@ -88,6 +71,9 @@ public class XMLParser extends DefaultHandler{
 			}
 			else if (qName.equals("percentage")){
 				bPercentage = true;
+			}
+			else if (qName.equals("color")){
+				bColor = true;
 			}
 			else if (qName.equals("speed")){
 				bSpeed = true;
@@ -103,16 +89,13 @@ public class XMLParser extends DefaultHandler{
 			}
 		}
 		catch(Exception e){
-			displayAlert(e);
+			DisplayAlert.displayAlert(e.getMessage());
 		}
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		if (qName.equals("Simulation")) {
-			bSimulation = false;
-		}  
-		else if (qName.equals("nCol")) {
+		if (qName.equals("nCol")) {
 			bNCol = false;
 		} 
 		else if (qName.equals("nRow")) {
@@ -128,11 +111,12 @@ public class XMLParser extends DefaultHandler{
 			inputController.setCellStatus(col, row, state);
 			inputController.setStatusPercentage(state, percentage);
 			inputController.setSeaItemTurnover(state, turnover);
+			inputController.setStateColor(state, color);
 			row = col = 0;
 			state = 0;
 			percentage = 0;
 			turnover = 0;
-			bState = false;
+			color = "";
 		}
 		else if (qName.equals("column")){
 			bCol = false;
@@ -142,6 +126,9 @@ public class XMLParser extends DefaultHandler{
 		}
 		else if (qName.equals("percentage")){
 			bPercentage = false;
+		}
+		else if (qName.equals("color")){
+			bColor = false;
 		}
 		else if (qName.equals("speed")){
 			bSpeed = false;
@@ -181,6 +168,9 @@ public class XMLParser extends DefaultHandler{
 			else if (bPercentage){
 				percentage = Double.parseDouble(new String(ch, start, length));
 			}
+			else if (bColor){
+				color = new String(ch, start, length);
+			}
 			else if (bSpeed) {
 				inputController.setSpeed(Double.parseDouble(new String(ch, start, length)));
 			}
@@ -195,15 +185,7 @@ public class XMLParser extends DefaultHandler{
 			}
 		}
 		catch(Exception e){
-			displayAlert(e);
+			DisplayAlert.displayAlert(e.getMessage());
 		}
 	}	
-
-	private void displayAlert(Exception e){
-		Alert alert = new Alert(AlertType.ERROR);
-		Label label = new Label(e.getMessage());
-		label.setWrapText(true);
-		alert.getDialogPane().setContent(label);
-		alert.showAndWait();
-	}
 }
