@@ -4,9 +4,7 @@ import cellSociety.CellSociety;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import util.XMLReader;
@@ -126,8 +124,5 @@ public class Page {
 		return newButton;
 	}
 	
-	public void displayAlert(String prompt){
-		Alert alert = new Alert(AlertType.ERROR, prompt);
-		alert.showAndWait();
-	}
+	
 }

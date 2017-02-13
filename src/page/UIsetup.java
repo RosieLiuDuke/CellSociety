@@ -4,6 +4,7 @@ import java.util.List;
 import cell.Cell;
 import cell.HexagonCell;
 import cell.SquareCell;
+import cell.TriangleCell;
 import cellSociety.CellSociety;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +14,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -135,12 +135,14 @@ public abstract class UIsetup extends GamePage {
 			double xPosition = 0;
 			for (int col = 0; col < this.getParametersController().getCol(); col ++){  // x position - col
 				double yPosition = 0;
-				if (col % 2 == 1) {yPosition += height / 2;}
+//				if (col % 2 == 1) {yPosition += height / 2;}
 				for (int row = 0; row < this.getParametersController().getRow(); row++){  // y position - row
 					int cellStatus = this.getCellStatus(col, row);
+					boolean visible = this.getParametersController().isGridVisible();
 					// TODO only for square cell
-					HexagonCell newCell = new HexagonCell(xPosition, yPosition, width/2, height/2, cellStatus);
-//					SquareCell newCell = new SquareCell(xPosition, yPosition, width, height, cellStatus);
+//					TriangleCell newCell = new TriangleCell(xPosition, yPosition, width, height, cellStatus, visible);
+//					HexagonCell newCell = new HexagonCell(xPosition, yPosition, width/2, height/2, cellStatus);
+					SquareCell newCell = new SquareCell(xPosition, yPosition, width, height, cellStatus, visible);
 					newCell.getShape().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
 					addCell(col,row, newCell);
 					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));

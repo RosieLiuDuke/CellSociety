@@ -2,7 +2,6 @@ package page;
 
 import cellSociety.CellSociety;
 import javafx.scene.control.Slider;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -14,9 +13,6 @@ public class PagePredator extends UIsetupWithPercentage {
 	
 	public PagePredator(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
-		this.getParametersController().addColor(0, Color.BLUE);
-		this.getParametersController().addColor(1, Color.CORAL);
-		this.getParametersController().addColor(2, Color.CHARTREUSE);
 	}
 	
 	@Override

@@ -32,6 +32,7 @@ import page.WelcomePage;
 public class CellSociety {
 	private Stage stage;
 	private File inputFile;
+	private File configurationFile = new File("Overall Configuration.xml");
 	/**
 	 * pages (name of the simulation, the Page instance of the simulation)
 	 */
@@ -51,8 +52,12 @@ public class CellSociety {
 		return stage;
 	}
 	
-	public File getFile(){
+	public File getInputFile(){
 		return inputFile;
+	}
+	
+	public File getConfigFile(){
+		return configurationFile;
 	}
 	
 	public Page getPage(String type){
@@ -71,7 +76,7 @@ public class CellSociety {
 		return nextType;
 	}
 	
-	public void setFile(File file){
+	public void setInputFile(File file){
 		inputFile = file;
 	}
 	

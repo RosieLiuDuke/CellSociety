@@ -1,20 +1,14 @@
 package util;
 
-import java.util.Map;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
 import page.Parameters;
 
 public class XMLParametersController {
 	
 	Parameters parametersController;
-	Map<String, Object> parameterList;	
 
-	public XMLParametersController(Parameters pc, Map<String, Object> pl) {
+	public XMLParametersController(Parameters pc) {
 		parametersController = pc;
-		parameterList = pl;
 	}
 	
 	public void setType(String type){
@@ -136,19 +130,23 @@ public class XMLParametersController {
 		}
 	}
 	
-	private void throwException(String message) {
+	public void setStateColor(int state, String color){
+		parametersController.addColor(state, Color.valueOf(color));
+	}
+	
+	public void setShape (String shape) {
+		parametersController.setCellShape(shape);
+	}
+	
+	public void setGridVisible (boolean is){
+		parametersController.setGridVisible(is);
+	}
+	
+	private void throwException (String message) {
 		try {
 			throw new Exception (message);
 		} catch (Exception e) {
-			displayAlert(e);
+			DisplayAlert.displayAlert(e.getMessage());
 		}
-	}
-
-	private void displayAlert(Exception e){
-		Alert alert = new Alert(AlertType.ERROR);
-		Label label = new Label(e.getMessage());
-		label.setWrapText(true);
-		alert.getDialogPane().setContent(label);
-		alert.showAndWait();
 	}
 }

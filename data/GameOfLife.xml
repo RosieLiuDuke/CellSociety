@@ -5,17 +5,23 @@
 		<size>10</size>
 		<total>2</total>
 		<default>0</default>
+		<state value = "0">
+			<color>WHITE</color>
+		</state>
 		<state value = "1">
 			<column>15</column>
 			<row>15</row>
+			<color>BLACK</color>
 		</state>
 		<state value = "1">
 			<column>14</column>
 			<row>15</row>
+			<color>BLACK</color>
 		</state>
 		<state value = "1">
 			<column>16</column>
 			<row>15</row>
+			<color>BLACK</color>
 		</state>
 	</grid>
 	<speed>3</speed>
