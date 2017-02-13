@@ -24,7 +24,6 @@ import util.DisplayAlert;
  * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
-
 public abstract class GamePage extends Page {
 	private Group grid;
 	private Map<Indices, Cell> cells;
@@ -141,13 +140,12 @@ public abstract class GamePage extends Page {
 	protected BarChart<Number, String> getChart(){
 		return populationChart;
 	}
-
+	
 	/**
 	 * The abstract method to update game information display during each frame.
 	 * The method will be implemented by each sub class.
 	 */
 	public abstract void updateTextInfo();
-
 	/**
 	 * Creates Map which tracks the color quantities 
 	 * @param newValue
@@ -157,7 +155,6 @@ public abstract class GamePage extends Page {
 			quantityMap.put(color, 0);
 		}
 	}
-
 	/**
 	 * Updates the color and the display of the Bar Graph on each step.
 	 */
@@ -173,7 +170,6 @@ public abstract class GamePage extends Page {
 		updateChartDisplay();
 		quantityMap.replaceAll((k,v) -> 0);;
 	}
-
 	public void updateChartDisplay(){		
 		for (Series<Number, String> series : populationChart.getData()) {
 			for (int x = 0; x<series.getData().size(); x++) {
@@ -184,13 +180,10 @@ public abstract class GamePage extends Page {
 			}
 		}
 	}
-
 	public void createPopulationChart(){
 		xAxis.setLabel("Quantity"); 
 		yAxis.setLabel("Status");
-
 		XYChart.Series<Number, String> populationSeries = new Series<Number, String>();
-
 		colorKey = new ArrayList<Color>(quantityMap.keySet());
 		
 		for (int x = 0; x<quantityMap.keySet().size(); x++){
@@ -202,7 +195,6 @@ public abstract class GamePage extends Page {
 		populationChart.getData().add(populationSeries);
 		populationChart.setLegendVisible(false);
 	}
-
 	/**
 	 * The handler of the "BACK" button.
 	 * When the button is pressed, the game will return to the splash screen.
@@ -226,7 +218,6 @@ public abstract class GamePage extends Page {
 			DisplayAlert.displayAlert(getMyResources().getString("SelectCommand"));
 		}
 	}
-
 	/**
 	 * The handler of the "STOP" button.
 	 * When the button is pressed, the simulation will stop. 
@@ -236,7 +227,6 @@ public abstract class GamePage extends Page {
 	private void stopButton(ActionEvent event) {
 		this.getCellSociety().stopGameLoop();
 	}
-
 	/**
 	 * The handler of the "STEP" button.
 	 * When the button is pressed, the simulation will perform the next step.
@@ -252,5 +242,4 @@ public abstract class GamePage extends Page {
 			this.getCellSociety().beginGameLoop();
 		}	
 	}
-
 }
