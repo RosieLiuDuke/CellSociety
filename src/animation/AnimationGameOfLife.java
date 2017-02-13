@@ -36,9 +36,6 @@ public class AnimationGameOfLife extends Animation {
 		Grid g = new SquareGrid();
 		ArrayList <Indices> neighbors;
 		
-		System.out.println("xMax: " + grid.length);
-		System.out.println("yMax: " + grid[0].length);
-		
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				total = 0;
