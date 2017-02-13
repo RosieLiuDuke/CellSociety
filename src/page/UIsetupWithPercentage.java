@@ -6,12 +6,28 @@ import cellSociety.CellSociety;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 
-public class UIsetupWithPercentage extends UIsetup {
+/**
+ * Abstract sub class of UIsetup for simulations with percentage.
+ * 
+ * @author Harry Liu
+ * @author Yilin Gao
+ */
+public abstract class UIsetupWithPercentage extends UIsetup {
 	
+	/**
+	 * Constructor of the abstract class.
+	 * @param cs
+	 * @param language
+	 * @param p
+	 */
 	public UIsetupWithPercentage(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
 	}
 	
+	/**
+	 * The method to add sliders to adjust percentages in the simulation.
+	 * @param percentage: a Map between each status and its percentage.
+	 */
 	public void addPercentageSlider(Map<Integer, Double> percentage){
 		getSliderBox().getChildren().add(new Text(getMyResources().getString("PercentageAdjustor")));
 		for (int size = 0; size<this.getParametersController().getNumberOfStatus(); size++){
@@ -23,7 +39,6 @@ public class UIsetupWithPercentage extends UIsetup {
 		updateParameterBox();
 	}
 	
-
 	private void updatePercentage(int index, double value) {
 		value = Math.round(value * 100);
 		value /= 100;
@@ -31,6 +46,10 @@ public class UIsetupWithPercentage extends UIsetup {
 		this.setupGrid(this.getOptions().get(0));
 	}
 
+	/**
+	 * The method to calculate status for a give cell based on percentage.
+	 * Overrides the super class method.
+	 */
 	@Override
 	protected int getCellStatus(int col, int row){
 		int status = 0;
@@ -49,6 +68,10 @@ public class UIsetupWithPercentage extends UIsetup {
 		return status;
 	}
 	
+	/**
+	 * The method to add percentage information for the parameter display text.
+	 * Overrides the super class method.
+	 */
 	@Override
 	public void updateTextInfo(){
 		super.updateTextInfo();

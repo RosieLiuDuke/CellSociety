@@ -18,8 +18,9 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import util.DisplayAlert;
+
 /**
- * The abstract subclass of Page, and super class of all specific pages for each simulation.
+ * The abstract subclass of Page, and super class of all specific pages for simulations.
  * @author Joshua Kopen, Yilin Gao, Harry Liu
  *
  */
@@ -32,13 +33,19 @@ public abstract class GamePage extends Page {
 	private Button start;
 	private Button stop;
 	private Button step;	
-	private Boolean simulationSelected = false;
+	private Boolean layoutSelected = false;
 	private BarChart<Number, String> populationChart;
 	private NumberAxis xAxis;
 	private CategoryAxis yAxis;
 	private List<Color> colorKey;
 	private Map<Color, Integer> quantityMap;
 
+	/**
+	 * Constructor of the GamePage class. 
+	 * @param cs: the CellSociety instance
+	 * @param language: a string representing user choice of language
+	 * @param p: a Parameters instant from the calling class
+	 */
 	public GamePage (CellSociety cs, String language, Parameters p) {
 		super(cs, language);
 		this.setParametersController(p);
@@ -52,58 +59,93 @@ public abstract class GamePage extends Page {
 		stop = createButton(getMyResources().getString("StopCommand"), event-> stopButton(event));
 		step = createButton(getMyResources().getString("StepCommand"), event-> stepButton(event));
 		quantityMap = new HashMap<Color, Integer>();
-
 	}
 
-	public Group getGrid(){
+	protected Group getGrid(){
 		return grid;
 	}
 	
+	/**
+	 * The method to return a cell in the grid at a specific location.
+	 * @param col: the index of column
+	 * @param row: the index of row
+	 * @return Cell
+	 */
 	public Cell getCell(int col, int row){
 		return cells.get(new Indices(col, row));
 	}
 	
+	/**
+	 * The method to return the current step of the simulation.
+	 * @return int
+	 */
 	public int getCurrentStep () {
 		return currentStep;
 	}
 	
-	public Button getStart(){
+	/**
+	 * The method to set the current step.
+	 * Called by the game loop in CellSociety.
+	 * @param step: current step
+	 */
+	public void setCurrentStep(int step){
+		currentStep = step;
+	}		
+	
+	protected Button getStart(){
 		return start;
 	}
 	
-	public Button getStop(){
+	protected Button getStop(){
 		return stop;
 	}
 	
-	public Button getStep(){
+	protected Button getStep(){
 		return step;
 	}
 	
-	public Button getBack(){
+	protected Button getBack(){
 		return back;
 	}
-		
+	
+	/**
+	 * The method to get the status of a cell at a given location.
+	 * The method will be override by sub classes for different implementations.
+	 * @param col: the index of column
+	 * @param row: the index of row
+	 * @return int: the status of the cell
+	 */
 	protected int getCellStatus(int col, int row){
 		return this.getParametersController().getDefaultStatus();
 	}
 	
+	/**
+	 * The method to add a new Cell into the cells object of the Page.
+	 * @param col: the index of column
+	 * @param row: the index of row
+	 * @param c: the Cell instant
+	 */
 	protected void addCell(int col, int row, Cell c) {
 		Indices newKey = new Indices(col, row);
 		cells.put(newKey, c);
 	}
 	
-	public void setCurrentStep(int step){
-		currentStep = step;
-	}	
-	
-	protected void setSimulationSelected(boolean value){
-		simulationSelected = value;
+	/**
+	 * The method to set the parameter indicating if a type of grid layout is chosen.
+	 * @param value
+	 */
+	protected void setLayoutSelected(boolean value){
+		layoutSelected = value;
 	}
 	
-	public BarChart<Number, String> getChart(){
+	protected BarChart<Number, String> getChart(){
 		return populationChart;
 	}
 
+	/**
+	 * The abstract method to update game information display during each frame.
+	 * The method will be implemented by each sub class.
+	 */
 	public abstract void updateTextInfo();
 
 	/**
@@ -176,7 +218,7 @@ public abstract class GamePage extends Page {
 	 * @param event
 	 */
 	private void startButton(ActionEvent event) {
-		if (simulationSelected){
+		if (layoutSelected){
 			this.getCellSociety().setIsStep(false);
 			this.getCellSociety().beginGameLoop();
 		}
@@ -201,7 +243,7 @@ public abstract class GamePage extends Page {
 	 * @param event
 	 */
 	private void stepButton(ActionEvent event){
-		if (!simulationSelected){
+		if (!layoutSelected){
 			DisplayAlert.displayAlert(getMyResources().getString("SelectCommand"));
 		}	
 		else{

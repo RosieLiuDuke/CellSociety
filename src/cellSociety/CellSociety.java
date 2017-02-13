@@ -33,9 +33,6 @@ public class CellSociety {
 	private Stage stage;
 	private File inputFile;
 	File configurationFile = new File(getClass().getClassLoader().getResource("OverallConfiguration.xml").getFile());
-	/**
-	 * pages (name of the simulation, the Page instance of the simulation)
-	 */
 	private Hashtable<String, Page> pages = new Hashtable<>();
 	private Hashtable<String, Animation> animations = new Hashtable<>();
 	private String currentType = "";
@@ -102,12 +99,19 @@ public class CellSociety {
 	
 	/**
 	 * The constructor of the CellSociety class.
+	 * The constructor always loads the splash page.
 	 * @param theStage
 	 */
 	public CellSociety(Stage theStage) {
 		stage = theStage;
+		initializePage("Welcome");
 	}
 	
+	/**
+	 * A method to initialize a page and an animation of a given type.
+	 * @param type: the String to represent simulation type.
+	 *  TODO how to refactor
+	 */
 	public void initializePage(String type){
 		currentType = type;
 		if (type.equals("Welcome")){
@@ -157,6 +161,10 @@ public class CellSociety {
 		}
 	}
 	
+	/**
+	 * A method to load a new page from other pages.
+	 * @param type: the String to represent simulation type.
+	 */
 	public void loadPage(String type){
 		pages.clear();
 		animations.clear();
@@ -165,6 +173,9 @@ public class CellSociety {
 		initializePage(type);
 	}
 	
+	/**
+	 * The method to set up the game loop (with JavaFX Timeline)
+	 */
 	public void setupGameLoop(){
 		Duration oneFrameDuration = Duration.millis(millisecondDelay);
 		KeyFrame oneFrame = new KeyFrame(oneFrameDuration, new EventHandler<ActionEvent>(){
@@ -180,14 +191,20 @@ public class CellSociety {
 		timeline.getKeyFrames().add(oneFrame);
 	}
 	
+	/**
+	 * The method to start the game loop.
+	 */
 	public void beginGameLoop(){
 		timeline.play();
 	}
 	
+	/**
+	 * The method to stop the game loop.
+	 */
 	public void stopGameLoop(){
 		timeline.stop();
 	}
-
+	
 	private void actionsPerFrame() {
 		// if the current mode is consecutive simulation
 		if (!isStep){

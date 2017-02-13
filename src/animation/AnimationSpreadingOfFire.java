@@ -6,8 +6,8 @@ import cellSociety.CellSociety;
 import grid.Grid;
 import grid.SquareGrid;
 import page.Page;
-import page.PageSpreadingOfFire;
 import page.Parameters;
+import page.UIsetup;
 
 public class AnimationSpreadingOfFire extends Animation {
 	private final static int BURNINGVALUE = 2;
@@ -34,7 +34,7 @@ public class AnimationSpreadingOfFire extends Animation {
 		
 		changegrid(shouldChange, grid);
 		
-		setCells(grid, (PageSpreadingOfFire)getNeededPage("Fire"));
+		setCells(grid, (UIsetup)getNeededPage("Fire"));
 	}
 	
 	

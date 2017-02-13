@@ -4,17 +4,16 @@ import javafx.stage.Stage;
 
 /**
 * This is the Main file which launches the Cell Society Program
-* @author Harry Liu, Josh Kopen, and Yilin Gao
+* @author Harry Liu
+* @author Josh Kopen
+* @author Yilin Gao
 **/
 
 public class Main extends Application {
 
-	private CellSociety cellSociety;
-
 	@Override
 	public void start(Stage theStage){
-		cellSociety = new CellSociety(theStage);
-		cellSociety.initializePage("Welcome");
+		new CellSociety(theStage);
 	}
 
 	public static void main(String[] args) {

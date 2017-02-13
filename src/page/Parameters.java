@@ -7,6 +7,11 @@ import java.util.Map;
 import cell.Indices;
 import javafx.scene.paint.Color;
 
+/**
+ * The class to hold all parameters for all simulations.
+ * @author Yilin Gao
+ *
+ */
 public class Parameters {
 	protected static final int gridWidth = 300;
 	protected static final int gridHeight = 300;
@@ -25,12 +30,17 @@ public class Parameters {
 	private Map<Integer, Double> seaItems; // reproduction rate of each item in predator simulation
 	private String cellShape;
 	private boolean gridVisible;
+	private Map<String, Double> slimeDivisionLevels; // levels to indicate different levels in slimes
 	
+	/**
+	 * Constructor of the Parameters class.
+	 */
 	public Parameters() {
 		statusPercentage = new HashMap<Integer, Double>();
 		statusDistribution = new HashMap<Indices, Integer>();
 		colorMap = new HashMap<Integer, Color>();
 		seaItems = new HashMap<Integer, Double>();
+		slimeDivisionLevels = new HashMap<String, Double>();
 	}
 	
 	public String getType(){
@@ -45,6 +55,12 @@ public class Parameters {
 		return rowNum;
 	}
 	
+	/**
+	 * The method to get the status of a cell at given location.
+	 * @param col: the index for column
+	 * @param row: the index for row
+	 * @return int: cell status
+	 */
 	protected int getStatusDistribution(int col, int row){
 		if (statusDistribution.containsKey(new Indices(col, row))){
 			return statusDistribution.get(new Indices(col, row));
@@ -54,6 +70,10 @@ public class Parameters {
 		}
 	}
 
+	/**
+	 * The method to get the default status for the simulation
+	 * @return int: default status
+	 */
 	protected int getDefaultStatus(){
 		return defaultStatus;
 	}
@@ -62,14 +82,27 @@ public class Parameters {
 		return speed;
 	}
 	
+	/**
+	 * The method to get the total number of status
+	 * @return int
+	 */
 	public int getNumberOfStatus(){
 		return numberOfStatus;
 	}
 	
+	/**
+	 * The method to get the percentage of cells of a state
+	 * @param state
+	 * @return double: percentage of cells
+	 */
 	public double getStatusPercentage(int state){
 		return statusPercentage.get(state);
 	}
 	
+	/**
+	 * The method to get the entire percentage map.
+	 * @return Map<Integer, Double>
+	 */
 	public Map<Integer, Double> getStatusPercentageMap(){
 		return statusPercentage;
 	}
@@ -174,5 +207,13 @@ public class Parameters {
 	
 	public void updateReproductionRate(int state, double turnover){
 		seaItems.replace(state, turnover);
+	}
+	
+	public void addSlimeLevel(String s, double level){
+		slimeDivisionLevels.put(s, level);
+	}
+	
+	public double getSlimeLevel(String s){
+		return slimeDivisionLevels.get(s);
 	}
 }

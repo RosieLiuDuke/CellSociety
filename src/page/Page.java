@@ -10,7 +10,9 @@ import javafx.stage.Stage;
 import util.XMLReader;
 /**
  * The superclass for all Page subclasses.
- * @author Yilin Gao, Harry Liu
+ * Including pages for splash screen and each simulation.
+ * @author Yilin Gao
+ * @author Harry Liu
  *
  */
 public class Page {
@@ -30,7 +32,8 @@ public class Page {
 	
 	/**
 	 * The constructor of the Page class. 
-	 * @param cs
+	 * @param cs: the CellSociety instance
+	 * @param language: a string representing user choice of language
 	 */
 	public Page (CellSociety cs, String language){
 		theCellSociety = cs;
@@ -64,6 +67,10 @@ public class Page {
 		stage.show();
 	}
 	
+	/**
+	 * The method for sub classes to get access to the CellSociety instant.
+	 * @return CellSociety
+	 */
 	public CellSociety getCellSociety(){
 		return theCellSociety;
 	}
@@ -116,7 +123,7 @@ public class Page {
 	 * A general method to create any buttons.
 	 * @param name: button name
 	 * @param handler: EventHandler of the button
-	 * @return
+	 * @return Button: the newly created button
 	 */
 	public Button createButton (String name, EventHandler<ActionEvent> handler ) {
 		Button newButton = new Button(name);

@@ -26,6 +26,8 @@ public class XMLInputParser extends DefaultHandler{
 	private boolean bProb = false;
 	private boolean bSatisfaction = false;
 	private boolean bTurnover = false;
+	private boolean bUpper = false;
+	private boolean bLower = false;
 	private double turnover = 0;
 	private int state = 0;
 	private int row = 0;
@@ -87,6 +89,12 @@ public class XMLInputParser extends DefaultHandler{
 			else if (qName.equals("turnover")){
 				bTurnover = true;
 			}
+			else if (qName.equals("upper")){
+				bUpper = true;
+			}
+			else if (qName.equals("lower")){
+				bLower = true;
+			}
 		}
 		catch(Exception e){
 			DisplayAlert.displayAlert(e.getMessage());
@@ -142,6 +150,12 @@ public class XMLInputParser extends DefaultHandler{
 		else if (qName.equals("turnover")){
 			bTurnover = false;
 		}
+		else if (qName.equals("upper")){
+			bUpper = true;
+		}
+		else if (qName.equals("lower")){
+			bLower = true;
+		}
 	}
 
 	@Override
@@ -182,6 +196,12 @@ public class XMLInputParser extends DefaultHandler{
 			}
 			else if (bTurnover){
 				turnover = Double.parseDouble(new String(ch, start, length));
+			}
+			else if (bUpper){
+				inputController.setSlimeLevel("upper", Double.parseDouble(new String(ch, start, length)));
+			}
+			else if (bLower){
+				inputController.setSlimeLevel("lower", Double.parseDouble(new String(ch, start, length)));
 			}
 		}
 		catch(Exception e){
