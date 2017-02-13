@@ -20,12 +20,10 @@ public class AnimationSlime extends Animation {
 	
 	private int [][] cAMP;
 	private boolean firstTime;
-	private Grid g;
 	
-	public AnimationSlime(CellSociety c, Parameters p) {
-		super(c, p);
+	public AnimationSlime(CellSociety c, Parameters p, Grid g) {
+		super(c, p, g);
 		firstTime = true;
-		g = new SquareGrid();
 	}
 
 	@Override
@@ -33,7 +31,6 @@ public class AnimationSlime extends Animation {
 		int [][] grid = getArray("Slime");
 		
 		if (firstTime) {
-			int i, j;
 			firstTime = false;
 			cAMP = new int[grid.length][grid[0].length];
 			setToZero(cAMP);
@@ -58,7 +55,7 @@ public class AnimationSlime extends Animation {
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
 				if (grid[i][j] == SLIME) {
-					neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
+					neighbors = getGrid().getImmediateNeighbors(i, j, grid.length, grid[0].length);
 					
 					for (k = 0; k < neighbors.size(); k++) {
 						if (grid[neighbors.get(k).getX()][neighbors.get(k).getY()] == SLIME) {
@@ -97,14 +94,14 @@ public class AnimationSlime extends Animation {
 				if (grid[i][j] == SLIME) {
 					
 					shouldAdd[i][j] += 1;
-					neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
+					neighbors = getGrid().getImmediateNeighbors(i, j, grid.length, grid[0].length);
 					
 					for (k = 0; k < neighbors.size(); k++) {
 						shouldAdd[neighbors.get(k).getX()][neighbors.get(k).getY()] += 1;
 					}
 				}
 				else {
-					neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
+					neighbors = getGrid().getImmediateNeighbors(i, j, grid.length, grid[0].length);
 					for (k = 0; k < neighbors.size(); k++) {
 						if (cAMP[i][j] > cAMP[neighbors.get(k).getX()][neighbors.get(k).getY()]) {
 							shouldAdd[neighbors.get(k).getX()][neighbors.get(k).getY()] += 1;
