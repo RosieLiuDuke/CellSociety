@@ -19,8 +19,8 @@ public class AnimationSegregation extends Animation {
 
 	private double neededNeighbors;
 
-	public AnimationSegregation(CellSociety c, Parameters p, Grid g) {
-		super(c, p, g);
+	public AnimationSegregation(CellSociety c, Parameters p) {
+		super(c, p);
 	}
 
 	public void calculateMove() {

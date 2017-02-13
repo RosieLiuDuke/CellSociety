@@ -10,10 +10,10 @@ public abstract class Animation {
 	private Parameters parametersController;
 	private Grid g;
 	
-	public Animation(CellSociety c, Parameters p, Grid gridType) {
+	public Animation(CellSociety c, Parameters p) {
 		cellSociety = c;
 		parametersController = p;
-		g = gridType;
+		g = parametersController.getGrid();
 	}
 	
 	public abstract void calculateMove();

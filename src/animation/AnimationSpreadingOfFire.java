@@ -18,8 +18,8 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	
 	
-	public AnimationSpreadingOfFire(CellSociety c, Parameters p, Grid g) {
-		super(c, p, g);
+	public AnimationSpreadingOfFire(CellSociety c, Parameters p) {
+		super(c, p);
 	}
 	
 	public void calculateMove () {

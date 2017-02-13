@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cell.Indices;
+import grid.Grid;
+import grid.HexagonGrid;
+import grid.SquareGrid;
 import javafx.scene.paint.Color;
 
 /**
@@ -29,6 +32,7 @@ public class Parameters {
 	private double satisfaction;   // segregation 
 	private Map<Integer, Double> seaItems; // reproduction rate of each item in predator simulation
 	private String cellShape;
+	private Grid theGrid;
 	private boolean gridVisible;
 	private Map<String, Double> slimeDivisionLevels; // levels to indicate different levels in slimes
 	
@@ -134,6 +138,16 @@ public class Parameters {
 	
 	public void setCellShape(String cs){
 		cellShape = cs;
+		if (cs.equals("Square")){
+			theGrid = new SquareGrid(false);
+		}
+		else if (cs.equals("Hexagon")){
+			theGrid = new HexagonGrid(false);
+		}
+	}
+	
+	public Grid getGrid(){
+		return theGrid;
 	}
 	
 	public boolean isGridVisible(){

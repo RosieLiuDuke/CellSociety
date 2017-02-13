@@ -21,8 +21,8 @@ public class AnimationSlime extends Animation {
 	private int [][] cAMP;
 	private boolean firstTime;
 	
-	public AnimationSlime(CellSociety c, Parameters p, Grid g) {
-		super(c, p, g);
+	public AnimationSlime(CellSociety c, Parameters p) {
+		super(c, p);
 		firstTime = true;
 	}
 

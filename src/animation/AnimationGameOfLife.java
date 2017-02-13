@@ -13,8 +13,8 @@ public class AnimationGameOfLife extends Animation {
 	private static final int ONVALUE = 1;
 	private static final int OFFVALUE = 0;
 	
-	public AnimationGameOfLife(CellSociety c, Parameters p, Grid g) {
-		super(c, p, g);
+	public AnimationGameOfLife(CellSociety c, Parameters p) {
+		super(c, p);
 	}
 	
 	public void calculateMove() {

@@ -7,21 +7,21 @@ public class HexagonCell extends Cell {
 	
 	private Polygon hexagon;
 
-	public HexagonCell(double centerX, double centerY, double sideX, double sideY, int status, boolean visible) {
+	public HexagonCell(double centerX, double centerY, double width, double height, int status, boolean visible) {
 		super(status);
 		hexagon = new Polygon();
 		Double[] points = new Double[12];
-		points[0] = centerX - sideX / 2;
-		points[1] = centerY - sideY / 2 * Math.sqrt(3);
-		points[2] = centerX + sideX / 2;
-		points[3] = centerY - sideY / 2 * Math.sqrt(3);
-		points[4] = centerX + sideX;
+		points[0] = centerX - width / 4;
+		points[1] = centerY - height / 2;
+		points[2] = centerX + width / 4;
+		points[3] = centerY - height / 2;
+		points[4] = centerX + width / 2;
 		points[5] = centerY;
-		points[6] = centerX + sideX / 2;
-		points[7] = centerY + sideY / 2 * Math.sqrt(3);
-		points[8] = centerX - sideX / 2;
-		points[9] = centerY + sideY / 2 * Math.sqrt(3);
-		points[10] = centerX - sideX;
+		points[6] = centerX + width / 4;
+		points[7] = centerY + height / 2;
+		points[8] = centerX - width / 4;
+		points[9] = centerY + height / 2;
+		points[10] = centerX - width / 2;
 		points[11] = centerY;
 		hexagon.getPoints().addAll(points);
 		if (visible){
