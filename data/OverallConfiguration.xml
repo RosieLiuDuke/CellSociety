@@ -1,4 +1,4 @@
 <configuration>
-	<shape>Hexagon</shape>
-	<visible>true</visible>
+	<shape>Square</shape>
+	<visible>false</visible>
 </configuration>
