@@ -21,8 +21,8 @@ public class AnimationPredator extends Animation{
 	private double [][] lives;
 	
 
-	public AnimationPredator(CellSociety c, Parameters p) {
-		super(c, p);
+	public AnimationPredator(CellSociety c, Parameters p, Grid g) {
+		super(c, p, g);
 		firstTime = true;
 		sharkLife = p.getItemTurnover(SHARKNUMBER);
 		fishLife = p.getItemTurnover(FISHNUMBER);
@@ -133,9 +133,8 @@ public class AnimationPredator extends Animation{
 	}
 	
 	private ArrayList <Indices> checkFor(int i, int j, int [][] grid, int type) {
-		Grid g = new SquareGrid();
 		ArrayList <Indices> returnList = new ArrayList<Indices>();
-		ArrayList <Indices> neighbors = g.getImmediateNeighbors(i, j, grid.length, grid[0].length);
+		ArrayList <Indices> neighbors = getGrid().getImmediateNeighbors(i, j, grid.length, grid[0].length);
 		
 		for (int k = 0; k < neighbors.size(); k++) {
 			checkSpot(neighbors.get(k).getX(), neighbors.get(k).getY(), returnList, grid, type);
