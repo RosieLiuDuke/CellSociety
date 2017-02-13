@@ -26,8 +26,10 @@ import javafx.scene.text.Text;
 public abstract class UIsetup extends GamePage {
 
 	private Text gameInfo;
-	private List<String> myOptions;
+	private List<String> mySimulations;
+	private List<String> myShapes;
 	private ComboBox<String> simulationChoice;
+	private ComboBox<String> shapesChoice;
 	private String text;
 	private Text gameTitle;
 	private VBox slidersBox;
@@ -36,12 +38,13 @@ public abstract class UIsetup extends GamePage {
 	
 	public UIsetup(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
-		myOptions = new ArrayList<String>();
+		mySimulations = new ArrayList<String>();
+		myShapes = new ArrayList<String>();
 		setupComponents();
 	}
 	
 	public List<String> getOptions(){
-		return myOptions;
+		return mySimulations;
 	}
 
 	public String getText(){
@@ -72,12 +75,11 @@ public abstract class UIsetup extends GamePage {
 		gameInfo = new Text();
 		gameInfo.setId("parameters");
 		
-		myOptions.add("Input");
-		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
-		simulationChoice = new ComboBox<String>(options);
-		simulationChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
-		simulationChoice.setTooltip(new Tooltip (getMyResources().getString("SelectCommand")));
-		simulationChoice.setPromptText(getMyResources().getString("ChoicesCommand"));
+		mySimulations.add("Input");
+		myShapes.add("Square");
+		myShapes.add("Triangle");
+		
+		createComboBox();
 		
 		slidersBox = new VBox(15);
 		speed = createSlider(1, 5, this.getParametersController().getSpeed(), 1, true);
@@ -111,9 +113,25 @@ public abstract class UIsetup extends GamePage {
 		this.getCellSociety().setupGameLoop();
 	}
 
+	private void createComboBox(){
+		ObservableList<String> options = FXCollections.observableArrayList(mySimulations);
+		ObservableList<String> shapes = FXCollections.observableArrayList(myShapes);
+		simulationChoice = initializeComboBox(options, getMyResources().getString("SelectCommand"), getMyResources().getString("ChoicesCommand"));
+		simulationChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
+		shapesChoice = initializeComboBox(shapes, getMyResources().getString("ShapesSelect"), getMyResources().getString("ShapesCommand"));
+		shapesChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));
+	}
+	
+	private ComboBox<String> initializeComboBox(ObservableList<String> observable, String ToolTip, String Prompt){
+		ComboBox<String> comboBox = new ComboBox<String>(observable);
+		comboBox.setTooltip(new Tooltip (ToolTip));
+		comboBox.setPromptText(Prompt);
+		return comboBox;
+	}
+	
 	protected void updateParameterBox() {
 		parametersBox.getChildren().clear();
-		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), gameInfo);
+		parametersBox.getChildren().addAll(slidersBox, simulationChoice, shapesChoice, addButtons(), gameInfo);
 	}
 
 	/**
