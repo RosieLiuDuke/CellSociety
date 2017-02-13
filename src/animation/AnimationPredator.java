@@ -21,8 +21,8 @@ public class AnimationPredator extends Animation{
 	private double [][] lives;
 	
 
-	public AnimationPredator(CellSociety c, Parameters p, Grid g) {
-		super(c, p, g);
+	public AnimationPredator(CellSociety c, Parameters p) {
+		super(c, p);
 		firstTime = true;
 		sharkLife = p.getItemTurnover(SHARKNUMBER);
 		fishLife = p.getItemTurnover(FISHNUMBER);

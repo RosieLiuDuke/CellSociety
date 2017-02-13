@@ -27,14 +27,13 @@ public abstract class UIsetup extends GamePage {
 
 	private Text gameInfo;
 	private List<String> mySimulations;
-	private List<String> myShapes;
 	private ComboBox<String> simulationChoice;
-	private ComboBox<String> shapesChoice;
 	private String text;
 	private Text gameTitle;
 	private VBox slidersBox;
 	private Slider speed;
 	private VBox parametersBox;
+	private String shape = "Square";
 	
 	/**
 	 * Constructor of the UIsetup class.
@@ -45,7 +44,7 @@ public abstract class UIsetup extends GamePage {
 	public UIsetup(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
 		mySimulations = new ArrayList<String>();
-		myShapes = new ArrayList<String>();
+		shape = this.getParametersController().getCellShape();
 		setupComponents();
 	}
 	
@@ -96,8 +95,6 @@ public abstract class UIsetup extends GamePage {
 		gameInfo.setId("parameters");
 		
 		mySimulations.add("Input");
-		myShapes.add("Square");
-		myShapes.add("Triangle");
 		
 		createComboBox();
 		
@@ -138,11 +135,8 @@ public abstract class UIsetup extends GamePage {
 	 */
 	private void createComboBox(){
 		ObservableList<String> options = FXCollections.observableArrayList(mySimulations);
-		ObservableList<String> shapes = FXCollections.observableArrayList(myShapes);
 		simulationChoice = initializeComboBox(options, getMyResources().getString("SelectCommand"), getMyResources().getString("ChoicesCommand"));
 		simulationChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));	
-		shapesChoice = initializeComboBox(shapes, getMyResources().getString("ShapesSelect"), getMyResources().getString("ShapesCommand"));
-		shapesChoice.valueProperty().addListener((obs, oVal, nVal) -> setupGrid(nVal));
 	}
 	
 	/**
@@ -163,7 +157,7 @@ public abstract class UIsetup extends GamePage {
 	 */
 	protected void updateParameterBox() {
 		parametersBox.getChildren().clear();
-		parametersBox.getChildren().addAll(slidersBox, simulationChoice, shapesChoice, addButtons(), gameInfo);
+		parametersBox.getChildren().addAll(slidersBox, simulationChoice, addButtons(), gameInfo);
 	}
 
 	/**
@@ -179,31 +173,80 @@ public abstract class UIsetup extends GamePage {
 		this.getGrid().getChildren().clear();
 		this.setCurrentStep(0);
 		updateTextInfo();
-		double width = Parameters.gridWidth / this.getParametersController().getCol();
-		double height = Parameters.gridHeight / this.getParametersController().getRow();
 		if (newValue.equals("Input")){
-			double xPosition = 0;
-			for (int col = 0; col < this.getParametersController().getCol(); col ++){  // x position - col
-				double yPosition = 0;
-//				if (col % 2 == 1) {yPosition += height / 2;}
-				for (int row = 0; row < this.getParametersController().getRow(); row++){  // y position - row
+			generateAllCells();
+		}
+		quantityMap();
+		createPopulationChart();
+	}
+
+	private void generateAllCells() {
+		double centerX = 0;
+		if (shape.equals("Square")){
+			double width = Parameters.gridWidth / this.getParametersController().getCol();
+			double height = Parameters.gridHeight / this.getParametersController().getRow();
+			for (int col = 0; col < this.getParametersController().getCol(); col ++){
+				double centerY = 0;
+				for (int row = 0; row < this.getParametersController().getRow(); row++){  
 					int cellStatus = this.getCellStatus(col, row);
 					boolean visible = this.getParametersController().isGridVisible();
-					// TODO only for square cell
-//					TriangleCell newCell = new TriangleCell(xPosition, yPosition, width, height, cellStatus, visible);
-//					HexagonCell newCell = new HexagonCell(xPosition, yPosition, width/2, height/2, cellStatus);
-					SquareCell newCell = new SquareCell(xPosition, yPosition, width, height, cellStatus, visible);
+					Cell newCell = new SquareCell(centerX, centerY, width, height, cellStatus, visible);
 					newCell.getShape().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
 					addCell(col,row, newCell);
 					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
 					this.getGrid().getChildren().add(getCell(col,row).getShape());
-					yPosition += height; 
+					centerY += height; 
 				}
-				xPosition += width;
+				centerX += width;
 			}
 		}
-		quantityMap();
-		createPopulationChart();
+		else if (shape.equals("Triangle")){
+			boolean up = true;
+			double width = 2 * Parameters.gridWidth / (this.getParametersController().getCol() + 1);
+			double height = Parameters.gridHeight / this.getParametersController().getRow();
+			for (int col = 0; col < this.getParametersController().getCol(); col ++){
+				double centerY = 0;
+				if (!up){
+					centerY -= 1 / 3 * height;
+				}
+				for (int row = 0; row < this.getParametersController().getRow(); row++){  
+					int cellStatus = this.getCellStatus(col, row);
+					boolean visible = this.getParametersController().isGridVisible();
+					Cell newCell = new TriangleCell(centerX, centerY, width, height, cellStatus, visible, up);
+					newCell.getShape().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
+					addCell(col,row, newCell);
+					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
+					this.getGrid().getChildren().add(getCell(col,row).getShape());
+					if (up){
+						centerY += 2 / 3 * height;
+					}
+					else{
+						centerY += 4 / 3 * height;
+					}
+					up = !up;
+				}
+				centerX += width / 2;
+			}
+		}
+		else if (shape.equals("Hexagon")){
+			double width = 4 * Parameters.gridWidth / (4 * this.getParametersController().getCol() - 3);
+			double height = 2* Parameters.gridHeight / (2 * this.getParametersController().getRow() + 1);
+			for (int col = 0; col < this.getParametersController().getCol(); col ++){
+				double centerY = 0;
+				if (col % 2 == 1) {centerY += height / 2;}
+				for (int row = 0; row < this.getParametersController().getRow(); row++){  
+					int cellStatus = this.getCellStatus(col, row);
+					boolean visible = this.getParametersController().isGridVisible();
+					Cell newCell = new HexagonCell(centerX, centerY, width, height, cellStatus, visible);
+					newCell.getShape().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
+					addCell(col,row, newCell);
+					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
+					this.getGrid().getChildren().add(getCell(col,row).getShape());
+					centerY += height; 
+				}
+				centerX += width;
+			}
+		}
 	}
 
 	/**
