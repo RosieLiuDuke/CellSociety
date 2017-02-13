@@ -29,7 +29,8 @@ import util.XMLInputParser;
  * The WelcomePage class for splash screen.
  * Parallel to the GamePage class.
  * 
- * @author Harry Liu, Yilin Gao
+ * @author Harry Liu
+ * @author Yilin Gao
  */
 public class WelcomePage extends Page {	
 	
@@ -39,6 +40,11 @@ public class WelcomePage extends Page {
 	private List<String> myLanguages;
 	private ComboBox<String> languageChoice;
 	
+	/**
+	 * Constructor of the WelcomePage class.
+	 * @param cs: the CellSociety instance
+	 * @param language: a string representing user choice of language
+	 */
 	public WelcomePage(CellSociety cs, String l) {
 		super(cs, l);
 		myLanguages = new ArrayList<String>();
@@ -78,7 +84,9 @@ public class WelcomePage extends Page {
 	 * The handler of the "UPLOAD" button.
 	 * When the button is pressed, a window to choose file will pop out.
 	 * When a file is chosen, it will be parsed by XMLParser and the program will wait for further actions.
-	 * When no file is chosen, the program will exit.
+	 * When no file is chosen, the program will return to the welcome page.
+	 * At the same time, the global configuration file of the program will be parsed.
+	 * If errors in parsing XML files occurs, an error dialog will pop out.
 	 * @param event
 	 */
 	private void handleMouseReleasedUpload(Event event){
@@ -103,7 +111,7 @@ public class WelcomePage extends Page {
 	/**
 	 * The handler of the "START" button.
 	 * If the XML file is loaded, it will setup buttons, texts and grid of the simulation scene, and change the scene of the stage to the scene of the corresponding simulation.
-	 * Otherwise an alert dialog will pop out to advise the user to choose input file.
+	 * Otherwise an error dialog will pop out to advise the user to choose input file.
 	 * @param event
 	 */
 	private void handleMouseReleasedStart(Event event) {

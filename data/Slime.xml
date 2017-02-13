@@ -25,4 +25,6 @@
 		</state>
 	</grid>
 	<speed>3</speed>
+	<upper>1.1</upper>
+	<lower>0.9</lower>
 </Simulation>

@@ -142,6 +142,10 @@ public class XMLParametersController {
 		parametersController.setGridVisible(is);
 	}
 	
+	public void setSlimeLevel(String s, double level){
+		parametersController.addSlimeLevel(s, level);
+	}
+	
 	private void throwException (String message) {
 		try {
 			throw new Exception (message);

@@ -18,10 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
- * The subclass UIsetup sets up the layout of every GamePage (simulation) that will be run.
+ * The abstract subclass UIsetup sets up the layout of every GamePage (simulation) that will be run.
  * (Simulation of Front-End)
- * 
  * @author Harry Liu
+ * @author Yilin Gao
  */
 public abstract class UIsetup extends GamePage {
 
@@ -36,6 +36,12 @@ public abstract class UIsetup extends GamePage {
 	private Slider speed;
 	private VBox parametersBox;
 	
+	/**
+	 * Constructor of the UIsetup class.
+	 * @param cs: the CellSociety instance
+	 * @param language: a string representing user choice of language
+	 * @param p: a Parameters instant from the calling class
+	 */
 	public UIsetup(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
 		mySimulations = new ArrayList<String>();
@@ -47,19 +53,32 @@ public abstract class UIsetup extends GamePage {
 		return mySimulations;
 	}
 
+	/**
+	 * The method to get the simulation information text String.
+	 * @return String
+	 */
 	public String getText(){
 		return text;
 	}
 	
+	/**
+	 * The method to get the simulation information display component Text.
+	 * @return Text
+	 */
 	public Text getInfo(){
 		return gameInfo;
 	}
 	
-	public VBox getSliderBox(){
+	/**
+	 * The method to get the VBox to hold all sliders.
+	 * @return VBox
+	 */
+	protected VBox getSliderBox(){
 		return slidersBox;
 	}
 	/**
-	 * The method to add Buttons to the bottom of the UI Screen
+	 * The method to add all Buttons to the UI Screen.
+	 * @return VBox contains all Buttons
 	 */
 	private VBox addButtons(){
 		VBox buttonBox = new VBox(5);
@@ -70,6 +89,7 @@ public abstract class UIsetup extends GamePage {
 	
 	/**
 	 * The method to set up required components in the scene.
+	 * The method can be override by sub classes if new components are required.
 	 */
 	protected void setupComponents(){
 		gameInfo = new Text();
@@ -83,7 +103,7 @@ public abstract class UIsetup extends GamePage {
 		
 		slidersBox = new VBox(15);
 		speed = createSlider(1, 5, this.getParametersController().getSpeed(), 1, true);
-		speed.valueProperty().addListener((obs,oVal,nVal) -> updateSpeed(nVal.intValue()));
+		speed.valueProperty().addListener((obs,oVal,nVal) -> updateSimulationSpeedOnSliderDrag(nVal.intValue()));
 		slidersBox.getChildren().addAll(new Text(getMyResources().getString("SpeedAdjustor")), speed);
 
 		parametersBox = new VBox(15);
@@ -113,6 +133,9 @@ public abstract class UIsetup extends GamePage {
 		this.getCellSociety().setupGameLoop();
 	}
 
+	/**
+	 * The method to update the VBox on the left side of the panel.
+	 */
 	private void createComboBox(){
 		ObservableList<String> options = FXCollections.observableArrayList(mySimulations);
 		ObservableList<String> shapes = FXCollections.observableArrayList(myShapes);
@@ -136,12 +159,12 @@ public abstract class UIsetup extends GamePage {
 
 	/**
 	 * The method to set up the grid layout in the scene.
-	 * Abstract.
+	 * The method can be override by sub classes for different grid layouts.
 	 * @param newValue
 	 */
 	protected void setupGrid(String newValue){
 		if (newValue!=null){
-			this.setSimulationSelected(true); 
+			this.setLayoutSelected(true); 
 		}
 		this.getCellSociety().stopGameLoop();
 		this.getGrid().getChildren().clear();
@@ -174,6 +197,10 @@ public abstract class UIsetup extends GamePage {
 		createPopulationChart();
 	}
 
+	/**
+	 * The method to update the status of a cell when it is clicked.
+	 * @param cell
+	 */
 	private void updateCellStatusOnMouseReleased(Cell cell) {
 		int oldStatus = cell.getStatus();
 		int newStatus;
@@ -191,11 +218,13 @@ public abstract class UIsetup extends GamePage {
 	}
 
 	/**
-	 * The method to create a slider for the right side of the UI Screen
-	 * @param min
-	 * @param max
-	 * @param increment
-	 * @param showTick
+	 * The method to create a new slider for the right side of the UI Screen.
+	 * @param min: the minimal value on the slider
+	 * @param max: the maximal value on the slider
+	 * @param current: the default value on the slider
+	 * @param increment: the incremental step of the slider
+	 * @param showTick: if the slider shows ticks
+	 * @return Slider
 	 */
 	protected Slider createSlider(double min, double max, double current, double increment, boolean showTick){
 		Slider newSlider;
@@ -209,7 +238,7 @@ public abstract class UIsetup extends GamePage {
 	}
 
 	/**
-	 * The method that updates the parameters displayed at the top of the UI Screen
+	 * The method to update the parameters displayed at the top of the UI Screen
 	 */
 	@Override
 	public void updateTextInfo() {
@@ -223,15 +252,24 @@ public abstract class UIsetup extends GamePage {
 	}
 	
 	/**
-	 * Change the speed of simulation by having a new timeline when the slider is manipulated.
-	 * @param nVal
+	 * The method to change the speed of simulation by having a new Timeline when the slider is manipulated.
+	 * @param nVal: new value of the speed slider
 	 */
-	public void updateSpeed(int nVal) {
+	private void updateSimulationSpeedOnSliderDrag(int nVal) {
 		this.getParametersController().setSpeed(nVal);
 		this.getCellSociety().setDelay(nVal);
 		this.getCellSociety().stopGameLoop();
 		this.getCellSociety().setupGameLoop();
 		this.updateTextInfo();
+	}
+
+	/**
+	 * The method to calculate status for a give cell based on fixed input.
+	 * Overrides the super class method.
+	 */
+	@Override
+	protected int getCellStatus(int col, int row) {
+		return this.getParametersController().getStatusDistribution(col, row);
 	}
 	
 }
