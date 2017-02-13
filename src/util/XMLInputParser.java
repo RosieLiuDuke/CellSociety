@@ -6,7 +6,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import page.Parameters;
 
 /**
- * The handler to parse XML file with Java SAX package.
+ * The handler to parse XML input file with Java SAX package.
  * @author Yilin Gao
  *
  */

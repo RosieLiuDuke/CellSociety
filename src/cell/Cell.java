@@ -3,14 +3,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
-* This is the Cell Super class file which defines the structure of a generic cell
-* @author Harry Liu, Josh Kopen, and Yilin Gao
+* This is the Cell abstract class file which defines the structure of a generic cell.
+* @author Harry Liu
+* @author Josh Kopen
+* @author Yilin Gao
 **/
 
 public abstract class Cell {
 
 	private int status;
 
+	/**
+	 * Constructor of the Cell super class.
+	 * @param status: the status of the cell.
+	 */
 	public Cell(int status){
 		this.status = status;
 	}

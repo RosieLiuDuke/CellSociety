@@ -4,7 +4,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import page.Parameters;
-
+/**
+ * The handler to parse XML configuration file with Java SAX package.
+ * @author Yilin Gao
+ *
+ */
 public class XMLConfigParser extends DefaultHandler {
 	
 	XMLParametersController inputController;
