@@ -6,6 +6,7 @@ import animation.Animation;
 import animation.AnimationGameOfLife;
 import animation.AnimationPredator;
 import animation.AnimationSegregation;
+import animation.AnimationSlime;
 import animation.AnimationSpreadingOfFire;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,6 +19,7 @@ import page.Page;
 import page.PageGameOfLife;
 import page.PagePredator;
 import page.PageSegregation;
+import page.PageSlime;
 import page.PageSpreadingOfFire;
 import page.Parameters;
 import page.WelcomePage;
@@ -30,6 +32,7 @@ import page.WelcomePage;
 public class CellSociety {
 	private Stage stage;
 	private File inputFile;
+	File configurationFile = new File(getClass().getClassLoader().getResource("OverallConfiguration.xml").getFile());
 	/**
 	 * pages (name of the simulation, the Page instance of the simulation)
 	 */
@@ -49,8 +52,12 @@ public class CellSociety {
 		return stage;
 	}
 	
-	public File getFile(){
+	public File getInputFile(){
 		return inputFile;
+	}
+	
+	public File getConfigFile(){
+		return configurationFile;
 	}
 	
 	public Page getPage(String type){
@@ -69,7 +76,7 @@ public class CellSociety {
 		return nextType;
 	}
 	
-	public void setFile(File file){
+	public void setInputFile(File file){
 		inputFile = file;
 	}
 	
@@ -139,6 +146,14 @@ public class CellSociety {
 			pages.put(type, newPredatorPage);
 			Animation newPredatorAnimation = new AnimationPredator(this, parametersController);
 			animations.put(type, newPredatorAnimation);
+		}
+		else if (type.equals("Slime")) {
+			String language = pages.get("Welcome").getLanguage();
+			Parameters parametersController = pages.get("Welcome").getParametersController();
+			Page newSlimePage = new PageSlime(this, language, parametersController);
+			pages.put(type, newSlimePage);
+			Animation newSlimeAnimation = new AnimationSlime(this, parametersController);
+			animations.put(type, newSlimeAnimation);
 		}
 	}
 	

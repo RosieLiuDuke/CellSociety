@@ -21,7 +21,9 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import util.XMLParser;
+import util.DisplayAlert;
+import util.XMLConfigParser;
+import util.XMLInputParser;
 
 /**
  * The WelcomePage class for splash screen.
@@ -85,12 +87,16 @@ public class WelcomePage extends Page {
 		try {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			XMLParser userhandler = new XMLParser(this.getParametersController());
-			if (this.getCellSociety().getFile() != null){
-				saxParser.parse(this.getCellSociety().getFile(), userhandler);  
+			XMLInputParser inputHandler = new XMLInputParser(this.getParametersController());
+			XMLConfigParser configHandler = new XMLConfigParser(this.getParametersController());
+			if (this.getCellSociety().getInputFile() != null){
+				saxParser.parse(this.getCellSociety().getInputFile(), inputHandler);  
+			}
+			if (this.getCellSociety().getConfigFile() != null){
+				saxParser.parse(this.getCellSociety().getConfigFile(), configHandler);  
 			}
 		} catch (Exception e) {
-			displayAlert(getMyResources().getString("UploadCommand"));
+			DisplayAlert.displayAlert(e.getMessage());
 		}
 	}
 	
@@ -109,7 +115,7 @@ public class WelcomePage extends Page {
 			thePage.showPage();
 		}
 		else{
-			displayAlert("UploadCommand");
+			DisplayAlert.displayAlert("UploadCommand");
 		}
 	}
 }

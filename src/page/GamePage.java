@@ -17,6 +17,7 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import util.DisplayAlert;
 /**
  * The abstract subclass of Page, and super class of all specific pages for each simulation.
  * @author Joshua Kopen, Yilin Gao, Harry Liu
@@ -110,17 +111,8 @@ public abstract class GamePage extends Page {
 	 * @param newValue
 	 */
 	public void quantityMap () {
-		int rowCell, colCell;
-		for (rowCell = 0; rowCell < this.getParametersController().getRow(); rowCell++) {
-			for (colCell = 0; colCell < this.getParametersController().getCol(); colCell++) {
-				Color color = this.getParametersController().getColor(getCell(rowCell,colCell).getStatus());
-				if (!quantityMap.containsKey(color)){
-					quantityMap.put(color, 1);
-				}
-				else{
-					quantityMap.put(color, quantityMap.get(color)+1);	
-				}	
-			}
+		for (Color color: this.getParametersController().getColorSet()){
+			quantityMap.put(color, 0);
 		}
 	}
 
@@ -140,26 +132,36 @@ public abstract class GamePage extends Page {
 		quantityMap.replaceAll((k,v) -> 0);;
 	}
 
-	/**
-	 * Create new BarChart and add in initial data points based off color map
-	 */
+	public void updateChartDisplay(){		
+		for (Series<Number, String> series : populationChart.getData()) {
+			for (int x = 0; x<series.getData().size(); x++) {
+				XYChart.Data<Number, String> data = series.getData().get(x);
+				Node node = data.getNode();
+				node.setStyle("-fx-bar-fill:" + "#" + colorKey.get(x).toString().substring(2));
+				data.setXValue(quantityMap.get(colorKey.get(x)));
+			}
+		}
+	}
+
 	public void createPopulationChart(){
 		xAxis.setLabel("Quantity"); 
-		yAxis.setLabel("Colors");
+		yAxis.setLabel("Status");
 
 		XYChart.Series<Number, String> populationSeries = new Series<Number, String>();
 
 		colorKey = new ArrayList<Color>(quantityMap.keySet());
-
+		
 		for (int x = 0; x<quantityMap.keySet().size(); x++){
-			String color = colorKey.get(x).toString();
+			String status = "Status " + this.getParametersController().getColorStatus(colorKey.get(x));
 			Number quantity = quantityMap.get(colorKey.get(x));
-			populationSeries.getData().add(new Data<Number, String>(quantity, color));
+			populationSeries.getData().add(new Data<Number, String>(quantity, status));
 		}
+		populationChart.getData().clear();
 		populationChart.getData().add(populationSeries);
 		populationChart.setLegendVisible(false);
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Update graph as quantity map changes over time to reflect accurate count of colors
 	 */
@@ -175,6 +177,8 @@ public abstract class GamePage extends Page {
 		}
 	}
 
+=======
+>>>>>>> master
 	/**
 	 * The handler of the "BACK" button.
 	 * When the button is pressed, the game will return to the splash screen.
@@ -195,7 +199,7 @@ public abstract class GamePage extends Page {
 			this.getCellSociety().beginGameLoop();
 		}
 		else{
-			displayAlert(getMyResources().getString("SelectCommand"));
+			DisplayAlert.displayAlert(getMyResources().getString("SelectCommand"));
 		}
 	}
 
@@ -216,7 +220,7 @@ public abstract class GamePage extends Page {
 	 */
 	private void stepButton(ActionEvent event){
 		if (!simulationSelected){
-			displayAlert(getMyResources().getString("SelectCommand"));
+			DisplayAlert.displayAlert(getMyResources().getString("SelectCommand"));
 		}	
 		else{
 			this.getCellSociety().setIsStep(true);

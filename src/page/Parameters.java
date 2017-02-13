@@ -1,5 +1,6 @@
 package page;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ public class Parameters {
 	protected static final int gridHeight = 300;
 	private String type;
 	private int defaultStatus;
+	private int numberOfStatus;
 	// 1 default status, (n-1) other status
 	private Map<Integer, Double> statusPercentage;  // store the percentage of cell of each status
 	private Map<Indices, Integer> statusDistribution; // store specific locations and status of cells
@@ -21,6 +23,8 @@ public class Parameters {
 	private double probability; // Fire
 	private double satisfaction;   // segregation 
 	private Map<Integer, Double> seaItems; // reproduction rate of each item in predator simulation
+	private String cellShape;
+	private boolean gridVisible;
 	
 	public Parameters() {
 		statusPercentage = new HashMap<Integer, Double>();
@@ -58,8 +62,8 @@ public class Parameters {
 		return speed;
 	}
 	
-	public int getNumberOfStates(){
-		return statusPercentage.size();
+	public int getNumberOfStatus(){
+		return numberOfStatus;
 	}
 	
 	public double getStatusPercentage(int state){
@@ -74,8 +78,37 @@ public class Parameters {
 		return colorMap.get(state);
 	}
 	
+	public Collection<Color> getColorSet(){
+		return colorMap.values();
+	}
+	
+	public int getColorStatus(Color color){
+		for (int i: colorMap.keySet()){
+			if (colorMap.get(i).equals(color)){
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 	public double getSatisfaction(){
 		return satisfaction;
+	}
+	
+	public String getCellShape(){
+		return cellShape;
+	}
+	
+	public void setCellShape(String cs){
+		cellShape = cs;
+	}
+	
+	public boolean isGridVisible(){
+		return gridVisible;
+	}
+	
+	public void setGridVisible(boolean v){
+		gridVisible = v;
 	}
 	
 	public void setType(String theType){
@@ -96,6 +129,10 @@ public class Parameters {
 	
 	public void setRowNum (int r) {
 		rowNum = r;
+	}
+	
+	public void setNumberOfStatus(int t){
+		numberOfStatus = t;
 	}
 	
 	public void setDefaultStatus(int s){

@@ -1,6 +1,5 @@
 package page;
 import javafx.scene.control.Slider;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import cellSociety.CellSociety;
 
@@ -14,9 +13,6 @@ public class PageSpreadingOfFire extends UIsetup {
 	
 	public PageSpreadingOfFire(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
-		this.getParametersController().addColor(0, Color.YELLOW);
-		this.getParametersController().addColor(1, Color.GREEN);
-		this.getParametersController().addColor(2, Color.RED);
 	}
 	
 	@Override

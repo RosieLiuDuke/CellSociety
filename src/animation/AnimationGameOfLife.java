@@ -1,7 +1,10 @@
 package animation;
 import java.util.ArrayList;
 
+import cell.Indices;
 import cellSociety.CellSociety;
+import grid.Grid;
+import grid.SquareGrid;
 import page.PageGameOfLife;
 import page.Parameters;
 
@@ -10,66 +13,47 @@ public class AnimationGameOfLife extends Animation {
 	private static final int ONVALUE = 1;
 	private static final int OFFVALUE = 0;
 	
-	
 	public AnimationGameOfLife(CellSociety c, Parameters p) {
 		super(c, p);
 	}
 	
 	public void calculateMove() {
 		boolean [][] shouldChange;
-		int [][] grid;
 		
-		grid = getArray("Game of Life");
+		int [][] grid = getArray("Game of Life");
+			
 		shouldChange = new boolean[grid.length][grid[0].length];
 		
-		checkSurrounding(shouldChange, grid);
+		checkChange(shouldChange, grid);
 		
-		changegrid(shouldChange, grid);
+		changeGrid(shouldChange, grid);
 		
 		setCells(grid, (PageGameOfLife) getNeededPage("Game of Life"));
 	}
 	
-	private void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
-		int i, j, k, l, total = 0;
+	private void checkChange(boolean [][] shouldChange, int [][] grid) {
+		int i, j, k, total;
+		Grid g = new SquareGrid();
+		ArrayList <Indices> neighbors;
 		
-		int [][] borderArray = new int[grid.length +2][grid[0].length+2];
+		System.out.println("xMax: " + grid.length);
+		System.out.println("yMax: " + grid[0].length);
 		
-		for (i = 1; i < grid.length+1; i++) {
-			for (j = 1; j < grid[0].length+1; j++) {
-				borderArray[i][j] = grid[i-1][j-1];
-			}
-		}
-		for (i = 0; i < borderArray.length; i++) {
-			borderArray[i][0] = OFFVALUE;
-			borderArray[i][borderArray[0].length -1] = OFFVALUE;
-		}
-		for (i = 0; i < borderArray[0].length; i++) {
-			borderArray[0][i] = OFFVALUE;
-			borderArray[borderArray.length - 1][i] = OFFVALUE;
-		}
-		
-		for (i = 1; i < borderArray.length - 1; i++) {
-			for (j = 1; j < borderArray.length -1; j++) {
+		for (i = 0; i < grid.length; i++) {
+			for (j = 0; j < grid[0].length; j++) {
+				total = 0;
+				neighbors = g.getAllNeighbors(i, j, grid.length, grid[0].length);
 				
-				for (k = i -1; k < i+2; k++) {
-					for (l = j -1; l < j+2; l++) {
-						total += borderArray[k][l];
-					}
+				for (k = 0; k < neighbors.size(); k++) {
+					total += grid[neighbors.get(k).getX()][neighbors.get(k).getY()];
 				}
 				
-				total -= borderArray[i][j];
-				
-				
-				shouldChange[i-1][j-1] = (((grid[i-1][j-1] == ONVALUE) && ((total <2) || (total > 3))) ||
-							((grid[i-1][j-1] == OFFVALUE) && (total == 3)));
-				
-				
-				total = 0;
+				shouldChange[i][j] = (((grid[i][j] == ONVALUE) && ((total < 2) || (total > 3))) || ((grid[i][j] == OFFVALUE) && (total == 3))); 
 			}
 		}
 	}
 	
-	private void changegrid(boolean [][] shouldChange, int [][] grid) {
+	private void changeGrid(boolean [][] shouldChange, int [][] grid) {
 		int i, j;
 		
 		for (i = 0; i < grid.length; i++) {

@@ -1,0 +1,28 @@
+<Simulation name="Slime">
+	<grid>
+		<nCol>30</nCol>
+		<nRow>30</nRow>
+		<total>4</total>
+		<state value = "0">
+			<animal>empty</animal>
+			<percentage>0.8</percentage>
+			<color>BLACK</color>
+		</state>
+		<state value = "1">
+			<animal>A</animal>
+			<percentage>0</percentage>
+			<color>GREY</color>
+		</state>
+		<state value = "2">
+			<animal>B</animal>
+			<percentage>0</percentage>
+			<color>WHITE</color>
+		</state>
+		<state value = "3">
+			<animal>slime</animal>
+			<percentage>0.2</percentage>
+			<color>RED</color>
+		</state>
+	</grid>
+	<speed>3</speed>
+</Simulation>

@@ -1,38 +1,26 @@
 package cell;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
 * This is the Cell Super class file which defines the structure of a generic cell
 * @author Harry Liu, Josh Kopen, and Yilin Gao
 **/
 
-public class Cell {
+public abstract class Cell {
 
 	private int status;
-	private Rectangle rectangle;
 
-	/**
-	* Create a cell with xPosition, yPosition, and a status, which would be used to indicate color.
-	* @param xPosition
-	* @param yPosition
-	* @param size
-	* @param status
-	**/
-	public Cell (double xPosition, double yPosition, double width, double height, int status){
+	public Cell(int status){
 		this.status = status;
-		rectangle = new Rectangle(xPosition, yPosition, width, height);
-		rectangle.setStroke(Color.BLACK);
 	}
 
 	/**
 	* Create and return the rectangle variable for the cell to be added to scene in class Page
 	* @return rectangle
 	**/
-	public Rectangle getRectangle(){
-		return rectangle;
-	}
-
+	public abstract Shape getShape();
+	
 	/**
 	* Get status of the cell
 	**/
@@ -48,7 +36,5 @@ public class Cell {
 		this.status = newStatus;
 	}
 	
-	public void changeColor(Color c) {
-		rectangle.setFill(c);
-	}
+	public abstract void changeColor(Color c);
 }

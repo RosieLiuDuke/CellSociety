@@ -1,5 +1,10 @@
 package animation;
+import java.util.ArrayList;
+
+import cell.Indices;
 import cellSociety.CellSociety;
+import grid.Grid;
+import grid.SquareGrid;
 import page.Page;
 import page.PageSpreadingOfFire;
 import page.Parameters;
@@ -25,7 +30,7 @@ public class AnimationSpreadingOfFire extends Animation {
 		int [][] grid= getArray("Fire");
 		shouldChange = new boolean[grid.length][grid[0].length];
 		
-		checkSurrounding(shouldChange, grid);
+		checkChange(shouldChange, grid);
 		
 		changegrid(shouldChange, grid);
 		
@@ -34,8 +39,10 @@ public class AnimationSpreadingOfFire extends Animation {
 	
 	
 	
-	private void checkSurrounding(boolean [][] shouldChange, int [][] grid) {
-		int i, j;
+	private void checkChange(boolean [][] shouldChange, int [][] grid) {
+		int i, j, k;
+		ArrayList <Indices> neighbors;
+		Grid g = new SquareGrid();
 		
 		for (i = 0; i < grid.length; i++) {
 			for (j = 0; j < grid[0].length; j++) {
@@ -43,14 +50,13 @@ public class AnimationSpreadingOfFire extends Animation {
 					shouldChange[i][j] = (grid[i][j] == BURNINGVALUE);
 				
 				if (grid[i][j] == BURNINGVALUE) {
-					if ((i-1) >= 0)
-						shouldChange[i-1][j] = figureShouldChange(i-1, j, shouldChange, grid);
-					if ((j-1) >= 0)
-						shouldChange[i][j-1] = figureShouldChange(i, j-1, shouldChange, grid);
-					if ((i+1) < grid.length)
-						shouldChange[i+1][j] = figureShouldChange(i+1, j, shouldChange, grid);
-					if ((j+1) < grid[0].length)
-						shouldChange[i][j+1] = figureShouldChange(i, j+1, shouldChange, grid);
+					neighbors = g.getImmediateNeighbors(i,j,grid.length, grid[0].length);
+					
+					for (k = 0; k < neighbors.size(); k++) {
+						shouldChange[neighbors.get(k).getX()][neighbors.get(k).getY()] = 
+								figureShouldChange(neighbors.get(k).getX(),neighbors.get(k).getY(),shouldChange,grid);
+					}
+					
 				}
 				
 			}
@@ -60,9 +66,9 @@ public class AnimationSpreadingOfFire extends Animation {
 	private boolean figureShouldChange(int i, int j, boolean [][] shouldChange, int [][] grid) {
 		if (!shouldChange[i][j]) {
 			return ((grid[i][j] == UNBURNEDVALUE) &&
-				(Math.random() >= probCatch));
+				(Math.random() <= probCatch));
 		}
-		return shouldChange[i][j];
+		return true;
 	}
 	
 	private void changegrid(boolean [][] shouldChange, int [][] grid) {

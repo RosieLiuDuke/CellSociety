@@ -3,20 +3,24 @@
 		<nCol>100</nCol>
 		<nRow>100</nRow>
 		<size>10</size>
+		<total>3</total>
 		<state value = "0">
 			<animal>water</animal>
 			<turnover>0</turnover>
 			<percentage>0.8</percentage>
+			<color>BLUE</color>
 		</state>
 		<state value = "1">
 			<animal>fish</animal>
 			<turnover>3</turnover>
 			<percentage>0.15</percentage>
+			<color>CORAL</color>
 		</state>
 		<state value = "2">
 			<animal>shark</animal>
 			<turnover>3</turnover>
 			<percentage>0.05</percentage>
+			<color>CHARTREUSE</color>
 		</state>
 	</grid>
 	<speed>3</speed>

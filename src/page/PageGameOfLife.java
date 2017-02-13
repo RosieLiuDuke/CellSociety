@@ -1,7 +1,6 @@
 package page;
 
 import cellSociety.CellSociety;
-import javafx.scene.paint.Color;
 
 /**
  * The subclass Page to hold the Scene for the Game of Life simulation.
@@ -11,8 +10,6 @@ public class PageGameOfLife extends UIsetup {
 
 	public PageGameOfLife(CellSociety cs, String language, Parameters p) {
 		super(cs, language, p);
-		this.getParametersController().addColor(0, Color.WHITE);
-		this.getParametersController().addColor(1, Color.BLACK);
 	}
 	
 	// use specific setup for each status

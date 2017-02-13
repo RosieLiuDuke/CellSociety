@@ -2,6 +2,9 @@ package page;
 import java.util.ArrayList;
 import java.util.List;
 import cell.Cell;
+import cell.HexagonCell;
+import cell.SquareCell;
+import cell.TriangleCell;
 import cellSociety.CellSociety;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -127,21 +130,46 @@ public abstract class UIsetup extends GamePage {
 		this.setCurrentStep(0);
 		updateTextInfo();
 		double width = Parameters.gridWidth / this.getParametersController().getCol();
-		double height = Parameters.gridHeight / this.getParametersController().getCol();
+		double height = Parameters.gridHeight / this.getParametersController().getRow();
 		if (newValue.equals("Input")){
+			double xPosition = 0;
 			for (int col = 0; col < this.getParametersController().getCol(); col ++){  // x position - col
+				double yPosition = 0;
+//				if (col % 2 == 1) {yPosition += height / 2;}
 				for (int row = 0; row < this.getParametersController().getRow(); row++){  // y position - row
-					double xPosition = col * width;
-					double yPosition = row * height;
 					int cellStatus = this.getCellStatus(col, row);
-					addCell(col,row, new Cell(xPosition, yPosition, width, height, cellStatus));
+					boolean visible = this.getParametersController().isGridVisible();
+					// TODO only for square cell
+//					TriangleCell newCell = new TriangleCell(xPosition, yPosition, width, height, cellStatus, visible);
+//					HexagonCell newCell = new HexagonCell(xPosition, yPosition, width/2, height/2, cellStatus);
+					SquareCell newCell = new SquareCell(xPosition, yPosition, width, height, cellStatus, visible);
+					newCell.getShape().setOnMouseClicked(e -> updateCellStatusOnMouseReleased(newCell));
+					addCell(col,row, newCell);
 					getCell(col,row).changeColor(this.getParametersController().getColor(getCell(col,row).getStatus()));
-					this.getGrid().getChildren().add(getCell(col,row).getRectangle());
+					this.getGrid().getChildren().add(getCell(col,row).getShape());
+					yPosition += height; 
 				}
+				xPosition += width;
 			}
 		}
 		quantityMap();
 		createPopulationChart();
+	}
+
+	private void updateCellStatusOnMouseReleased(Cell cell) {
+		int oldStatus = cell.getStatus();
+		int newStatus;
+		if (oldStatus < this.getParametersController().getNumberOfStatus() - 1){
+			newStatus = oldStatus + 1;
+			cell.changeStatus(newStatus);
+		}
+		else{
+			newStatus = 0;
+			cell.changeStatus(newStatus);
+		}
+		cell.changeColor(this.getParametersController().getColor(cell.getStatus()));
+		updateTextInfo();
+		updateColorandData();
 	}
 
 	/**
