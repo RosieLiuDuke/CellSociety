@@ -7,7 +7,7 @@ In this program, our group seeks to create a functional cell society simulator t
 
 **Here's a look at the design:**
 
-![alt text](Overview.jpg){:height="100px" width="150px"}
+![alt text](Overview.jpg)
 
 The entrance of the program is `Main`, and the total controller is `CellSociety`, which depends on two classes `Animation` and `Page`. `Animation` works on simulation algorithm implementation, `Page` works on GUI set ups. Both classes depends on the `Parameters` class to get and update parameters in simulations. `Page` depends on the `Cell` class to set up cells in grids, and `Animation` depends on the `Grid` class to get neighbors for a given cell. `Page` depends on `CellSociety` to control the timeline. Moreover, `XMLParametersController` is a controller to update variables in `Parameters` from XML parsed inputs.
 
