@@ -11,11 +11,19 @@ public class Indices {
     private final int col;
     private final int row;
 
+    /**
+     * Constructor for Indices class.
+     * @param x: x index
+     * @param y: y index
+     */
     public Indices(int x, int y) {
         this.col = x;
         this.row = y;
     }
 
+    /**
+     * The method to compare if two Indices instants are equal.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -24,6 +32,9 @@ public class Indices {
         return (col == key.col && row == key.row);
     }
 
+    /**
+     * The method to generate hash code for the Indices class.
+     */
     @Override
     public int hashCode() {
         int result = col;

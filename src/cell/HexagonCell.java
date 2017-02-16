@@ -3,10 +3,24 @@ package cell;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
+/**
+ * The sub class of Cell super class, to implement hexagon shaped cells.
+ * @author Yilin Gao
+ *
+ */
 public class HexagonCell extends Cell {
 	
 	private Polygon hexagon;
 
+	/**
+	 * Constructor of the HexagonCell class.
+	 * @param centerX: the x coordinate of the cell's geometric center
+	 * @param centerY: the y coordinate of the cell's geometric center
+	 * @param width: the longest distance from left to right
+	 * @param height: the longest distance from up to down
+	 * @param status: the status of the cell
+	 * @param visible: if the grid of the cell is visible
+	 */
 	public HexagonCell(double centerX, double centerY, double width, double height, int status, boolean visible) {
 		super(status);
 		hexagon = new Polygon();

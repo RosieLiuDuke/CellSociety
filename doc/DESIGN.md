@@ -6,7 +6,8 @@ In this program, our group seeks to create a functional cell society simulator t
 ## Overview
 
 **Here's a look at the design:**
-![alt text](Overview.jpg "Overview of Design")
+
+![alt text](Overview.jpg){:height="100px" width="150px"}
 
 The three main classes are Cell Society, Page (Super class), and Cell (Super class). The Cell Society class contains all of the pages of our program. In addition, it will refer to the Animation Super class, which handles the individual calculations used to update the display results graphically. The Animation super class will include a timer/timeline and will make use of inheritance to handle different animations. The Page subclasses will extend the Page Superclass to allow for future extension of code. This increases the flexibility of the code, allowing us to declare a welcome page, level pages, etc without a lot of duplicate code. The pages all contain cell instances. 
 

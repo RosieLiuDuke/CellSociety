@@ -4,10 +4,26 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
+/**
+ * The sub class of Cell super class, to implement triangle shaped cells.
+ * @author Yilin Gao
+ *
+ */
 public class TriangleCell extends Cell {
 	
 	private Polygon triangle;
 
+
+	/**
+	 * Constructor of the TriangleCell class.
+	 * @param centerX: the x coordinate of the cell's geometric center
+	 * @param centerY: the y coordinate of the cell's geometric center
+	 * @param width: the longest distance from left to right
+	 * @param height: the longest distance from up to down
+	 * @param status: the status of the cell
+	 * @param visible: if the grid of the cell is visible
+	 * @param up: if the triangle is upward or downward
+	 */
 	public TriangleCell(double centerX, double centerY, double width, double height, int status, boolean visible, boolean up) {
 		super(status);
 		triangle = new Polygon();
